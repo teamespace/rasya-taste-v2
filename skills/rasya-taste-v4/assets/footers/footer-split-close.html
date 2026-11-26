@@ -1,0 +1,67 @@
+<!doctype html>
+<!-- rasya-taste-v4 footer template: footer-split-close (references/footers.md).
+     Copy ONLY the <footer>..</footer> below into the page, in place of the starter's footer.closing, and delete the
+     starter's close and links templates (close-photo, close-word, links-visit). This head, the demo palette and type
+     and the tone switch (?tone=dark) are the demo's own: the page takes its palette and type from start.mjs and links
+     assets/footers/footers.css. No script. Every word becomes the client's. -->
+<html lang="en" data-type="service" data-radius="soft" data-buttons="solid" data-motion>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Footer template: footer-split-close</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400..500&family=Hanken+Grotesk:wght@400..600&display=swap">
+<link rel="stylesheet" href="../system.css">
+<link rel="stylesheet" href="../motion/motion.css">
+<link rel="stylesheet" href="../buttons/buttons-library.css">
+<link rel="stylesheet" href="footers.css">
+<style>
+  /* the demo's palette and type (a page prints its own with start.mjs) */
+  :root { --p-bg: #f4f3ef; --p-surface: #e9e8e2; --p-ink: #1a1c1b; --p-muted: #5a5d5a; --p-accent: #2f5d50; --p-accent-ink: #ffffff;
+          --p-action: #2f5d50; --p-action-ink: #ffffff; --p-inv-bg: #141615; --p-inv-surface: #1f2221; --p-inv-ink: #eaece8;
+          --p-inv-muted: #a1a6a2; --p-inv-accent: #eaece8; --p-inv-accent-ink: #141615; --p-inv-action: #eaece8; --p-inv-action-ink: #141615;
+          --font-display: "Newsreader", Georgia, serif; --font-text: "Hanken Grotesk", system-ui, sans-serif; --display-weight: 400; --display-tracking: -0.02em; }
+  html[data-tone="dark"] { --p-bg: #141615; --p-surface: #1d201f; --p-ink: #eaece8; --p-muted: #a1a6a2; --p-accent: #8cc4b2; --p-accent-ink: #141615;
+          --p-action: #8cc4b2; --p-action-ink: #141615; --p-inv-bg: #f4f3ef; --p-inv-surface: #e9e8e2; --p-inv-ink: #1a1c1b; --p-inv-muted: #5a5d5a;
+          --p-inv-accent: #1a1c1b; --p-inv-accent-ink: #f4f3ef; --p-inv-action: #1a1c1b; --p-inv-action-ink: #f4f3ef; color-scheme: dark; }
+</style>
+<script>if (/[?&]tone=dark\b/.test(location.search)) document.documentElement.setAttribute('data-tone', 'dark');</script>
+</head>
+<body>
+
+<!-- SPLIT-CLOSE: on the page ground (or "footer closing footer--dark ground-inverse" on a page whose rhythm has no
+     dark band). Row 1: a hairline, the closing line large (the h2, eight words at most) on span-7, a line or two and
+     the main action on span-4 from column 9. Row 2: the kit's columns and legal row, as the starter writes them.
+     --ft-line-size on the footer sets the closing line's size (clamp, 44 to 96px by default). -->
+<footer class="footer closing" data-footer="split-close" id="contact" aria-labelledby="close-h">
+  <div class="wrap">
+    <div class="closing__cta ft-split">
+      <div class="grid">
+        <h2 class="ft-split__line span-7" id="close-h">Your books closed by the fifth.</h2>
+        <div class="ft-split__side span-4 start-9">
+          <p>We keep the books for studios of 5 to 50 people and send last month's numbers by the fifth working day.</p>
+          <a class="btn btn--primary" href="#call">Book a call<svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"/></svg></a>
+        </div>
+      </div>
+    </div>
+    <div class="closing__links">
+      <div class="grid">
+        <div class="span-4 stack-4">
+          <a class="nav__logo" href="#top"><span class="mark" data-mark="ring" aria-hidden="true"></span>Fernway</a>
+          <p class="footer__lede">Bookkeeping for design and architecture studios.</p>
+        </div>
+        <div class="span-2 footer__col"><h3>Services</h3><ul><li><a href="#monthly">Monthly books</a></li><li><a href="#payroll">Payroll</a></li><li><a href="#year-end">Year end</a></li></ul></div>
+        <div class="span-2 footer__col"><h3>Studio</h3><ul><li><a href="#team">Team</a></li><li><a href="#clients">Clients</a></li></ul></div>
+        <div class="span-2 footer__col"><h3>Contact</h3><ul><li><a href="mailto:hello@fernway.example">Email us</a></li><li><a href="#contact">Book a call</a></li></ul></div>
+      </div>
+      <div class="footer__legal">
+        <span>&copy; 2026 Fernway Bookkeeping &nbsp; <a href="privacy.html">Privacy</a> &nbsp; <a href="terms.html">Terms</a></span>
+        <div class="socials"></div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

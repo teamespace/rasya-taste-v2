@@ -1,0 +1,7 @@
+/* phrase-marks: the statement in the display face; each <mark> keeps the text's colour and carries one flat tint
+   (a one-colour image, so its size can be drawn), wrapping across lines. Finished at rest. */
+[data-moment="phrase-marks"] { --mo-mark: color-mix(in oklab, var(--accent) 24%, var(--bg)); }
+[data-moment="phrase-marks"] .mo-pm__text { font-family: var(--font-display); font-weight: var(--display-weight); font-size: var(--t-statement, var(--t-h2)); line-height: 1.2; letter-spacing: var(--display-tracking); max-width: var(--statement-measure, 960px); text-wrap: pretty; color: var(--ink); }
+[data-moment="phrase-marks"] mark { color: inherit; background-color: transparent; background-image: linear-gradient(var(--mo-mark), var(--mo-mark)); background-repeat: no-repeat;
+  background-position: 0 0; background-size: 100% 100%; padding: 0 0.12em; margin: 0 -0.04em; border-radius: 0.2em;
+  -webkit-box-decoration-break: clone; box-decoration-break: clone; }

@@ -1,0 +1,8 @@
+/* hero recipe: shader-light (Raycast, Reflect). The light runs 24px past the hero on every side (effects-usage.md:
+   draw an effect 20 to 25px larger than its box and clip it), so leaning toward the pointer never shows an edge.
+   The words keep the hero's own place (the h1 at y 120) on the light's calm part (calmX, calmY). */
+.hero > .rr--shader-light.rr--layer { inset: -24px; }
+.hero:has(> .rr--shader-light) { overflow: hidden; }
+.hero:has(> .rr--shader-light) :is(.hero__c, .hero__text, .hero__in > div:first-child) { position: relative; z-index: 2; }
+/* the effect's pause button (system.js) inside the hero's visible corner, above its foot */
+.hero > .rr--shader-light > .loop-pause { right: max(36px, calc((100% - var(--container, 1280px)) / 2 + 24px)); bottom: 48px; }

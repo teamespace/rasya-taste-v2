@@ -1,0 +1,23 @@
+/* scroll-stage: at rest (under 900px, reduced motion, no script, a failed module) the h2 and its three notes as a
+   list at the left, the product photograph at the right (stacked under 900px). Live (.is-live, from 900px on a screen
+   600px tall) the section is three screens, the stage sticks for two, the notes share one place under the h2 and the
+   photograph is moved by the scroll. */
+[data-moment="scroll-stage"] .mo-ss__stage { display: grid; gap: var(--s-7); align-items: center; }
+@media (min-width: 900px) { [data-moment="scroll-stage"] .mo-ss__stage { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); } }
+[data-moment="scroll-stage"] .mo-ss__copy { display: grid; gap: var(--s-6); align-content: start; }
+[data-moment="scroll-stage"] .mo-ss__notes { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s-4); max-width: 36ch; }
+[data-moment="scroll-stage"] .mo-ss__notes li { font-size: var(--t-lead); line-height: 1.45; color: var(--muted); padding-top: var(--s-3); border-top: 1px solid var(--line); }
+[data-moment="scroll-stage"] .mo-ss__notes b { font-weight: 500; color: var(--ink); }
+[data-moment="scroll-stage"] .mo-ss__obj { margin: 0; justify-self: center; width: min(100%, 460px); aspect-ratio: 4 / 5; border-radius: var(--r-lg); overflow: hidden; background: var(--surface); }
+[data-moment="scroll-stage"] .mo-ss__obj img { width: 100%; height: 100%; object-fit: cover; }
+main > [data-moment="scroll-stage"][data-moment]:not(.is-live) { height: auto; min-height: calc(var(--h, 1) * 100svh); }
+
+/* live */
+main > [data-moment="scroll-stage"][data-moment].is-live { height: 300svh; min-height: 0; padding: 0; }
+main > [data-moment="scroll-stage"][data-moment].is-live > .mo-ss__stage { position: sticky; top: 0; height: 100svh; box-sizing: border-box;
+  padding: var(--padt) 0 var(--padb); align-items: center; overflow: clip; }
+[data-moment="scroll-stage"].is-live .mo-ss__copy { align-self: stretch; grid-template-rows: auto 1fr; }
+[data-moment="scroll-stage"].is-live .mo-ss__notes { display: grid; align-self: end; }
+[data-moment="scroll-stage"].is-live .mo-ss__notes li { grid-area: 1 / 1; }
+[data-moment="scroll-stage"].is-live .mo-ss__obj { width: min(30vw, 420px, calc((100svh - var(--padt) - var(--padb)) * 0.8 / 1.12)); will-change: transform; }
+@media print { main > [data-moment="scroll-stage"][data-moment].is-live { height: auto; } [data-moment="scroll-stage"].is-live .mo-ss__notes li { grid-area: auto; opacity: 1 !important; visibility: visible !important; } }

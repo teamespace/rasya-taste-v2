@@ -1,0 +1,29 @@
+/* hero recipe: illustration-scene (Family, Clay, Twin). Declared slots at 1440: the two clusters beside the centred
+   words (x 2-27% and 73-98%), the pieces in a row under the buttons. The illustrations carry their own colours from
+   the asset prompt ({palette}); the recipe adds no gradient, filter, shadow or blend. */
+.rr--illustration-scene { background: var(--bg); }
+.rr-is__cluster, .rr-is__piece {
+  position: absolute; display: block; max-width: none; object-fit: contain;
+  transform: translate3d(var(--dx, 0px), var(--dy, 0px), 0); transition: transform .35s var(--ease, ease);
+}
+.rr-is__cluster { top: 17%; height: 62%; width: 25%; }
+.rr-is__cluster--l { left: 2%; object-position: 100% 50%; }
+.rr-is__cluster--r { right: 2%; object-position: 0% 50%; }
+.rr-is__piece { width: 76px; height: 76px; top: 79%; }
+.rr-is__piece:nth-of-type(3) { left: 31%; }
+.rr-is__piece:nth-of-type(4) { left: 43%; top: 84%; }
+.rr-is__piece:nth-of-type(5) { left: 55%; top: 81%; }
+.rr-is__piece:nth-of-type(6) { left: 66%; }
+.rr-is__piece:nth-of-type(n+7) { display: none; }
+.rr-is__piece.is-hop { transform: translate3d(var(--dx, 0px), calc(var(--dy, 0px) - 8px), 0) scale(1.06); }
+/* the entrance: each part pops once, in order (motion.md: the hero enters once on load) */
+.rr--illustration-scene.is-entering > :is(.rr-is__cluster, .rr-is__piece) { animation: rr-is-pop .7s var(--ease, cubic-bezier(.2,.8,.2,1)) both; }
+.rr--illustration-scene.is-entering > :nth-child(2) { animation-delay: .08s; }
+.rr--illustration-scene.is-entering > :nth-child(3) { animation-delay: .22s; }
+.rr--illustration-scene.is-entering > :nth-child(4) { animation-delay: .3s; }
+.rr--illustration-scene.is-entering > :nth-child(5) { animation-delay: .38s; }
+.rr--illustration-scene.is-entering > :nth-child(6) { animation-delay: .46s; }
+@keyframes rr-is-pop { from { opacity: 0; scale: .82; } to { opacity: 1; scale: 1; } }
+.hero:has(> .rr--illustration-scene) .hero__c { position: relative; z-index: 2; }
+@media (max-width: 1023px) { .rr-is__cluster { width: 22%; top: 60%; height: 34%; } .rr-is__piece { display: none; } }
+@media (max-width: 639px) { .rr-is__cluster { top: auto; bottom: 3%; height: 24%; width: 44%; } }

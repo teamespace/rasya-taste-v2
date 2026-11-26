@@ -1,0 +1,78 @@
+<!doctype html>
+<!-- rasya-taste-v4 footer template: footer-emboss, the letterpress wordmark (references/footers.md).
+     Copy ONLY the <footer>..</footer> below into the page, in place of the starter's footer.closing, and delete the
+     starter's close and links templates (close-photo, close-word, links-visit). This head, the demo palette and type,
+     the tone switch (?tone=dark) and the script paths are the demo's own: the page takes its palette and type from
+     start.mjs and links assets/footers/footers.css (and assets/footers/footers.js, defer, after scroll.js).
+     Every word becomes the client's; the name in the wordmark is the name in the row above it. -->
+<html lang="en" data-type="software" data-radius="soft" data-buttons="block" data-motion>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Footer template: footer-emboss</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400..500&family=Jost:wght@400..500&display=swap">
+<link rel="stylesheet" href="../system.css">
+<link rel="stylesheet" href="../motion/motion.css">
+<link rel="stylesheet" href="../buttons/buttons-library.css">
+<link rel="stylesheet" href="footers.css">
+<style>
+  /* the demo's palette and type (a page prints its own with start.mjs) */
+  :root { --p-bg: #f3f2ee; --p-surface: #e7e6e1; --p-ink: #1b1b19; --p-muted: #5d5c57; --p-accent: #7a4a2b; --p-accent-ink: #ffffff;
+          --p-action: #1b1b19; --p-action-ink: #f3f2ee; --p-inv-bg: #151514; --p-inv-surface: #20201e; --p-inv-ink: #eceae4;
+          --p-inv-muted: #a4a29b; --p-inv-accent: #eceae4; --p-inv-accent-ink: #151514; --p-inv-action: #eceae4; --p-inv-action-ink: #151514;
+          --font-display: "EB Garamond", Georgia, serif; --font-text: "Jost", system-ui, sans-serif; --display-weight: 400; --display-tracking: -0.02em; }
+  html[data-tone="dark"] { --p-bg: #151514; --p-surface: #1e1e1c; --p-ink: #eceae4; --p-muted: #a4a29b; --p-accent: #d9a27c; --p-accent-ink: #151514;
+          --p-action: #eceae4; --p-action-ink: #151514; --p-inv-bg: #f3f2ee; --p-inv-surface: #e7e6e1; --p-inv-ink: #1b1b19; --p-inv-muted: #5d5c57;
+          --p-inv-accent: #1b1b19; --p-inv-accent-ink: #f3f2ee; --p-inv-action: #1b1b19; --p-inv-action-ink: #f3f2ee; color-scheme: dark; }
+</style>
+<script>if (/[?&]tone=dark\b/.test(location.search)) document.documentElement.setAttribute('data-tone', 'dark');</script>
+</head>
+<body>
+
+<!-- EMBOSS: on the surface grey (ground-surface; the page ground when the last section is on the surface). Row 1: a
+     hairline, the closing line (the h2, eight words at most) on span-7, a line or two and the main action on span-4
+     from column 9. Row 2: one row of links. Then the wordmark: the brand's name pressed into the ground, cropped by
+     the page's foot. --ft-fit on the footer is what footers.mjs printed for the name (footers.js fits it exactly);
+     data-press="raised" lifts the letters out instead of pressing them in. -->
+<footer class="footer closing ground-surface" data-footer="emboss" id="contact" aria-labelledby="close-h" style="--ft-fit: 35.8">
+  <div class="wrap">
+    <div class="closing__cta ft-split">
+      <div class="grid">
+        <h2 class="ft-split__line span-7" id="close-h">Keep every file where you can find it.</h2>
+        <div class="ft-split__side span-4 start-9">
+          <p>Drop in scans, contracts and receipts. Halden reads each one and finds it again in a second.</p>
+          <a class="btn btn--primary" href="#start">Start free<svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"/></svg></a>
+        </div>
+      </div>
+    </div>
+    <!-- one row on the columns: the name and what the company does (span-5), the nav's words with Privacy and Terms
+         and the copyright (span-4 from column 7), the socials at the right line (empty unless the brief gives the
+         accounts: icons.mjs get si:x --mono). The credits line goes under the row when the page shows stand-ins. -->
+    <div class="closing__links">
+      <div class="grid ft-row">
+        <div class="span-5 stack-2">
+          <a class="nav__logo" href="#top">Halden</a>
+          <p class="ft-row__note">A document archive for small offices, kept in the EU.</p>
+        </div>
+        <div class="span-4 start-7 stack-2">
+          <ul class="ft-row__links">
+            <li><a href="#features">Features</a></li>
+            <li><a href="#pricing">Pricing</a></li>
+            <li><a href="#security">Security</a></li>
+            <li><a href="privacy.html">Privacy</a></li>
+            <li><a href="terms.html">Terms</a></li>
+          </ul>
+          <p class="ft-row__legal">&copy; 2026 Halden Labs</p>
+        </div>
+        <div class="span-2 socials"></div>
+      </div>
+    </div>
+  </div>
+  <div class="ft-mark" aria-hidden="true" data-footer-wordmark><span class="ft-mark__word">Halden</span></div>
+</footer>
+
+<script src="footers.js" defer></script>
+</body>
+</html>

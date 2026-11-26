@@ -1,0 +1,24 @@
+# the repo holds only the working skill (skills/rasya-taste-v4) and the README
+# local-only: older versions, reference copies, tests and research
+skills/rasya-taste-v2/
+skills/vendor/
+tests/
+research/
+pipeline/
+vendor-deps/
+# build and tool state
+**/node_modules/
+**/.taste-skill/
+.wrangler/
+**/.wrangler/
+.DS_Store
+# hand-off notes between agents (temporary)
+skills/rasya-taste-v4/HANDOFF-*.md
+# rasya v4.5: the kit's pictures live in one archive on the GitHub Release, not in git;
+# scripts/lib/kit-assets.mjs puts them back in place (scripts/lib/kit-assets.txt lists them)
+skills/rasya-taste-v4/**/*.jpg
+skills/rasya-taste-v4/**/*.jpeg
+skills/rasya-taste-v4/**/*.png
+skills/rasya-taste-v4/**/*.webp
+skills/rasya-taste-v4/assets/icons/demo/
+skills/rasya-taste-v4/.kit-assets.lock

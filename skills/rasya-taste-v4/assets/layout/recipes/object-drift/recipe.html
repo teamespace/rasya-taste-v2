@@ -1,0 +1,99 @@
+<!doctype html>
+<!-- hero recipe demo: object-drift (references/hero-recipes.md; assets/layout/recipes/index.json). template: hero-centred. type: software, site-kind software.
+     The tiles are the kit's demo photographs on rounded tiles (rr-od__item--tile); a page uses cut-outs of its own catalogue.
+     Copy only the .rr mount (and the hero's words into the dealt template's slots); every word, number and picture becomes the client's.
+     The stand-in pictures are the kit's own licensed demo photographs (assets/layout/img/credits.json) or drawn in code. -->
+<html lang="en" data-type="software" data-radius="soft" data-ground="sage" data-buttons="solid" data-motion>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Makerlist: things made by hand, from 1,200 workshops</title>
+<meta name="description" content="Search lamps, cups, bread and tables from 1,200 small workshops across Europe, and buy from the maker.">
+<meta name="site-kind" content="software">
+<meta name="page-type" content="software">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@400..600&family=Funnel+Sans:wght@400..600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../system.css">
+<link rel="stylesheet" href="../../../ui/cards.css">
+<link rel="stylesheet" href="../../../motion/motion.css">
+<link rel="stylesheet" href="../../layout.css">
+<link rel="stylesheet" href="../_shared/recipes.css">
+<link rel="stylesheet" href="recipe.css">
+<style>
+:root {
+  --p-bg: #f4f5f2; --p-surface: #e6e9e3; --p-ink: #14181a; --p-muted: #566064;
+  --p-accent: #1f6f54; --p-accent-ink: #ffffff; --p-action: #14181a; --p-action-ink: #f4f5f2;
+  --p-inv-bg: #14181a; --p-inv-surface: #1f2528; --p-inv-ink: #f4f5f2; --p-inv-muted: #a7b0b3;
+  --p-inv-accent: #7fd1ae; --p-inv-accent-ink: #14181a; --p-inv-action: #f4f5f2; --p-inv-action-ink: #14181a;
+  --font-display: "Funnel Display", system-ui, sans-serif; --font-text: "Funnel Sans", system-ui, sans-serif; --font-mono: ui-monospace, ui-monospace, monospace;
+  --display-weight: 400; --display-tracking: -0.03em; --display-tracking-xl: -0.04em; --ly-scale: 1;
+}
+
+</style>
+<script>document.documentElement.classList.add('m-enter');setTimeout(()=>document.documentElement.classList.add('m-enter-done'),700)</script>
+</head>
+<body>
+<header class="nav">
+  <div class="wrap nav__bar">
+    <a class="nav__logo" href="#top"><span class="mark" data-mark="dots" aria-hidden="true"></span>Makerlist</a>
+    <nav class="nav__links" aria-label="Main">
+      <div class="nav__item"><a class="nav__link" href="#next">Browse</a></div>
+      <div class="nav__item"><a class="nav__link" href="#next">Makers</a></div>
+      <div class="nav__item"><a class="nav__link" href="#next">Journal</a></div>
+    </nav>
+    <div class="nav__actions">
+      <a class="btn btn--primary" href="#next">Open the app</a>
+    </div>
+    <button class="nav__toggle" type="button" aria-expanded="false" aria-label="Menu"><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M2 5h14M2 13h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>
+  </div>
+</header>
+
+<main id="top">
+<section class="hero hero--centred" data-enter aria-labelledby="hero-h">
+    <div class="rr rr--object-drift rr--layer" data-recipe="object-drift" role="img" aria-label="Lamps, cups, bread, tables and flowers from small workshops, drifting round the words">
+      <ul class="rr-od__field">
+        <li class="rr-od__item rr-od__item--tile"><img data-rr-slot="object" src="../../img/photo-d88.jpg" alt=""></li>
+        <li class="rr-od__item rr-od__item--tile"><img data-rr-slot="object" src="../../img/photo-c70.jpg" alt=""></li>
+        <li class="rr-od__item rr-od__item--tile"><img data-rr-slot="object" src="../../img/photo-c7.jpg" alt=""></li>
+        <li class="rr-od__item rr-od__item--tile"><img data-rr-slot="object" src="../../img/photo-1068.jpg" alt=""></li>
+        <li class="rr-od__item rr-od__item--tile"><img data-rr-slot="object" src="../../img/photo-c823.jpg" alt=""></li>
+        <li class="rr-od__item rr-od__item--tile"><img data-rr-slot="object" src="../../img/photo-beans-hand.jpg" alt=""></li>
+        <li class="rr-od__item rr-od__item--tile"><img data-rr-slot="object" src="../../img/photo-m61757972.jpg" alt=""></li>
+        <li class="rr-od__item rr-od__item--tile"><img data-rr-slot="object" src="../../img/photo-c96.jpg" alt=""></li>
+        <li class="rr-od__item rr-od__item--tile"><img data-rr-slot="object" src="../../img/photo-c166.jpg" alt=""></li>
+        <li class="rr-od__item rr-od__item--tile"><img data-rr-slot="object" src="../../img/photo-949.jpg" alt=""></li>
+        <li class="rr-od__item rr-od__item--tile"><img data-rr-slot="object" src="../../img/photo-c8.jpg" alt=""></li>
+        <li class="rr-od__item rr-od__item--tile"><img data-rr-slot="object" src="../../img/photo-m61660576.jpg" alt=""></li>
+        <li class="rr-od__item rr-od__item--tile"><img data-rr-slot="object" src="../../img/photo-855.jpg" alt=""></li>
+        <li class="rr-od__item rr-od__item--tile"><img data-rr-slot="object" src="../../img/photo-1081.jpg" alt=""></li>
+        <li class="rr-od__item rr-od__item--tile"><img data-rr-slot="object" src="../../img/photo-954.jpg" alt=""></li>
+        <li class="rr-od__item rr-od__item--tile"><img data-rr-slot="object" src="../../img/photo-c400.jpg" alt=""></li>
+        <li class="rr-od__item rr-od__item--tile"><img data-rr-slot="object" src="../../img/photo-465.jpg" alt=""></li>
+        <li class="rr-od__item rr-od__item--tile"><img data-rr-slot="object" src="../../img/photo-887.jpg" alt=""></li>
+      </ul>
+    </div>
+    <div class="wrap"><div class="hero-text">
+      <div class="hero__c">
+        <h1 id="hero-h">Things made by hand, from 1,200 workshops</h1>
+        <p class="hero__lead">Lamps, cups, bread and tables from small makers across Europe. Search by what you need, buy from the person who made it.</p>
+        <div class="btn-row"><a class="btn btn--primary" href="#next">Browse the makers</a></div>
+      </div>
+    </div></div>
+  </section>
+
+  <section class="section" id="next" aria-labelledby="next-h">
+    <div class="wrap grid grid--middle">
+      <div class="span-6">
+        <div class="section-head"><h2 id="next-h">One basket, many makers. <span class="muted">We split the order and each workshop ships its own part.</span></h2></div>
+        <p class="t-lead">Delivery is free over €60 from any one maker.</p>
+      </div>
+    </div>
+  </section>
+</main>
+<script type="module" src="../../../system.js"></script>
+<script type="module" src="../../../motion/motion.js"></script>
+<script src="../../../motion/scroll.js"></script>
+<script type="module" src="../../layout.js"></script>
+<script type="module" src="recipe.js"></script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+{
+  "id": "photo-expands",
+  "name": "Photograph opens wide",
+  "kind": "scroll",
+  "fits": ["section"],
+  "trigger": "scroll",
+  "drive": "scroll",
+  "intensity": 3,
+  "pin": true,
+  "gsap": true,
+  "source": "rasya-taste-v2 R08 (scroll expansion)",
+  "cost": "low",
+  "webgl": 0,
+  "pages": ["tech", "software", "product", "service", "editorial"],
+  "look": "The section holds for one screen under its h2: one photograph opens from a rounded window 40% of the width to the full width of the screen and settles from 1.3 to 1, while the h2's two halves move from the centre to the page's left and right edges, always on the ground above the picture.",
+  "reduced": "Nothing is held: the h2 as written over the photograph at the page's width.",
+  "phone": "Nothing is held under 900px: the h2 over the photograph at the page's width.",
+  "maxPerPage": 1,
+  "weight": 1,
+  "needs": { "photo": true, "picture": "one wide photograph with one clear subject in its middle third (the window shows that third first)", "words": "an h2 of 3 to 6 words written as two spans, each half 1 to 3 words" },
+  "avoidWith": ["picture-develops", "photo-unveil"],
+  "states": { "start": { "p": 0.02, "wait": 500 }, "middle": { "p": 0.45, "wait": 500 }, "end": { "p": 0.98, "wait": 500 } }
+}

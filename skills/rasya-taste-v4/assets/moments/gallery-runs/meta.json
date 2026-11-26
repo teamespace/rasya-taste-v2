@@ -1,0 +1,23 @@
+{
+  "id": "gallery-runs",
+  "name": "Gallery runs sideways",
+  "kind": "scroll",
+  "fits": ["gallery", "section"],
+  "trigger": "scroll",
+  "drive": "scroll",
+  "intensity": 3,
+  "pin": true,
+  "gsap": true,
+  "source": "rasya-taste-v2 R07 (horizontal scroll gallery)",
+  "cost": "low",
+  "webgl": 0,
+  "pages": ["software", "product", "service", "editorial"],
+  "look": "The section holds under its h2 while one row of 5 to 8 photographs runs sideways with the scroll, the first on the page's left edge, the last ending on the right; each photograph pans 12% inside its frame as it crosses.",
+  "reduced": "Nothing is held: one row of photographs that swipes sideways with snap points.",
+  "phone": "Nothing is held under 900px: the same row swipes sideways with snap points.",
+  "maxPerPage": 1,
+  "weight": 1,
+  "needs": { "photo": true, "pictures": "5 to 8 photographs of one kind (work, a collection, places), 4:5, each used once on the page", "words": "an h2 and at most one line under it; no captions" },
+  "avoidWith": ["photo-chapters"],
+  "states": { "start": { "p": 0.03, "wait": 600 }, "middle": { "p": 0.5, "wait": 600 }, "end": { "p": 0.97, "wait": 600 } }
+}

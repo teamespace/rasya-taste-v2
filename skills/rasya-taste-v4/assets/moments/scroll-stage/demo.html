@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en" data-radius="soft" data-ground="sand">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Product on a scroll stage · moment demo</title>
+<script>document.documentElement.classList.add('mo-js');setTimeout(()=>document.documentElement.classList.add('mo-safe'),2500)</script>
+<link rel="modulepreload" href="../moments.js"><link rel="modulepreload" href="../lib.js"><link rel="modulepreload" href="moment.js">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500&family=Hanken+Grotesk:wght@400;500&display=swap">
+<link rel="stylesheet" href="../../system.css">
+<link rel="stylesheet" href="../_demo/demo.css">
+<link rel="stylesheet" href="moment.css">
+<style>
+  :root { --p-bg: #f6f1e7; --p-surface: #ece5d6; --p-ink: #1d1b18; --p-muted: #625c52; --p-accent: #b4532a; --p-accent-ink: #ffffff; --p-action: #1d1b18; --p-action-ink: #f6f1e7;
+          --font-display: "Schibsted Grotesk", system-ui, sans-serif; --font-text: "Hanken Grotesk", system-ui, sans-serif; --display-weight: 400; }
+</style>
+</head>
+<body>
+<header class="demo-nav"><div class="container">
+  <a class="demo-nav__logo" href="#">Dial</a>
+  <nav class="demo-nav__links"><a href="#">Kettle</a><a href="#">Grinder</a><a href="#">Journal</a><a href="#">Support</a></nav>
+  <div class="demo-nav__actions"><a class="btn btn--secondary btn--sm" href="#">Sign in</a><a class="btn btn--primary btn--sm" href="#">Buy · €189</a></div>
+</div></header>
+<main>
+  <section class="section section--hero">
+    <div class="container demo-split">
+      <div class="section-head"><h1>The kettle that holds the degree</h1><p>Set it once. Dial keeps your water at the temperature you chose for an hour.</p><div class="btn-row"><a class="btn btn--primary" href="#">Buy · €189</a></div></div>
+      <img class="demo-photo" src="../_demo/photo-1081.jpg" alt="A quiet street at dusk" width="1800" height="1200">
+    </div>
+  </section>
+  <section class="section" data-moment="scroll-stage">
+    <div class="container mo-ss__stage">
+      <div class="mo-ss__copy">
+        <h2>Made for the second cup</h2>
+        <ol class="mo-ss__notes">
+          <li><b>Four minutes</b> from cold to 93 degrees.</li>
+          <li><b>Sixty minutes</b> held within half a degree.</li>
+          <li><b>Eight millilitres</b> a second from the spout.</li>
+        </ol>
+      </div>
+      <figure class="mo-ss__obj"><img src="../_demo/photo-1049-tall.jpg" alt="Stand-in product photograph" width="1000" height="1400"></figure>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container demo-split demo-split--flip">
+      <div class="section-head"><h2>Two years of warranty. <span class="muted">Free returns.</span></h2><p>Every kettle ships with a spare lid seal and a cleaning tablet.</p><a class="link" href="#">Read more</a></div>
+      <img class="demo-photo" src="../_demo/photo-887.jpg" alt="A building facade in even light" width="1800" height="1200">
+    </div>
+  </section>
+</main>
+<footer class="container demo-footer"><span>Dial · demo page for the moment “Product on a scroll stage” (rasya-taste-v4; needs the motion layer, assets/motion/scroll.js)</span><span>Photographs by Rodion Kutsaev, Roman Kraft, Julien Moreau, Dominik Schröder, Rosan Harmens and Sarah Bürvenich on Unsplash</span></footer>
+<!-- the motion layer (window.rtMotion: GSAP 3.13, ScrollTrigger, SplitText, Lenis) and then the moments loader -->
+<script src="../../motion/scroll.js" defer></script>
+<script type="module" src="../moments.js"></script>
+</body>
+</html>

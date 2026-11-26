@@ -1,0 +1,66 @@
+<!doctype html>
+<!-- rasya-taste-v4 footer template: footer-fade-word, the fading wordmark (references/footers.md).
+     Copy ONLY the <footer>..</footer> below into the page, in place of the starter's footer.closing, and delete the
+     starter's close and links templates (close-photo, close-word, links-visit). This head, the demo palette and type,
+     the tone switch (?tone=dark) and the script paths are the demo's own: the page takes its palette and type from
+     start.mjs and links assets/footers/footers.css (and assets/footers/footers.js, defer, after scroll.js).
+     Every word becomes the client's; the name in the wordmark is the name in the legal line. -->
+<html lang="en" data-type="software" data-radius="round" data-buttons="pill" data-motion>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Footer template: footer-fade-word</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400..600&display=swap">
+<link rel="stylesheet" href="../system.css">
+<link rel="stylesheet" href="../motion/motion.css">
+<link rel="stylesheet" href="../buttons/buttons-library.css">
+<link rel="stylesheet" href="footers.css">
+<style>
+  /* the demo's palette and type (a page prints its own with start.mjs) */
+  :root { --p-bg: #f6f5f1; --p-surface: #ecebe6; --p-ink: #191918; --p-muted: #5c5b56; --p-accent: #b85c17; --p-accent-ink: #ffffff;
+          --p-action: #191918; --p-action-ink: #f6f5f1; --p-inv-bg: #151514; --p-inv-surface: #20201e; --p-inv-ink: #eceae4;
+          --p-inv-muted: #a4a29b; --p-inv-accent: #eceae4; --p-inv-accent-ink: #151514; --p-inv-action: #eceae4; --p-inv-action-ink: #151514;
+          --font-display: "Geist", system-ui, sans-serif; --font-text: "Geist", system-ui, sans-serif; --display-weight: 500; --display-tracking: -0.035em; }
+  html[data-tone="dark"] { --p-bg: #141413; --p-surface: #1d1d1b; --p-ink: #eceae4; --p-muted: #a4a29b; --p-accent: #e69a55; --p-accent-ink: #141413;
+          --p-action: #eceae4; --p-action-ink: #141413; --p-inv-bg: #f6f5f1; --p-inv-surface: #ecebe6; --p-inv-ink: #191918; --p-inv-muted: #5c5b56;
+          --p-inv-accent: #191918; --p-inv-accent-ink: #f6f5f1; --p-inv-action: #191918; --p-inv-action-ink: #f6f5f1; color-scheme: dark; }
+</style>
+<script>if (/[?&]tone=dark\b/.test(location.search)) document.documentElement.setAttribute('data-tone', 'dark');</script>
+</head>
+<body>
+
+<!-- FADE-WORD: on the page ground. Row 1: the closing line (the h2, eight words at most), one line, the main action,
+     centred. Row 2: one row of underlined links (the client's accounts as the brief gives them; without any, the
+     nav's words to their sections) and the legal line. Then the wordmark: the name huge and pale, fading toward the
+     page's foot. The ornament is optional: one small SVG (this flower, or the page's dealt .mark) on one letter,
+     in the accent; delete the span and the svg for none. --orn-y moves its foot (0.45em sits on a lowercase letter,
+     0.22em on a capital), --orn-dx sideways, --orn-size its size. -->
+<footer class="footer closing" data-footer="fade-word" id="contact" aria-labelledby="close-h" style="--ft-fit: 26.8">
+  <div class="wrap">
+    <div class="closing__cta">
+      <h2 id="close-h">Read one good thing every morning.</h2>
+      <p class="t-lead">One long read a day, chosen by two editors. Free for the first month.</p>
+      <a class="btn btn--primary" href="#start">Start reading<svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"/></svg></a>
+    </div>
+    <div class="closing__links">
+      <nav class="ft-social" aria-label="Marigold elsewhere">
+        <a class="m-link" href="https://social.example/marigold">Instagram</a>
+        <a class="m-link" href="https://threads.example/marigold">Threads</a>
+        <a class="m-link" href="https://letters.example/marigold">Newsletter</a>
+        <a class="m-link" href="feed.xml">RSS</a>
+      </nav>
+      <div class="footer__legal">
+        <span>&copy; 2026 Marigold Reading &nbsp; <a href="privacy.html">Privacy</a> &nbsp; <a href="terms.html">Terms</a></span>
+      </div>
+    </div>
+  </div>
+  <div class="ft-mark" aria-hidden="true" data-footer-wordmark>
+    <span class="ft-mark__word">Marig<span class="ft-orn-on">o<svg class="ft-orn" viewBox="0 0 40 40" focusable="false"><g fill="currentColor"><ellipse cx="20" cy="10.5" rx="6.2" ry="9.5"/><ellipse cx="20" cy="10.5" rx="6.2" ry="9.5" transform="rotate(72 20 20)"/><ellipse cx="20" cy="10.5" rx="6.2" ry="9.5" transform="rotate(144 20 20)"/><ellipse cx="20" cy="10.5" rx="6.2" ry="9.5" transform="rotate(216 20 20)"/><ellipse cx="20" cy="10.5" rx="6.2" ry="9.5" transform="rotate(288 20 20)"/></g><circle class="ft-orn__eye" cx="20" cy="20" r="3.8"/></svg></span>ld</span>
+  </div>
+</footer>
+
+<script src="footers.js" defer></script>
+</body>
+</html>

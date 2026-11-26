@@ -1,0 +1,66 @@
+<!doctype html>
+<!-- rasya-taste-v4 footer template: footer-index (references/footers.md).
+     Copy ONLY the <footer>..</footer> below into the page, in place of the starter's footer.closing, and delete the
+     starter's close and links templates (close-photo, close-word, links-visit). This head, the demo palette and type
+     and the tone switch (?tone=dark) are the demo's own: the page takes its palette and type from start.mjs and links
+     assets/footers/footers.css. No script. Every word becomes the client's; each row of the index names one section
+     of the page and links to its id, in the page's order. -->
+<html lang="en" data-type="editorial" data-radius="soft" data-buttons="underline" data-motion>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Footer template: footer-index</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..500&family=Figtree:wght@400..600&display=swap">
+<link rel="stylesheet" href="../system.css">
+<link rel="stylesheet" href="../motion/motion.css">
+<link rel="stylesheet" href="../buttons/buttons-library.css">
+<link rel="stylesheet" href="footers.css">
+<style>
+  /* the demo's palette and type (a page prints its own with start.mjs) */
+  :root { --p-bg: #f5f3ee; --p-surface: #ebe8e0; --p-ink: #1d1b18; --p-muted: #5f5b53; --p-accent: #8c3b2e; --p-accent-ink: #ffffff;
+          --p-action: #8c3b2e; --p-action-ink: #ffffff; --p-inv-bg: #171512; --p-inv-surface: #221f1b; --p-inv-ink: #eeebe4;
+          --p-inv-muted: #a8a399; --p-inv-accent: #eeebe4; --p-inv-accent-ink: #171512; --p-inv-action: #eeebe4; --p-inv-action-ink: #171512;
+          --font-display: "Fraunces", Georgia, serif; --font-text: "Figtree", system-ui, sans-serif; --display-weight: 400; --display-tracking: -0.02em; }
+  html[data-tone="dark"] { --p-bg: #171512; --p-surface: #201d19; --p-ink: #eeebe4; --p-muted: #a8a399; --p-accent: #e0907f; --p-accent-ink: #171512;
+          --p-action: #e0907f; --p-action-ink: #171512; --p-inv-bg: #f5f3ee; --p-inv-surface: #ebe8e0; --p-inv-ink: #1d1b18; --p-inv-muted: #5f5b53;
+          --p-inv-accent: #1d1b18; --p-inv-accent-ink: #f5f3ee; --p-inv-action: #1d1b18; --p-inv-action-ink: #f5f3ee; color-scheme: dark; }
+</style>
+<script>if (/[?&]tone=dark\b/.test(location.search)) document.documentElement.setAttribute('data-tone', 'dark');</script>
+</head>
+<body>
+
+<!-- INDEX: on the page ground. Row 1: the kit's head row (the closing line, the h2, eight words at most, and one line
+     left, the main action right), then the page's sections as a numbered index: five to eight rows, each a link to
+     its section's id, read down then across. Row 2: the legal row with the credits line. -->
+<footer class="footer closing" data-footer="index" id="contact" aria-labelledby="close-h">
+  <div class="wrap">
+    <div class="closing__cta">
+      <div class="section-head--split">
+        <div><h2 id="close-h">Get the Sunday letter.</h2><p class="t-lead">The week's new essays in one email, every Sunday at eight.</p></div>
+        <a class="btn btn--primary" href="#subscribe">Subscribe<svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"/></svg></a>
+      </div>
+      <nav class="ft-index" aria-label="Index">
+        <ol>
+          <li><a href="#essays"><span class="ft-index__no">01</span>Essays<svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"/></svg></a></li>
+          <li><a href="#interviews"><span class="ft-index__no">02</span>Interviews<svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"/></svg></a></li>
+          <li><a href="#photo-stories"><span class="ft-index__no">03</span>Photo stories<svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"/></svg></a></li>
+          <li><a href="#reviews"><span class="ft-index__no">04</span>Reviews<svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"/></svg></a></li>
+          <li><a href="#archive"><span class="ft-index__no">05</span>The archive<svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"/></svg></a></li>
+          <li><a href="#about"><span class="ft-index__no">06</span>About the Review<svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"/></svg></a></li>
+        </ol>
+      </nav>
+    </div>
+    <div class="closing__links">
+      <div class="footer__legal">
+        <span>&copy; 2026 Northfield Review &nbsp; <a href="privacy.html">Privacy</a> &nbsp; <a href="terms.html">Terms</a></span>
+        <div class="socials"></div>
+        <a class="credits" href="credits.html">Photographs via Unsplash and Wikimedia Commons</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

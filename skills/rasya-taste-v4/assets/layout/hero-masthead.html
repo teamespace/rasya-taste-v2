@@ -1,0 +1,104 @@
+<!doctype html>
+<!-- layout v4.1 demo: hero-masthead (references/layout-v4.md, heroes.json "masthead"): the h1 across the wrap as the focal point, a hairline, then the lead and the button on columns 1-4 beside one picture on columns 5-12. type: service. fonts: source-serif. -->
+<html lang="en" data-type="service" data-radius="soft" data-buttons="solid">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-kind" content="other">
+<title>Hollin Joinery: oak staircases built to measure in Bristol</title>
+<meta name="description" content="Six joiners draw, make and fit oak, ash and steel staircases from a Bristol workshop. The survey is free; most stairs go in within two days.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400..600&family=Libre+Franklin:wght@400..600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../system.css">
+<link rel="stylesheet" href="../ui/cards.css">
+<link rel="stylesheet" href="layout.css">
+<style>
+:root {
+  --p-bg: #f6f5f1; --p-surface: #ecebe5; --p-ink: #1c1b18; --p-muted: #5d5a53;
+  --p-accent: #8a4b2a; --p-accent-ink: #ffffff; --p-action: #1c1b18; --p-action-ink: #f6f5f1;
+  --p-inv-bg: #1c1b18; --p-inv-surface: #27251f; --p-inv-ink: #f6f5f1; --p-inv-muted: #b3ada2;
+  --p-inv-accent: #d79a73; --p-inv-accent-ink: #1c1b18; --p-inv-action: #f6f5f1; --p-inv-action-ink: #1c1b18;
+  --font-display: "Source Serif 4", Georgia, serif; --font-text: "Libre Franklin", system-ui, sans-serif;
+  --display-weight: 400; --display-tracking: -0.02em; --display-tracking-xl: -0.026em; --ly-scale: 1;
+}
+.stairs__photo { position: relative; overflow: hidden; height: min(560px, var(--ly-fit)); border-radius: var(--r-lg); background: var(--surface); }
+.stairs__photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 40%; }
+.rows .rows__name small { display: block; font-weight: 400; color: var(--muted); font-size: var(--t-small); }
+@media (max-width: 1023px) { .stairs__photo { height: auto; aspect-ratio: 4 / 5; margin-top: var(--s-7); } }
+</style>
+</head>
+<body>
+<header class="nav">
+  <div class="wrap nav__bar">
+    <a class="nav__logo" href="#top"><span class="mark" data-mark="stack" aria-hidden="true"></span>Hollin Joinery</a>
+    <nav class="nav__links" aria-label="Main">
+      <div class="nav__item"><a class="nav__link" href="#stairs">Staircases</a></div>
+      <div class="nav__item"><a class="nav__link" href="#stairs">Prices</a></div>
+      <div class="nav__item"><a class="nav__link" href="#survey">The survey</a></div>
+    </nav>
+    <div class="nav__actions">
+      <a class="nav__link" href="#stairs">Our stairs</a>
+      <a class="btn btn--primary" href="#survey">Book a free survey</a>
+    </div>
+    <button class="nav__toggle" type="button" aria-expanded="false" aria-label="Menu"><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M2 5h14M2 13h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero hero--masthead" data-enter aria-labelledby="hero-h">
+    <div class="wrap"><div class="hero-text">
+      <h1 id="hero-h">Oak staircases built to measure</h1>
+      <div class="hero__side">
+        <p class="hero__lead">Six joiners draw, make and fit oak, ash and steel stairs from our Bristol workshop. The survey is free; most stairs go in within two days.</p>
+        <div class="btn-row"><a class="btn btn--primary" href="#survey">Book a free survey</a><a class="btn btn--secondary" href="#stairs">See the prices</a></div>
+      </div>
+      <div class="hero__media"><img src="img/photo-954.jpg" alt="A white staircase seen through a narrow opening in a white wall" style="--ly-pos: 50% 50%" fetchpriority="high"></div>
+    </div></div>
+  </section>
+
+  <section class="section" id="stairs" aria-labelledby="stairs-h">
+    <div class="wrap grid grid--middle">
+      <div class="span-6">
+        <div class="section-head">
+          <h2 id="stairs-h">Three kinds of stair. <span class="muted">Each drawn for your hall, fitted by the joiner who made it.</span></h2>
+        </div>
+        <ul class="rows">
+          <li><span class="rows__name">Straight flight<small>Oak or ash, up to 14 steps</small></span><span class="rows__value">From £4,800</span></li>
+          <li><span class="rows__name">Winder or half landing<small>For a turn in a narrow hall</small></span><span class="rows__value">From £6,900</span></li>
+          <li><span class="rows__name">Spiral<small>Steel core, oak treads</small></span><span class="rows__value">From £8,200</span></li>
+          <li><span class="rows__name">The survey<small>A joiner measures your hall</small></span><span class="rows__value">Free</span></li>
+        </ul>
+      </div>
+      <div class="span-6 start-7">
+        <div class="stairs__photo"><img src="img/photo-949.jpg" alt="A white spiral stair round an atrium under a glass dome, seen from below" loading="lazy"></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer closing" id="survey" aria-labelledby="close-h">
+  <div class="wrap">
+    <div class="closing__cta close--type">
+      <div class="section-head"><h2 id="close-h">Book a free survey</h2></div>
+      <a class="btn btn--primary btn--xl" href="mailto:survey@hollin.example">Book a free survey<svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"/></svg></a>
+    </div>
+    <div class="closing__links">
+      <div class="grid">
+        <div class="span-6 stack-5">
+          <a class="nav__logo" href="#top"><span class="mark" data-mark="stack" aria-hidden="true"></span>Hollin Joinery</a>
+          <p class="footer__lede">A workshop in St Philips, Bristol. We fit within 40 miles.</p>
+        </div>
+        <div class="span-3 start-7 footer__col"><h4>Staircases</h4><ul><li><a href="#stairs">Straight</a></li><li><a href="#stairs">Winder</a></li><li><a href="#stairs">Spiral</a></li></ul></div>
+        <div class="span-3 footer__col"><h4>The survey</h4><ul><li><a href="mailto:survey@hollin.example">Write to us</a></li><li>Free, within 40 miles</li></ul></div>
+      </div>
+      <div class="footer__legal">
+        <span>&copy; 2026 Hollin Joinery</span>
+        <details class="credits"><summary>Photographs: Todd Quackenbush and Drew Patrick Miller, via Unsplash</summary><p>White staircase through an opening by Todd Quackenbush; spiral atrium by Drew Patrick Miller; both under the Unsplash License.</p></details>
+      </div>
+    </div>
+  </div>
+</footer>
+<script type="module" src="../system.js"></script>
+<script type="module" src="layout.js"></script>
+</body>
+</html>

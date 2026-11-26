@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en" data-radius="soft" data-motion>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nav library</title>
+<!--
+  rasya-taste-v4 nav library gallery: every nav of assets/navs (index.json "library") in its own template
+  (nav-<id>.html), framed at 1440x900 at the top of the page and past the hero (?scroll=, as a visitor scrolling back
+  up sees it), and at 390x844 with its phone menu open (?open=1); preview-mega shows its panel (?mega=1), takeover its
+  desktop menu, dock and rail the whole screen. Each frame is the template itself, so what you see is what a builder
+  copies. Serve the skill folder over http (any static server, or scripts/shoot.mjs) or open this file; the frames
+  load ../system.css, ../system.js, ../motion/scroll.js (GSAP and Lenis from jsDelivr) and Google Fonts. The list
+  below mirrors index.json; keep the two in step. The kit's own four (nav-mega, nav-cards, nav-centre, nav-split) are
+  the starter's and are not shown here.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400..600&family=Geist+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../system.css">
+<style>
+  :root { --p-bg: #f3f2ee; --p-surface: #e6e4de; --p-ink: #191815; --p-muted: #5f5c55; --p-accent: #c9461d; --p-accent-ink: #ffffff;
+          --p-action: #191815; --p-action-ink: #f3f2ee; --font-display: "Geist", system-ui, sans-serif; --font-text: "Geist", system-ui, sans-serif;
+          --font-mono: "Geist Mono", ui-monospace, monospace; --display-weight: 500; --display-tracking: -0.035em; }
+  body { background: var(--bg); color: var(--ink); font-family: var(--font-text); }
+  .demo-head { padding: var(--s-8) 0 var(--s-6); display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); align-items: end; }
+  .demo-head h1 { grid-column: 1 / 7; font: 500 clamp(40px, 3vw + 20px, 64px)/1 var(--font-display); letter-spacing: var(--display-tracking); margin: 0; }
+  .demo-head p { grid-column: 7 / -1; margin: 0; color: var(--muted); font-size: var(--t-lead); line-height: 1.5; max-width: 52ch; }
+  .demo-legend { display: flex; flex-wrap: wrap; gap: var(--s-2) var(--s-5); padding: var(--s-4) 0; border-top: 1px solid var(--ink); font: 500 12px/1.4 var(--font-mono); letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
+  .demo-item { border-top: 1px solid var(--line-strong); padding: var(--s-5) 0 var(--s-8); }
+  .demo-title { display: grid; grid-template-columns: 64px minmax(0, 1fr) auto; column-gap: var(--s-4); align-items: baseline; margin-bottom: var(--s-4); }
+  .demo-title .no { font: 500 13px/1 var(--font-mono); color: var(--accent); letter-spacing: .04em; }
+  .demo-title h2 { margin: 0; font: 500 28px/1.1 var(--font-display); letter-spacing: -0.025em; }
+  .demo-title h2 code { font: 500 14px/1 var(--font-mono); color: var(--muted); letter-spacing: 0; margin-left: var(--s-3); }
+  .demo-title .kit { font: 500 12px/1 var(--font-mono); letter-spacing: .04em; color: var(--muted); }
+  .demo-facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: var(--gutter); margin: 0 0 var(--s-4) 80px; }
+  .demo-facts div { display: grid; gap: var(--s-1); }
+  .demo-facts dt { font: 500 11px/1 var(--font-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+  .demo-facts dd { margin: 0; font-size: var(--t-small); line-height: 1.45; }
+  .demo-frames { display: grid; grid-template-columns: minmax(0, 1fr) 216px; gap: var(--s-4); align-items: start; }
+  .demo-desk { display: grid; gap: var(--s-3); }
+  .demo-desk.is-pair { grid-template-columns: 1fr 1fr; }
+  .demo-box { position: relative; overflow: hidden; border: 1px solid var(--line-strong); border-radius: var(--r-md); background: var(--p-surface); }
+  .demo-box iframe { position: absolute; left: 0; top: 0; border: 0; transform-origin: 0 0; transform: scale(var(--k, 0.5)); display: block; }
+  .demo-box .tag { position: absolute; left: var(--s-2); bottom: var(--s-2); z-index: 2; padding: 3px 6px; border-radius: 4px; background: var(--p-ink); color: var(--p-bg); font: 500 10px/1.2 var(--font-mono); letter-spacing: .05em; text-transform: uppercase; }
+  .demo-phone { aspect-ratio: 390 / 844; }
+  @media (max-width: 900px) { .demo-frames { grid-template-columns: minmax(0, 1fr); } .demo-phone { max-width: 240px; } .demo-facts { grid-template-columns: 1fr; margin-left: 0; row-gap: var(--s-3); } .demo-head h1, .demo-head p { grid-column: 1 / -1; } }
+</style>
+</head>
+<body>
+<main class="wrap" id="top">
+  <div class="demo-head">
+    <h1>Nav library</h1>
+    <p>Twelve bars for <code>header.nav[data-nav]</code>, dealt by <code>scripts/nav.mjs</code> with the kit's four. Each carries one brand-world element, a scroll state of its own and a designed phone menu.</p>
+  </div>
+  <div class="demo-legend"><span>each row: 1440 at the top</span><span>1440 past the hero</span><span>390, menu open</span></div>
+  <div id="list"></div>
+</main>
+<script>
+(() => {
+  // mirrors index.json "library": id, archetype, name, kit equivalent, scroll, phone menu, element, frames
+  // frames: a = the first desktop frame, b = the second; crop = the height shown of the 1440x900 page; pair = two whole screens side by side
+  const NAVS = [
+    ['ruled', 'A1', 'Ruled cell bar', 'nav-mega', 'Section-aware: the cell of the section on screen fills and takes the accent line. Never hides.', 'Takeover of ruled, numbered rows.', 'Material: the ruled cells on the page\'s column lines.', { a: '', b: 'scroll=1200', crop: 260 }],
+    ['split-mark', 'A2', 'Split, centred wordmark', 'nav-split', 'Over the photograph on no ground; past the hero the word folds to its symbol on the page ground.', 'Takeover in the display face.', 'Object: the brand\'s symbol, the shape that stays.', { a: '', b: 'scroll=1200', crop: 260 }],
+    ['over-media', 'A3', 'Transparent to solid over media', 'nav-cards', '18px bold words over the photograph; solid past the hero; hides going down.', 'Takeover; solid on a phone.', 'Datum: the local time where the cabins are built.', { a: '', b: 'scroll=1200', crop: 260 }],
+    ['pill', 'A4', 'Collapse to pill', 'nav-centre', 'Open across the .wrap at the top, a centred capsule once the page moves.', 'Sheet growing out of the capsule.', 'Datum: days to pay day, in a chip.', { a: '', b: 'scroll=1200', crop: 260 }],
+    ['dock', 'A5', 'Bottom dock', 'nav-centre', 'The dock stays; past the hero the top row folds away and the dock takes the action.', 'Dock at the foot, the sheet rises out of it.', 'Material: the accent tile and its mono segments.', { a: '', b: 'scroll=1200', crop: 900, pair: true }],
+    ['mono-strip', 'A6', 'Mono utility strip', 'nav-mega', 'Hides going down, back going up; the path follows the section on screen.', 'Sheet in the display face.', 'Material: the label type and the path.', { a: '', b: 'scroll=1200', crop: 260 }],
+    ['corner-index', 'A7', 'Corner index', 'nav-centre', 'Items pinned to column lines on no ground; past the hero it comes back solid going up.', 'Takeover, 32 to 48px.', 'Datum: the studio\'s local time.', { a: '', b: 'scroll=1200', crop: 260 }],
+    ['preview-mega', 'A8', 'Product-preview mega menu', 'nav-cards', 'The panel grows on the bar\'s ground with the products; a scroll closes it; hides going down.', 'Takeover, products in a row of tiles.', 'Object: the newest product, its photograph and name.', { a: 'mega=1', b: 'scroll=1200', cropA: 560, crop: 260 }],
+    ['takeover', 'A9', 'Full-screen takeover', 'nav-cards', 'Quiet bar with its Menu word; hides going down; the menu is a page of its own.', 'The same takeover.', 'Datum: one status line with a dot.', { a: '', b: 'open=1', cropB: 900, crop: 260 }],
+    ['rail', 'A10', 'Side rail', 'nav-mega', 'Section-aware: the tab of the section on screen fills with the accent.', 'Dock at the foot, the sheet rises out of it.', 'Material: numbered tabs in the left gutter.', { a: '', b: 'scroll=2100', crop: 900, pair: true }],
+    ['live', 'A11', 'Live signal nav', 'nav-mega', 'The datum runs with the dial section (here mid-way); hides going down.', 'Dock: the menu and the price at the foot.', 'Datum: the kettle\'s temperature, tabular mono.', { a: '', b: 'scroll=600', crop: 260 }],
+    ['object', 'A12', 'Brand-object nav', 'nav-mega', 'The scalloped edge draws in once the page moves; hides going down.', 'An awning that drops from the bar.', 'Object: the awning\'s scalloped edge.', { a: '', b: 'scroll=1200', crop: 260 }]
+  ];
+  const list = document.getElementById('list');
+  const frame = (id, q, w, h, crop, tag) => `<div class="demo-box" data-w="${w}" data-crop="${crop}"><iframe src="nav-${id}.html${q ? '?' + q : ''}" width="${w}" height="${h}" style="width:${w}px;height:${h}px" title="nav-${id} ${tag}" tabindex="-1"></iframe><span class="tag">${tag}</span></div>`;
+  list.innerHTML = NAVS.map(([id, arch, name, kit, scroll, mobile, element, f], i) => `
+    <section class="demo-item" aria-labelledby="h-${id}">
+      <div class="demo-title"><span class="no">${String(i + 1).padStart(2, '0')} ${arch}</span><h2 id="h-${id}">${name}<code>${id}</code></h2><span class="kit">--nav ${kit}</span></div>
+      <dl class="demo-facts"><div><dt>Scroll</dt><dd>${scroll}</dd></div><div><dt>Phone</dt><dd>${mobile}</dd></div><div><dt>Brand element</dt><dd>${element}</dd></div></dl>
+      <div class="demo-frames">
+        <div class="demo-desk${f.pair ? ' is-pair' : ''}">
+          ${frame(id, f.a, 1440, 900, f.cropA || f.crop, f.a === 'mega=1' ? '1440, panel open' : '1440, top')}
+          ${frame(id, f.b, 1440, 900, f.cropB || f.crop, /open/.test(f.b) ? '1440, menu open' : `1440, ${/scroll=600/.test(f.b) ? 'mid-scroll' : 'past the hero'}`)}
+        </div>
+        <div class="demo-box demo-phone" data-w="390" data-crop="844">${'<iframe src="nav-' + id + '.html?open=1" width="390" height="844" style="width:390px;height:844px" title="nav-' + id + ' at 390, menu open" tabindex="-1"></iframe>'}<span class="tag">390, menu</span></div>
+      </div>
+    </section>`).join('');
+  const boxes = [...list.querySelectorAll('.demo-box')];
+  const size = () => boxes.forEach((b) => {
+    const w = +b.dataset.w, crop = +b.dataset.crop, k = b.clientWidth / w;
+    b.style.setProperty('--k', String(k));
+    if (!b.classList.contains('demo-phone')) b.style.height = Math.round(crop * k) + 'px';
+  });
+  size();
+  if (typeof ResizeObserver === 'function') new ResizeObserver(size).observe(list); else addEventListener('resize', size);
+})();
+</script>
+</body>
+</html>

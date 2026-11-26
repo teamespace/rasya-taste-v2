@@ -1,0 +1,42 @@
+/*
+  rasya-taste-v4 nav templates: the demo scaffolding of the nav-<id>.html pages only (a hero and a few sections for the
+  bar to sit over and scroll past). A builder never copies this file or these classes: the page has its own hero
+  (assets/layout) and sections (sections-library.md).
+*/
+body { background: var(--bg); }
+.fr-hero { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); align-items: start; height: 100%; }
+.fr-hero__text { grid-column: 1 / 7; display: grid; gap: var(--s-5); align-content: start; }
+.fr-hero__text h1 { font-size: clamp(40px, 3.05vw + 28px, 72px); line-height: 1.02; max-width: 15ch; }
+.fr-hero__text p { font-size: var(--t-lead); line-height: 1.5; color: var(--muted); max-width: 46ch; }
+.fr-hero__art { grid-column: 7 / -1; height: 100%; min-height: 0; border-radius: var(--r-lg); overflow: hidden; background: var(--surface); }
+.fr-hero__art img { width: 100%; height: 100%; object-fit: cover; }
+.fr-hero--wide .fr-hero__text { grid-column: 1 / 10; }
+.fr-hero--wide .fr-hero__text h1 { font-size: clamp(56px, 6vw + 20px, 112px); max-width: 13ch; letter-spacing: -0.035em; }
+.fr-sec h2 { max-width: 20ch; }
+.fr-sec p { margin-top: var(--s-5); color: var(--muted); font-size: var(--t-lead); line-height: 1.55; max-width: 54ch; }
+.fr-sec .fr-fill { flex: 1 1 0; min-height: 0; margin-top: var(--s-7); border-radius: var(--r-lg); overflow: hidden; background: var(--surface); }
+.fr-sec .fr-fill img { width: 100%; height: 100%; object-fit: cover; }
+.fr-big { font: var(--display-weight) clamp(96px, 12vw, 200px)/.9 var(--font-display); letter-spacing: -0.05em; font-variant-numeric: tabular-nums; margin-top: var(--s-7); }
+/* a code or log panel (ruled, mono-strip) */
+.fr-code { grid-column: 7 / -1; align-self: start; margin: 0; padding: var(--s-5); border-radius: var(--r-md); background: var(--surface); color: var(--ink);
+  font: 400 14px/1.7 var(--font-mono); white-space: pre; overflow: hidden; border: 1px solid var(--line); }
+.fr-code b { font-weight: 500; color: var(--accent); }
+.fr-code i { font-style: normal; color: var(--muted); }
+/* ruled: the page's column lines the bar's cells stand on, drawn down the hero */
+.fr-rules { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
+.fr-rules .wrap { height: 100%; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); }
+.fr-rules i { border-left: 1px solid var(--line); }
+.fr-rules i:nth-child(1) { grid-column: 3; }
+.fr-rules i:nth-child(2) { grid-column: 9; }
+/* pill: three pockets */
+.fr-pockets { grid-column: 8 / -1; display: grid; gap: var(--s-3); align-self: center; }
+.fr-pocket { display: flex; justify-content: space-between; align-items: baseline; padding: var(--s-5); border-radius: var(--r-lg); background: var(--surface); }
+.fr-pocket b { font: var(--display-weight) 34px/1 var(--font-display); font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
+.fr-pocket span { color: var(--muted); }
+@media (max-width: 1023px) {
+  .fr-hero { display: flex; flex-direction: column; gap: var(--s-6); }
+  .fr-hero__art, .fr-code, .fr-pockets { flex: 1 1 0; min-height: 180px; width: 100%; }
+  .fr-rules { display: none; }
+  .fr-code { font-size: 12px; }
+}
+@media (max-width: 639px) { .fr-code, .fr-pockets { display: none; } }

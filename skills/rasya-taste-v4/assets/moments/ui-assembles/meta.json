@@ -1,0 +1,23 @@
+{
+  "id": "ui-assembles",
+  "name": "UI assembles",
+  "kind": "transition",
+  "fits": ["section"],
+  "trigger": "enter",
+  "drive": "scroll",
+  "intensity": 2,
+  "pin": false,
+  "gsap": true,
+  "source": "rasya-taste-v2 R03 (UI assembly), for a section, not the hero",
+  "cost": "low",
+  "webgl": 0,
+  "pages": ["tech", "software"],
+  "look": "The product's own UI, live HTML in one window, builds once as its section comes on screen: the window rises 60px and settles, the side list slides in, the figures lift, the bars grow, the rows wipe in from the left and a notice comes last, about 2.3 s in all.",
+  "reduced": "The window stands as written.",
+  "phone": "The window stands as written.",
+  "maxPerPage": 1,
+  "weight": 1,
+  "needs": { "words": "the product's own UI as HTML in one window, with up to six groups of parts marked data-ua (side, card, bar, row, toast)" },
+  "avoidWith": [],
+  "states": { "start": { "see": true, "wait": 150 }, "middle": { "see": true, "wait": 900 }, "end": { "see": true, "wait": 3000 } }
+}

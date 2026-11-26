@@ -1,0 +1,151 @@
+{
+  "about": "Image style presets for generated pictures (scripts/photos.mjs generate --style <id>, recipe-assets; references/photos.md, Generated pictures). A preset is the art direction appended to a picture's own prompt: its suffix (with {palette} and {ground} filled), its negative list (sent as 'Avoid: ...', the API has no negative prompt) and the tail. One style a page: the first styled generate records it in <site>/.taste-skill/image-style.json, and a later one in another style WARNs and stops unless --force-style. Panel sets (panel-photos.json) keep their own photo look and are not locked. A style that is not a preset id is free words: its words are the suffix, with the palette and the ground added.",
+  "rules": {
+    "onePerPage": true,
+    "lockFile": ".taste-skill/image-style.json",
+    "defaults": {
+      "illustration": "flat-illustration",
+      "render": "3d-render-glossy",
+      "cutout": "collage-cutout",
+      "texture": "editorial-photo",
+      "photo": "editorial-photo"
+    },
+    "kindClause": {
+      "illustration": "",
+      "render": "",
+      "photo": "",
+      "cutout": "one subject only, shown whole",
+      "texture": "an even texture filling the whole frame edge to edge, no focal object, no horizon, no vignette"
+    },
+    "cutoutGround": "isolated on a fully transparent background: no backdrop, no floor, no cast shadow on a ground, the whole subject inside the frame with a clear margin on every side, nothing cut off by the edge",
+    "greyGround": "on a plain flat mid-grey (#808080) background, evenly lit, no floor, no cast shadow on the ground, clean edges between the subject and the grey, the whole subject inside the frame with a clear margin on every side",
+    "freeGround": "plain background in the palette's lightest tone",
+    "negative": ["text", "letters", "numbers", "logos", "watermark", "signature", "gradient background", "glassmorphism", "neon glow", "frame or border around the picture"],
+    "tail": "No text, no letters, no numbers, no logos, no watermark, no signature.",
+    "tailPhoto": "A real photograph, true colour, fine texture. No text, no letters, no logos, no watermark, no people unless asked.",
+    "variant": "variant {i} of {n}: clearly different from the others in pose, angle and silhouette; the same style, light and palette",
+    "defaultPalette": "a calm neutral palette with one accent"
+  },
+  "styles": [
+    {
+      "id": "flat-illustration",
+      "name": "flat illustration",
+      "kinds": ["illustration", "cutout", "texture"],
+      "photo": false,
+      "suffix": "flat vector-style illustration, 2-3 tones from the palette {palette}, simple geometric shapes with crisp clean edges, no outlines, soft fine grain, centred subject with generous empty space around it, {ground}, a calm considered composition like a premium product-site illustration",
+      "ground": "plain background in the palette's lightest tone",
+      "negative": ["gradients", "glossy highlights", "3D shading", "drop shadows", "outlines or strokes", "clip-art look", "cartoon faces", "busy background"],
+      "use": "a calm scene or object for software, service and editorial heroes and feature rows; the default illustration"
+    },
+    {
+      "id": "isometric-illustration",
+      "name": "isometric illustration",
+      "kinds": ["illustration", "render", "cutout"],
+      "photo": false,
+      "suffix": "clean isometric illustration at a true 30-degree isometric angle, crisp geometric forms, flat fills with one soft shade per face, 3-4 tones from the palette {palette}, the object or small scene standing on one floating base, a lot of empty space around it, {ground}, precise and calm",
+      "ground": "plain background in the palette's lightest tone",
+      "negative": ["perspective distortion", "gradients", "clutter", "crowds of tiny people", "labels", "isometric city cliché"],
+      "use": "a system, a workflow or a place made small: infra, logistics, data, hardware"
+    },
+    {
+      "id": "3d-clay",
+      "name": "3D clay",
+      "kinds": ["render", "cutout", "illustration"],
+      "photo": false,
+      "suffix": "soft 3D clay render, matte clay material with tiny surface imperfections, rounded chunky forms, soft diffuse studio light from the upper left, a gentle contact shadow, colours taken from the palette {palette}, a simple centred composition, {ground}",
+      "ground": "plain seamless backdrop in the palette's lightest tone",
+      "negative": ["glossy plastic", "metal", "harsh reflections", "gradients", "cluttered scene", "cartoon faces"],
+      "use": "friendly consumer, education, health and finance pages; objects that should feel touchable"
+    },
+    {
+      "id": "3d-render-glossy",
+      "name": "glossy 3D render",
+      "kinds": ["render", "cutout"],
+      "photo": false,
+      "suffix": "high-end 3D product render, smooth glossy and satin materials, crisp specular highlights, soft area-light studio lighting, physically accurate reflections and a soft contact shadow, colours from the palette {palette}, one centred hero object, {ground}, sharp focus, finely detailed",
+      "ground": "clean seamless backdrop in the palette's lightest tone",
+      "negative": ["rainbow colours", "chrome overload", "plastic toy look", "lens flare", "busy scene", "floating particles"],
+      "use": "a hero object for tech, hardware and fintech; the default render"
+    },
+    {
+      "id": "line-and-fill",
+      "name": "line and fill",
+      "kinds": ["illustration", "cutout"],
+      "photo": false,
+      "suffix": "hand-drawn ink line illustration with flat colour fills slightly offset from the lines, confident uneven line weight, 2-3 fills from the palette {palette}, simple shapes, editorial magazine feel, centred subject with empty space around it, {ground}",
+      "ground": "an off-white paper ground",
+      "negative": ["gradients", "shading", "3D", "photo textures", "clip-art", "cartoon faces", "lettering"],
+      "use": "editorial, docs, writing and knowledge products; a human, hand-made tone"
+    },
+    {
+      "id": "risograph-print",
+      "name": "risograph print",
+      "kinds": ["illustration", "texture"],
+      "photo": false,
+      "suffix": "risograph print illustration, two or three spot inks from the palette {palette}, visible grain and halftone dots, slight misregistration between the inks, flat overprinted shapes, uncoated paper texture, a bold simple composition, {ground}",
+      "ground": "on an uncoated off-white paper ground",
+      "negative": ["glossy 3D", "photo-realism", "smooth digital shading", "more than three inks"],
+      "use": "culture, events, publishing, studios; a page that can carry a print look"
+    },
+    {
+      "id": "editorial-photo",
+      "name": "editorial photograph",
+      "kinds": ["photo", "texture"],
+      "photo": true,
+      "suffix": "editorial photograph for a magazine feature, natural window light, real materials and textures, a considered composition with negative space, colours in the scene that echo the palette {palette}, shot on a 35mm lens at f/2.8, {ground}",
+      "ground": "a real setting, uncluttered",
+      "negative": ["stock-photo smiles", "posed people", "HDR", "oversaturated colour", "studio flash", "signs"],
+      "use": "the trade's world, a material, a band picture; the default photo and texture"
+    },
+    {
+      "id": "studio-product-photo",
+      "name": "studio product photograph",
+      "kinds": ["photo", "cutout"],
+      "photo": true,
+      "suffix": "studio product photograph, the whole object in frame with a margin on every side, one large softbox from the left, a soft natural shadow, true-to-life materials and colour, accents that sit inside the palette {palette}, shot on a 90mm lens at f/8, tack sharp, {ground}",
+      "ground": "a seamless backdrop in a tone of the palette",
+      "negative": ["props clutter", "hands", "people", "studio reflections", "vignette", "labels", "cropped edges"],
+      "use": "an object shown whole: a stand-in of the product's kind, never passed off as the client's own"
+    },
+    {
+      "id": "lifestyle-photo",
+      "name": "lifestyle photograph",
+      "kinds": ["photo"],
+      "photo": true,
+      "suffix": "candid lifestyle photograph of the thing in real everyday use, natural daylight, a lived-in real setting, people only as hands, backs or out of focus, colours of the setting that echo the palette {palette}, shot on a 35mm lens, shallow depth of field, {ground}",
+      "ground": "a real room or street, uncluttered",
+      "negative": ["posed stock smiles", "faces looking at the camera", "staged office", "HDR", "oversaturated colour", "signs"],
+      "use": "use and context: the product's world with people only as hands or backs"
+    },
+    {
+      "id": "wireframe-render",
+      "name": "wireframe render",
+      "kinds": ["render", "illustration", "cutout"],
+      "photo": false,
+      "suffix": "3D wireframe render, thin precise lines tracing every edge and polygon of the form, lines in one colour of the palette {palette}, a few faces softly filled in another of its tones, orthographic or low-perspective view, technical and calm like a CAD or blueprint study, centred with generous empty space, {ground}",
+      "ground": "plain flat background in the palette's lightest or darkest tone",
+      "negative": ["glow", "bloom", "solid shaded surfaces", "clutter", "labels", "dimension numbers", "grid floor to the horizon"],
+      "use": "a wireframe 3D figure for developer, infra, hardware and AI pages"
+    },
+    {
+      "id": "paper-cut",
+      "name": "paper cut",
+      "kinds": ["illustration", "cutout", "texture"],
+      "photo": false,
+      "suffix": "layered paper-cut illustration, several sheets of matte coloured paper cut into simple shapes and stacked with real depth, soft shadows between the layers, visible paper fibre and clean cut edges, colours from the palette {palette}, soft even light from above, a centred calm composition, {ground}",
+      "ground": "the back sheet in the palette's lightest tone",
+      "negative": ["glossy", "plastic", "digital glow", "clutter", "lettering"],
+      "use": "children, education, food, travel and craft; a warm tactile scene"
+    },
+    {
+      "id": "collage-cutout",
+      "name": "collage cut-out",
+      "kinds": ["cutout", "photo"],
+      "photo": true,
+      "suffix": "a photographic cut-out object for a collage: one real object photographed whole, crisp clean edges, consistent soft studio light from the upper left, true colour with accents that sit inside the palette {palette}, a slightly elevated three-quarter view, nothing else in the frame, {ground}",
+      "ground": "a plain flat backdrop in the palette's lightest tone",
+      "negative": ["several objects", "hands", "people", "drop shadow", "motion blur", "cropped edges", "labels"],
+      "use": "a floating cut-out collage: several distinct objects in one light; the default cut-out"
+    }
+  ]
+}

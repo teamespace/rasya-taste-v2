@@ -1,0 +1,28 @@
+/* hero recipe: output-stack (Recraft, Krea). The stack in the hero's picture slot (the split's span-6 picture, the
+   masthead's columns 5-12, the plate, the triptych's centre): the top card whole, three behind it stepping 16px up
+   and right and 4% smaller, none turned. Controls in the slot's lower left, 24px in. */
+.rr--output-stack { --step: 16px; background: var(--surface); }
+.rr-os__card {
+  --k: 0;
+  position: absolute; margin: 0; left: 32px; right: calc(32px + 3 * var(--step)); top: calc(32px + 3 * var(--step)); bottom: 88px;
+  border-radius: var(--r-md); overflow: hidden; background: var(--bg);
+  transform: translate3d(calc(var(--k) * var(--step)), calc(var(--k) * var(--step) * -1), 0) scale(calc(1 - var(--k) * .04));
+  transform-origin: 100% 0; z-index: calc(10 - var(--k)); opacity: calc(1 - var(--k) * .18);
+  transition: transform .45s var(--ease, cubic-bezier(.2,.8,.2,1)), opacity .45s var(--ease, ease);
+  touch-action: pan-y; user-select: none;
+}
+.rr-os__card.is-deep { opacity: 0; }
+.rr-os__card > img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: var(--rr-pos, 50% 40%); pointer-events: none; }
+.rr-os__card.is-out { transform: translate3d(-12%, 0, 0) scale(.98); opacity: 0; }
+.rr-os__card.is-in { transform: translate3d(12%, 0, 0) scale(.98); opacity: 0; }
+.rr-os__ctl { position: absolute; left: 24px; bottom: 22px; z-index: 12; display: flex; align-items: center; gap: 12px; color: var(--ink); }
+.rr-os__btn {
+  display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; cursor: pointer;
+  border: 1px solid color-mix(in oklab, var(--ink) 18%, transparent); background: var(--bg); color: var(--ink);
+  transition: transform var(--dur, .2s) var(--ease, ease), border-color var(--dur, .2s) var(--ease, ease);
+}
+.rr-os__btn:hover { border-color: var(--ink); }
+.rr-os__btn:active { transform: translateY(1px); }
+.rr-os__btn svg { width: 16px; height: 16px; }
+.rr-os__n { min-width: 5.5ch; text-align: center; }
+@media (max-width: 639px) { .rr--output-stack { --step: 10px; } .rr-os__card { left: 16px; right: calc(16px + 3 * var(--step)); top: calc(16px + 3 * var(--step)); bottom: 76px; } }

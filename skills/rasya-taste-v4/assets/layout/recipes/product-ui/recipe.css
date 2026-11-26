@@ -1,0 +1,20 @@
+/* hero recipe: product-ui (Linear, Stacks, Attio). The frame is the hero's picture slot on the lit ground (tech:
+   html[data-ground]) or the surface; the window is the client's own UI (assets/ui fragments, layout/demo.css d-win). */
+.rr--product-ui { background: var(--ground-bg, var(--surface)); perspective: 1400px; }
+.rr-pu__win { position: absolute !important; margin: 0 !important; max-width: none !important; }
+/* cropped: 64px in from the left and top, cut by the frame's right and bottom */
+.rr--product-ui:not([data-rr-variant]) > .rr-pu__win, .rr--product-ui[data-rr-variant="cropped"] > .rr-pu__win {
+  left: 64px; top: 64px; width: calc(100% - 64px + 28px); min-height: calc(100% - 40px);
+}
+/* zoomed: the window whole and centred, scaled about its focus; the scroll brings --rr-zoom to 1 */
+.rr--product-ui[data-rr-variant="zoomed"] > .rr-pu__win {
+  left: 6%; top: 8%; width: 88%; transform: scale(var(--rr-zoom, 1.6)); will-change: transform;
+}
+/* angled: lying back at load, standing flat after it (nothing rests tilted) */
+.rr--product-ui[data-rr-variant="angled"] > .rr-pu__win {
+  left: 8%; top: 64px; width: 84%; transform-origin: 50% 100%; transition: transform 1.1s cubic-bezier(.16, 1, .3, 1), opacity .6s;
+}
+.rr--product-ui.is-lying > .rr-pu__win { transform: rotateX(24deg) translateY(24px); opacity: .9; transition: none; }
+@media (max-width: 639px) {
+  .rr--product-ui > .rr-pu__win { left: 16px !important; top: 16px !important; width: calc(100% - 16px + 28px) !important; transform: none !important; }
+}

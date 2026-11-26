@@ -1,0 +1,97 @@
+<!doctype html>
+<!-- rasya-taste-v4 nav template: nav-preview-mega (A8 product-preview mega menu; references/navs.md).
+     Copy ONLY the <header>..</header> below into the page, in place of the starter's header.nav; link
+     assets/navs/navs.css and load assets/navs/navs.js (defer, after scroll.js). This head, the demo palette and type,
+     the hero and sections and _frame.* are the demo's own. Every word and photograph becomes the client's. -->
+<html lang="en" data-type="product" data-radius="soft" data-buttons="solid" data-motion>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nav template: nav-preview-mega</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..700&family=Figtree:wght@400..600&display=swap">
+<link rel="stylesheet" href="../system.css">
+<link rel="stylesheet" href="../motion/motion.css">
+<link rel="stylesheet" href="../buttons/buttons-library.css">
+<link rel="stylesheet" href="../layout/layout.css">
+<link rel="stylesheet" href="navs.css">
+<link rel="stylesheet" href="_frame.css">
+<style>
+  :root { --p-bg: #f6f1e7; --p-surface: #ebe3d3; --p-ink: #231c15; --p-muted: #675c4f; --p-accent: #a8492a; --p-accent-ink: #ffffff;
+          --p-action: #a8492a; --p-action-ink: #ffffff; --p-inv-bg: #231c15; --p-inv-surface: #2e261e; --p-inv-ink: #f6f1e7; --p-inv-muted: #b3a794;
+          --p-inv-accent: #f0a07f; --p-inv-accent-ink: #231c15; --p-inv-action: #f6f1e7; --p-inv-action-ink: #231c15;
+          --font-display: "Bricolage Grotesque", system-ui, sans-serif; --font-text: "Figtree", system-ui, sans-serif;
+          --display-weight: 500; --display-tracking: -0.03em; }
+</style>
+</head>
+<body>
+
+<!-- PREVIEW-MEGA (A8): only with four or more products, each with a real photograph. One word (with a + that turns
+     to a cross) opens a full-width panel on the bar's own ground, so the bar grows rather than a card popping up:
+     one link column on 1-4 (each product's name and one grey line), then four product cards on 5-12 (a square
+     photograph, the name, the price from); the page dims behind it. A scroll closes it. Sans 14px, the name 28px.
+     Brand element: the newest product's chip (its photograph at 28px and its name; an object, the product itself).
+     Scroll: hides going down. Phone: a full-screen takeover; the panel opens in place, the cards a row of 140px. -->
+<header class="nav" data-nav="preview-mega" data-nav-scroll="hide section" data-nav-menu="takeover">
+  <div class="wrap nav__bar">
+    <a class="skip-link" href="#top">Skip to content</a>
+    <a class="nav__logo" href="#top">Marrow</a>
+    <nav class="nav__links" aria-label="Main">
+      <div class="nav__item">
+        <a class="nav__link" href="#shop">Shop <svg class="chev" viewBox="0 0 12 12" aria-hidden="true"><path d="M6 2v8M2 6h8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+        <div class="nav__menu">
+          <div class="wrap grid nv-mega">
+            <div class="menu-col span-4">
+              <p class="t-label">Coffee</p>
+              <a href="#house">House blend<span>Chocolate and hazelnut, for milk</span></a>
+              <a href="#trio">Three roasts<span>Light, medium and dark, 250 g each</span></a>
+              <a href="#kit">Pour-over kit<span>Dripper, filters and a bag of beans</span></a>
+              <a href="#pick">Roaster's pick<span>A new single origin each month</span></a>
+            </div>
+            <div class="nv-cards">
+              <a class="nv-card" href="#house"><span class="nv-card__pic"><img src="../layout/img/photo-beans-hand.jpg" alt="A hand reaching for a heap of roasted coffee beans"></span><b>House blend</b><span>from €12</span></a>
+              <a class="nv-card" href="#trio"><span class="nv-card__pic"><img src="../layout/img/photo-c70.jpg" alt="Three bowls of beans from light to dark roast"></span><b>Three roasts</b><span>from €29</span></a>
+              <a class="nv-card" href="#kit"><span class="nv-card__pic"><img src="../layout/img/photo-c96.jpg" alt="Water poured from a copper kettle into a pour-over dripper"></span><b>Pour-over kit</b><span>from €48</span></a>
+              <a class="nv-card" href="#pick"><span class="nv-card__pic"><img src="../photos/img/m147143898-1200.webp" alt="A steel trier of freshly roasted beans held out of the roaster"></span><b>Roaster's pick</b><span>from €16</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="nav__item"><a class="nav__link" href="#subscribe">Subscriptions</a></div>
+      <div class="nav__item"><a class="nav__link" href="#guides">Brew guides</a></div>
+      <div class="nav__item"><a class="nav__link" href="#about">Roastery</a></div>
+    </nav>
+    <div class="nav__actions">
+      <a class="nv-new" href="#trio" data-nav-element="object"><img src="../layout/img/photo-c70.jpg" alt="">New: Three roasts</a>
+      <a class="btn btn--primary" href="#subscribe">Subscribe from €14</a>
+    </div>
+    <button class="nav__toggle" type="button" aria-expanded="false" aria-label="Menu">
+      <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M2 5h14M2 13h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero" aria-labelledby="hero-h">
+    <div class="wrap"><div class="hero-text fr-hero">
+      <div class="fr-hero__text">
+        <h1 id="hero-h">Coffee roasted on Tuesday, at your door on Thursday</h1>
+        <p>Marrow roasts small batches in Ghent every Tuesday and ships them the same day. Four coffees, one kit, delivered across the EU.</p>
+        <div class="btn-row"><a class="btn btn--primary" href="#shop">Shop the beans</a><a class="btn btn--secondary" href="#guides">Brew guides</a></div>
+      </div>
+      <div class="fr-hero__art"><img src="../layout/img/photo-c96.jpg" alt="Hot water poured from a copper gooseneck kettle into a pour-over dripper"></div>
+    </div></div>
+  </section>
+  <section class="fr-sec" id="shop"><div class="wrap"><h2>Four coffees and a kit</h2><p>Each bag carries its roast date and the farm it came from.</p></div></section>
+  <section class="fr-sec" id="subscribe"><div class="wrap"><h2>A bag every two weeks</h2><p>From €14 a bag, paused or stopped with one click.</p></div></section>
+  <section class="fr-sec" id="guides"><div class="wrap"><h2>Brew guides</h2><p>Pour-over, moka pot and a French press, each in five steps.</p></div></section>
+  <section class="fr-sec" id="about"><div class="wrap"><h2>The roastery in Ghent</h2><p>One 15 kg roaster, two people and a delivery van.</p></div></section>
+</main>
+
+<script type="module" src="../system.js"></script>
+<script src="../motion/scroll.js"></script>
+<script src="navs.js" defer></script>
+<script src="_frame.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+/* gallery-runs: at rest (under 900px, reduced motion, no script, a failed module) one row of photographs that
+   bleeds to the screen's edges and swipes sideways with snap points, the first photograph on the page's left edge.
+   Live (.is-live, from 900px on a screen 600px tall) the section is (hold + 1) screens, the stage sticks for the
+   hold with the h2 on it, and the row is moved by the scroll. */
+[data-moment="gallery-runs"] { --mo-hold: 1; --mo-edge: max(var(--gut), (100vw - var(--container)) / 2); }
+[data-moment="gallery-runs"] .mo-gr__view { margin-inline: calc(50% - 50vw); overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--mo-edge); scrollbar-width: none; }
+[data-moment="gallery-runs"] .mo-gr__view::-webkit-scrollbar { display: none; }
+[data-moment="gallery-runs"] .mo-gr__track { display: flex; gap: var(--s-5); width: max-content; padding-inline: var(--mo-edge); }
+[data-moment="gallery-runs"] .mo-gr__item { position: relative; flex: 0 0 auto; height: min(56svh, 560px); aspect-ratio: 4 / 5; margin: 0; overflow: hidden;
+  border-radius: var(--r-lg); background: var(--surface); scroll-snap-align: start; }
+[data-moment="gallery-runs"] .mo-gr__item img { position: absolute; top: 0; left: -7%; width: 114%; max-width: none; height: 100%; object-fit: cover; }
+@media (max-width: 639px) { [data-moment="gallery-runs"] .mo-gr__item { height: min(52svh, 440px); } }
+/* at rest the section is as tall as its content, never over the next one */
+main > [data-moment="gallery-runs"][data-moment]:not(.is-live) { height: auto; min-height: calc(var(--h, 1) * 100svh); }
+
+/* live */
+main > [data-moment="gallery-runs"][data-moment].is-live { height: calc((var(--mo-hold) + 1) * 100svh); min-height: 0; padding: 0; }
+main > [data-moment="gallery-runs"][data-moment].is-live > .mo-gr__stage { position: sticky; top: 0; height: 100svh; box-sizing: border-box;
+  padding: var(--padt) 0 var(--padb); display: flex; flex-direction: column; }
+[data-moment="gallery-runs"].is-live .section-head { flex: none; }
+[data-moment="gallery-runs"].is-live .mo-gr__view { flex: 1 1 0; min-height: 0; overflow: clip; scroll-snap-type: none; }
+[data-moment="gallery-runs"].is-live .mo-gr__track { height: 100%; will-change: transform; }
+[data-moment="gallery-runs"].is-live .mo-gr__item { height: 100%; }
+@media print { main > [data-moment="gallery-runs"][data-moment].is-live { height: auto; } [data-moment="gallery-runs"].is-live .mo-gr__track { transform: none !important; flex-wrap: wrap; width: auto; } }

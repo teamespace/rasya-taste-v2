@@ -1,0 +1,228 @@
+/*
+  rasya-taste-v4 footers.css - the footer library (references/footers.md), dealt with the close by
+  scripts/footers.mjs. Link it once, in <head> after assets/layout/layout.css:
+      <link rel="stylesheet" href="assets/footers/footers.css">
+  It styles only footer.closing[data-footer="<id>"] and its own parts (.ft-*), so a page with a kit footer
+  (footer-columns, footer-dark, footer-statement, footer-visit) may keep it linked.
+
+  Five endings, each a whole footer.closing: row 1 the close, row 2 the links, as system.css builds every ending.
+  The dealt id is footer-<name>; the footer carries data-footer="<name>" (as the kit writes footer-dark as
+  footer--dark); the template is assets/footers/footer-<name>.html:
+    emboss        the closing line left, a note and the button right, a hairline above; one row of links; the name
+                  pressed into the ground at the foot (letterpress)
+    fade-word     a centred close, a row of underlined links; the name huge and pale, fading toward the page's foot,
+                  an optional ornament on one letter
+    split-close   the closing line left, a note and the button right, a hairline above; the kit's link columns
+    outline-fill  the kit's head row and columns; the name as an outline at the foot that fills as the footer comes up
+    index         the head row, then the page's sections as a numbered index in the display face
+
+  The wordmark (emboss, fade-word, outline-fill) is a layer beside the .wrap, never in it, so the .wrap keeps its
+  two rows and the kit's footer checks still read them:
+      <footer class="footer closing" data-footer="emboss" id="contact" aria-labelledby="close-h" style="--ft-fit: 35.8">
+        <div class="wrap"> <div class="closing__cta">..</div> <div class="closing__links">..</div> </div>
+        <div class="ft-mark" aria-hidden="true" data-footer-wordmark><span class="ft-mark__word">Halden</span></div>
+      </footer>
+  It is decoration: aria-hidden, the real name in text in the footer, the only low-contrast type on the page. Its
+  size is clamp()ed from --ft-fit (vw: footers.mjs prints it for the name, footers.js fits it to the footer's width)
+  and capped by the screen's height; the footer clips it at its sides and its foot (overflow: clip), so it never
+  scrolls the page sideways and the page's bottom edge crops it. Nothing here moves under reduced motion.
+*/
+
+/* ---------------------------------------------------------------- the wordmark layer (shared) */
+footer.closing:has(> [data-footer-wordmark]) {
+  --ft-fit: 18;            /* the word's size in vw; footers.mjs prints it for the name, footers.js fits it */
+  --ft-show: .52;          /* the share of the size that shows above the page's foot */
+  --ft-min: 40px;
+  --ft-cap: 72svh;         /* a short name on a short screen stops here: centred, no longer edge to edge */
+  --ft-gap: var(--s-7);    /* the air between the last row of links and the word */
+  --ft-inset: 0;           /* % of the footer's width left free at each side (footers.js reads it) */
+  --ft-size: clamp(var(--ft-min), calc(var(--ft-fit) * 1vw), var(--ft-cap));
+  --ft-slice: calc(var(--ft-size) * var(--ft-show));
+  padding-bottom: calc(var(--ft-gap) + var(--ft-slice) + var(--bar));
+  overflow: clip;
+}
+@media (max-width: 639px) {
+  footer.closing:has(> [data-footer-wordmark]) { --ft-gap: var(--s-6); }
+}
+/* the layer: across the footer from edge to edge (never 100vw), the slice above a phone's action bar; an ornament
+   may rise above it, nothing shows below it */
+footer.closing > [data-footer-wordmark] {
+  position: absolute; z-index: 0; left: 0; right: 0; bottom: var(--bar);
+  height: var(--ft-slice); margin: 0;
+  pointer-events: none; user-select: none; -webkit-user-select: none;
+  clip-path: inset(calc(-1 * var(--ft-size)) 0 0 0);
+}
+/* the word: the display face at the fitted size, its line trimmed to the capitals, so the layer's top is the top
+   of the capitals; the tightened tracking is paid back so the letters sit centred */
+.ft-mark__word {
+  --ft-track: -0.035em;
+  display: block; white-space: nowrap; text-align: center;
+  font: var(--ft-weight, var(--display-weight)) var(--ft-size)/1 var(--font-display);
+  letter-spacing: var(--ft-track);
+  translate: calc(var(--ft-track) / 2) 0;
+  font-kerning: normal; font-synthesis: none;
+  text-box: trim-both cap alphabetic;
+  padding-top: var(--orn-room, 0px); margin-top: calc(-1 * var(--orn-room, 0px));
+  color: var(--ft-face, color-mix(in oklab, var(--bg) 88%, var(--ink)));
+}
+/* without the trim the capitals start about a sixth of the size under the line's top (most faces) */
+@supports not (text-box: trim-both cap alphabetic) {
+  .ft-mark__word { margin-top: calc(-0.17em - var(--orn-room, 0px)); }
+}
+
+/* the ornament slot (fade-word; any wordmark may take one): one small SVG, or the page's dealt .mark, sitting on
+   one letter. Wrap the letter: Marig<span class="ft-orn-on">o<svg class="ft-orn" ..></svg></span>ld
+   --orn-y is where its foot lands, from the top of the letter's line: about 0.45em on a lowercase letter (its
+   x-height), 0.22em on a capital; --orn-dx moves it sideways, --orn-size sets it. Accent colour, never words. */
+.ft-orn-on { position: relative; }
+.ft-orn {
+  position: absolute; left: calc(50% + var(--orn-dx, 0em)); top: var(--orn-y, 0.45em);
+  width: var(--orn-size, 0.24em); height: auto; aspect-ratio: 1; max-width: none;
+  translate: -50% -86%; color: var(--orn-colour, var(--accent)); overflow: visible;
+}
+.ft-orn .ft-orn__eye { fill: var(--bg); }
+
+/* ---------------------------------------------------------------- the split close (emboss, split-close)
+   row 1: a hairline across the .wrap, then the closing line (the h2) on span-7 and a short note with the
+   button on span-4 from column 9; under 1024 they stack, the line first */
+.closing__cta.ft-split { display: block; border-top: 1px solid var(--line-strong); padding-top: var(--s-6); }
+.ft-split > .grid { row-gap: var(--s-6); align-items: start; }
+.closing__cta .ft-split__line {
+  max-width: 15ch;
+  font: var(--display-weight) var(--ft-line-size, clamp(40px, 3.2vw + 28px, 80px))/1.02 var(--font-display);
+  letter-spacing: min(var(--display-tracking), -0.02em);
+}
+.ft-split__side { display: grid; gap: var(--s-5); justify-items: start; align-content: start; }
+.ft-split__side > p { max-width: 38ch; font-size: var(--t-lead); line-height: 1.5; color: var(--ink); }
+@media (min-width: 1024px) {
+  /* the note's first line on the closing line's first line */
+  .ft-split__side { padding-top: calc(var(--ft-line-size, clamp(40px, 3.2vw + 28px, 80px)) * 0.16); }
+}
+@media (max-width: 639px) { .ft-split__side > .btn { width: 100%; } }
+
+/* ---------------------------------------------------------------- emboss: the letterpress wordmark
+   The footer sits on the surface grey (.ground-surface) or the page ground, light or dark. The name is pressed
+   into it: the letters the ground's own colour, their top inner wall in shade, their lower lip catching the
+   light. Every tone is the ground's (--bg) moved in lightness, so it holds on a light page and a dark one.
+   data-press="raised" lifts the letters out instead. A browser without relative colour gets a flat tone. */
+footer.closing[data-footer="emboss"] {
+  --ft-show: .52;
+  --ft-face: color-mix(in oklab, var(--bg) 95%, var(--ink));
+}
+footer.closing[data-footer="emboss"][data-press="raised"] { --ft-dir: -1; }
+@supports (color: oklch(from red l c h)) and ((background-clip: text) or (-webkit-background-clip: text)) {
+  footer.closing[data-footer="emboss"] {
+    --ft-shade: oklch(from var(--bg) calc(l - 0.11) c h);
+    --ft-lit: oklch(from var(--bg) calc(l + 0.07) c h / 0.78);
+  }
+  footer.closing[data-footer="emboss"] .ft-mark__word {
+    --ft-depth: max(2px, 0.0065em);
+    color: transparent;
+    background-color: var(--ft-shade);
+    -webkit-background-clip: text; background-clip: text;
+    text-shadow: 0 calc(var(--ft-depth) * var(--ft-dir, 1)) calc(var(--ft-depth) * 0.9) var(--ft-lit);
+  }
+}
+/* row 2: one row on the .wrap's columns: the name and one line (span-5), the nav's words with Privacy and Terms
+   (span-4 from column 7), the socials at the right line; the credits line under it */
+.ft-row { align-items: start; row-gap: var(--s-5); }
+.ft-row__note { max-width: 44ch; font-size: var(--t-small); line-height: 1.6; color: var(--ink); }
+.footer .ft-row__links { display: flex; flex-wrap: wrap; gap: var(--s-2) var(--s-5); font-size: var(--t-small); }
+.ft-row__links a { color: var(--ink); }
+.ft-row__legal { font-size: var(--t-label); color: var(--muted); }
+.ft-row > .socials { justify-content: flex-end; }
+@media (max-width: 1023px) { .ft-row > .socials { justify-content: flex-start; } }
+footer.closing[data-footer] > .wrap > .closing__links > .credits { margin-top: calc(-1 * var(--s-4)); }
+
+/* ---------------------------------------------------------------- fade-word: the pale name fading out
+   A centred close on the page ground (the closing line, one line, the button), a row of underlined links (the
+   client's accounts, else the nav's words) and the legal line; under them the name huge in a pale tone that
+   fades to the ground toward the page's foot. The fade is a mask on the word; an ornament keeps in its top. */
+footer.closing[data-footer="fade-word"] {
+  --ft-show: .56;
+  --ft-face: color-mix(in oklab, var(--bg) 86%, var(--ink));
+}
+footer.closing[data-footer="fade-word"] .ft-mark__word {
+  --orn-room: 0.3em;
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(var(--orn-room) + var(--ft-slice) * 0.22), transparent calc(var(--orn-room) + var(--ft-slice) * 0.97));
+  mask-image: linear-gradient(to bottom, #000 calc(var(--orn-room) + var(--ft-slice) * 0.22), transparent calc(var(--orn-room) + var(--ft-slice) * 0.97));
+}
+footer.closing[data-footer="fade-word"] > .wrap > .closing__cta { align-items: center; justify-content: center; text-align: center; gap: var(--s-5); }
+footer.closing[data-footer="fade-word"] .closing__cta h2 {
+  max-width: 18ch;
+  font-size: var(--ft-line-size, clamp(36px, 2.4vw + 26px, 64px)); line-height: 1.04;
+}
+footer.closing[data-footer="fade-word"] .closing__cta > p { max-width: 44ch; }
+footer.closing[data-footer="fade-word"] .closing__cta > .btn { margin-top: var(--s-2); }
+footer.closing[data-footer="fade-word"] > .wrap > .closing__links { justify-items: center; text-align: center; gap: var(--s-5); }
+footer.closing[data-footer="fade-word"] .closing__links > .footer__legal { justify-self: stretch; justify-content: center; border-top: 0; padding-top: 0; column-gap: var(--s-5); }
+/* the underlined row: a resting line in the link's own colour; the motion layer draws the ink line on hover */
+.ft-social { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--s-2) var(--s-6); font-weight: 500; }
+.ft-social a {
+  color: var(--ink);
+  text-decoration: underline; text-underline-offset: 4px; text-decoration-color: color-mix(in oklab, currentColor 55%, transparent);
+  --m-rest: color-mix(in oklab, currentColor 55%, transparent);
+}
+@media (max-width: 639px) {
+  .ft-social { column-gap: var(--s-4); }
+  .ft-social a { display: inline-flex; align-items: center; min-height: 44px; min-width: 44px; justify-content: center; }
+}
+
+/* ---------------------------------------------------------------- split-close: the closing line and the columns
+   Row 1 is .ft-split (above); row 2 the kit's columns and legal row as the starter writes them. */
+footer.closing[data-footer="split-close"] { --ft-line-size: clamp(44px, 3.8vw + 30px, 96px); }
+
+/* ---------------------------------------------------------------- outline-fill: the outlined name that fills
+   The kit's head row and columns, usually on the inverse ground; the name at the foot drawn as an outline. As
+   the footer comes up the outline fills from the page's foot to its top (footers.js scrubs --ft-p from 0 to 1
+   on window.rtMotion). The HTML as written, reduced motion and a page without the scroll stack show it filled. */
+footer.closing[data-footer="outline-fill"] {
+  --ft-show: .55;
+  --ft-line: color-mix(in oklab, var(--ink) 40%, var(--bg));
+  --ft-fill: color-mix(in oklab, var(--ink) 13%, var(--bg));
+}
+footer.closing[data-footer="outline-fill"][data-fill="accent"] { --ft-fill: color-mix(in oklab, var(--accent) 34%, var(--bg)); }
+footer.closing[data-footer="outline-fill"] .ft-mark__word {
+  --ft-p: 1;
+  color: transparent;
+  -webkit-text-stroke: max(1px, 0.0024em) var(--ft-line);
+  background-image: linear-gradient(var(--ft-fill), var(--ft-fill));
+  background-repeat: no-repeat;
+  background-size: 100% calc(var(--ft-slice) * var(--ft-p) + 1px);
+  background-position: 0 calc(var(--ft-slice) * (1 - var(--ft-p)));
+  -webkit-background-clip: text; background-clip: text;
+}
+footer.closing[data-footer="outline-fill"] > .wrap > .closing__cta { gap: var(--s-6); }
+
+/* ---------------------------------------------------------------- index: the page's sections as an index
+   The head row (the h2 and one line left, the button right), then the sections as numbered rows in the display
+   face, read down then across: one column under 1024 from 640, two columns of the .wrap's halves from 1024 and on
+   a phone. Each row is a link to its section; on hover its line darkens and the arrow comes in. */
+footer.closing[data-footer="index"] > .wrap > .closing__cta { gap: var(--s-7); }
+.ft-index > ol { columns: 2; column-gap: var(--gutter); margin: 0; }
+@media (min-width: 640px) and (max-width: 1023px) { .ft-index > ol { columns: 1; } }
+.ft-index li { break-inside: avoid; border-top: 1px solid var(--line); transition: border-color var(--dur) var(--ease); }
+.ft-index li > a {
+  display: flex; align-items: baseline; gap: var(--s-4); min-height: 56px; padding-block: var(--s-3);
+  font: var(--display-weight) var(--ft-index-size, clamp(24px, 1.15vw + 19.5px, 36px))/1.15 var(--font-display);
+  letter-spacing: var(--display-tracking); color: var(--ink);
+}
+.ft-index__no { flex: none; width: 3ch; font: 500 var(--t-label)/1 var(--font-mono); letter-spacing: 0.02em; color: var(--muted); translate: 0 -0.25em; }
+.ft-index li > a .m-arrow { flex: none; margin-left: auto; align-self: center; width: 0.5em; height: 0.5em; stroke-width: 1.4; }
+.ft-index li:has(> a:is(:hover, :focus-visible)) { border-top-color: var(--ink); }
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  html:not([data-motion="off"]) .ft-index li > a .m-arrow { opacity: 0; translate: -8px 0; transition: opacity var(--dur) var(--ease), translate 240ms var(--ease); }
+  html:not([data-motion="off"]) .ft-index li > a:is(:hover, :focus-visible) .m-arrow { opacity: 1; translate: 0 0; }
+}
+@media (max-width: 639px) {
+  .ft-index > ol { column-gap: var(--s-4); }
+  .ft-index li > a { --ft-index-size: 20px; min-height: 52px; gap: var(--s-2); }
+  .ft-index__no { width: 2.5ch; }
+  .ft-index li > a .m-arrow { display: none; }
+}
+
+/* ---------------------------------------------------------------- reduced motion: everything rests */
+@media (prefers-reduced-motion: reduce) {
+  .ft-index li, .ft-index li > a .m-arrow { transition: none; }
+  footer.closing[data-footer="outline-fill"] .ft-mark__word { --ft-p: 1 !important; }
+}

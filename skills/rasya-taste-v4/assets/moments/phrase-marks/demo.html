@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en" data-radius="soft" data-ground="sky">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Phrases marked · moment demo</title>
+<script>document.documentElement.classList.add('mo-js');setTimeout(()=>document.documentElement.classList.add('mo-safe'),2500)</script>
+<link rel="modulepreload" href="../moments.js"><link rel="modulepreload" href="../lib.js"><link rel="modulepreload" href="moment.js">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500&family=Hanken+Grotesk:wght@400;500&display=swap">
+<link rel="stylesheet" href="../../system.css">
+<link rel="stylesheet" href="../_demo/demo.css">
+<link rel="stylesheet" href="moment.css">
+<style>
+  :root { --p-bg: #f4f3ef; --p-surface: #ebe9e2; --p-ink: #17181a; --p-muted: #5b5d60; --p-accent: #2f5fd0; --p-accent-ink: #ffffff; --p-action: #17181a; --p-action-ink: #f4f3ef;
+          --font-display: "Schibsted Grotesk", system-ui, sans-serif; --font-text: "Hanken Grotesk", system-ui, sans-serif; --display-weight: 400; }
+  .statement .t-label { color: var(--muted); margin-bottom: var(--s-6); }
+</style>
+</head>
+<body>
+<header class="demo-nav"><div class="container">
+  <a class="demo-nav__logo" href="#">Ledgerly</a>
+  <nav class="demo-nav__links"><a href="#">Product</a><a href="#">Pricing</a><a href="#">Customers</a><a href="#">Docs</a></nav>
+  <div class="demo-nav__actions"><a class="btn btn--secondary btn--sm" href="#">Sign in</a><a class="btn btn--primary btn--sm" href="#">Start free</a></div>
+</div></header>
+<main>
+  <section class="section section--hero">
+    <div class="container demo-split">
+      <div class="section-head"><h1>Close the month in two days</h1><p>Ledgerly matches every payout to its invoice and flags the three that do not add up.</p><div class="btn-row"><a class="btn btn--primary" href="#">Start free</a></div></div>
+      <img class="demo-photo" src="../_demo/photo-1081.jpg" alt="A quiet street at dusk" width="1800" height="1200">
+    </div>
+  </section>
+  <section class="section statement" data-moment="phrase-marks">
+    <div class="container">
+      <p class="t-label">Why finance teams switch</p>
+      <p class="mo-pm__text">Most teams spend <mark>eight days</mark> a month matching payouts by hand. Ledgerly does the matching overnight, so the close takes <mark>two days, not ten</mark>, and you look only at the few that need a person.</p>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container demo-split demo-split--flip">
+      <div class="section-head"><h2>Every entry on record. <span class="muted">Nothing in the dark.</span></h2><p>Each match keeps the line it came from, so an auditor can check any month in a minute.</p><a class="link" href="#">Read more</a></div>
+      <img class="demo-photo" src="../_demo/photo-887.jpg" alt="A building facade in even light" width="1800" height="1200">
+    </div>
+  </section>
+</main>
+<footer class="container demo-footer"><span>Ledgerly · demo page for the moment “Phrases marked” (rasya-taste-v4; needs the motion layer, assets/motion/scroll.js)</span><span>Photographs by Rodion Kutsaev, Roman Kraft, Julien Moreau, Dominik Schröder, Rosan Harmens and Sarah Bürvenich on Unsplash</span></footer>
+<!-- the motion layer (window.rtMotion: GSAP 3.13, ScrollTrigger, SplitText, Lenis) and then the moments loader -->
+<script src="../../motion/scroll.js" defer></script>
+<script type="module" src="../moments.js"></script>
+</body>
+</html>

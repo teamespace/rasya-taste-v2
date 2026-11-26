@@ -1,0 +1,49 @@
+/* hero recipe: object-drift (Cosmos, Flora). A field of cut-out objects (or small photographs on tiles) round the
+   centred words, as the hero's layer. The slots below are the recipe's declared slots: a page never moves a piece by
+   its own left or top. At rest (the still, kind other, reduced motion, a phone) each piece stands in its slot at its
+   depth; on tech recipe.js lets them drift toward the visitor and the pointer steers the field.
+   No gradient, filter, mask, blend or shadow: the pieces are the picture, the ground is the page's. */
+.rr--object-drift { background: var(--bg); perspective: 900px; perspective-origin: 50% 46%; }
+.rr-od__field { position: absolute; inset: 0; margin: 0; padding: 0; list-style: none; transform-style: preserve-3d; }
+.rr-od__item {
+  --x: 50%; --y: 50%; --s: 104px; --z: 0px;
+  position: absolute; left: var(--x); top: var(--y); width: var(--s); aspect-ratio: 1; margin: calc(var(--s) / -2) 0 0 calc(var(--s) / -2);
+  transform: translate3d(var(--dx, 0px), var(--dy, 0px), var(--z)); will-change: transform, opacity;
+}
+.rr-od__item > img { display: block; width: 100%; height: 100%; object-fit: contain; }
+/* a photograph rather than a cut-out: a small rounded tile */
+.rr-od__item--tile > img { object-fit: cover; border-radius: calc(var(--r-md) * .8); background: var(--surface); }
+
+/* the declared slots at 1440: eighteen round a calm middle (the words stand in x 30-70%, y 18-72%) */
+.rr-od__item:nth-child(1)  { --x: 7%;  --y: 20%; --s: 96px;  --z: -120px; }
+.rr-od__item:nth-child(2)  { --x: 19%; --y: 12%; --s: 72px;  --z: -420px; }
+.rr-od__item:nth-child(3)  { --x: 24%; --y: 34%; --s: 88px;  --z: -60px; }
+.rr-od__item:nth-child(4)  { --x: 12%; --y: 50%; --s: 120px; --z: 40px; }
+.rr-od__item:nth-child(5)  { --x: 22%; --y: 70%; --s: 84px;  --z: -260px; }
+.rr-od__item:nth-child(6)  { --x: 8%;  --y: 82%; --s: 100px; --z: -40px; }
+.rr-od__item:nth-child(7)  { --x: 34%; --y: 88%; --s: 76px;  --z: -360px; }
+.rr-od__item:nth-child(8)  { --x: 47%; --y: 82%; --s: 92px;  --z: -140px; }
+.rr-od__item:nth-child(9)  { --x: 62%; --y: 90%; --s: 70px;  --z: -480px; }
+.rr-od__item:nth-child(10) { --x: 76%; --y: 78%; --s: 110px; --z: 20px; }
+.rr-od__item:nth-child(11) { --x: 91%; --y: 86%; --s: 86px;  --z: -200px; }
+.rr-od__item:nth-child(12) { --x: 93%; --y: 60%; --s: 118px; --z: -20px; }
+.rr-od__item:nth-child(13) { --x: 80%; --y: 46%; --s: 80px;  --z: -320px; }
+.rr-od__item:nth-child(14) { --x: 90%; --y: 30%; --s: 96px;  --z: -100px; }
+.rr-od__item:nth-child(15) { --x: 77%; --y: 16%; --s: 74px;  --z: -440px; }
+.rr-od__item:nth-child(16) { --x: 64%; --y: 10%; --s: 64px;  --z: -560px; }
+.rr-od__item:nth-child(17) { --x: 36%; --y: 9%;  --s: 66px;  --z: -520px; }
+.rr-od__item:nth-child(18) { --x: 94%; --y: 10%; --s: 70px;  --z: -300px; }
+.rr-od__item:nth-child(n+19) { display: none; }
+
+/* 640-1023: twelve; a phone: eight, in a band over the words and a band under the buttons */
+@media (max-width: 1023px) { .rr-od__item:nth-child(n+13) { display: none; } .rr-od__item { --s: 76px; } }
+@media (max-width: 639px) {
+  .rr-od__item:nth-child(n+9) { display: none; }
+  .rr-od__item { --s: 56px; }
+  .rr-od__item:nth-child(1) { --x: 10%; --y: 16%; } .rr-od__item:nth-child(2) { --x: 36%; --y: 11%; }
+  .rr-od__item:nth-child(3) { --x: 64%; --y: 14%; } .rr-od__item:nth-child(4) { --x: 90%; --y: 10%; }
+  .rr-od__item:nth-child(5) { --x: 12%; --y: 90%; } .rr-od__item:nth-child(6) { --x: 38%; --y: 94%; }
+  .rr-od__item:nth-child(7) { --x: 66%; --y: 91%; } .rr-od__item:nth-child(8) { --x: 90%; --y: 94%; }
+}
+/* the words over the field read on the page's ground: the middle stays clear by the slots above */
+.hero:has(> .rr--object-drift) .hero__c { position: relative; z-index: 2; }

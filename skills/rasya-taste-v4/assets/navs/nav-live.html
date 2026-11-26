@@ -1,0 +1,80 @@
+<!doctype html>
+<!-- rasya-taste-v4 nav template: nav-live (A11 live signal nav; references/navs.md).
+     Copy ONLY the <header>..</header> below into the page, in place of the starter's header.nav; link
+     assets/navs/navs.css and load assets/navs/navs.js (defer, after scroll.js). This head, the demo palette and type,
+     the hero and sections and _frame.* are the demo's own. Every word and figure becomes the client's. -->
+<html lang="en" data-type="product" data-radius="sharp" data-buttons="solid" data-motion>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nav template: nav-live</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400..700&family=Red+Hat+Text:wght@400..600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../system.css">
+<link rel="stylesheet" href="../motion/motion.css">
+<link rel="stylesheet" href="../buttons/buttons-library.css">
+<link rel="stylesheet" href="../layout/layout.css">
+<link rel="stylesheet" href="navs.css">
+<link rel="stylesheet" href="_frame.css">
+<style>
+  :root { --p-bg: #f4f1ec; --p-surface: #e8e3da; --p-ink: #1d1a17; --p-muted: #625b53; --p-accent: #b94e28; --p-accent-ink: #ffffff;
+          --p-action: #b94e28; --p-action-ink: #ffffff; --p-inv-bg: #1d1a17; --p-inv-surface: #28241f; --p-inv-ink: #f4f1ec; --p-inv-muted: #aba398;
+          --p-inv-accent: #f09a73; --p-inv-accent-ink: #1d1a17; --p-inv-action: #f4f1ec; --p-inv-action-ink: #1d1a17;
+          --font-display: "Red Hat Display", system-ui, sans-serif; --font-text: "Red Hat Text", system-ui, sans-serif; --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+          --display-weight: 500; --display-tracking: -0.03em; }
+</style>
+</head>
+<body>
+
+<!-- LIVE (A11): only with one real number of the brief (a price, a temperature, a count, a rate, a balance). The datum
+     sits in the bar in tabular mono with a still dot; it may follow the section it belongs to (data-nav-datum with
+     data-from, data-to and data-for: the number runs from the one to the other as that section comes up; under
+     reduced motion and without script it reads data-to, so write data-to in the HTML). One datum only. The action
+     carries the price in its own segment. Sans 14px, the name 28px. Scroll: hides going down. Phone: the datum stays
+     in the bar, the menu button and the action in a dock at the foot (.nv-dockbar), the sheet rises out of it. -->
+<header class="nav" data-nav="live" data-nav-scroll="hide section" data-nav-menu="dock">
+  <div class="wrap nav__bar">
+    <a class="skip-link" href="#top">Skip to content</a>
+    <a class="nav__logo" href="#top">Ondo</a>
+    <nav class="nav__links" aria-label="Main">
+      <div class="nav__item"><a class="nav__link" href="#dial">The dial</a></div>
+      <div class="nav__item"><a class="nav__link" href="#finishes">Finishes</a></div>
+      <div class="nav__item"><a class="nav__link" href="#specs">Specs</a></div>
+      <div class="nav__item"><a class="nav__link" href="#reviews">Reviews</a></div>
+    </nav>
+    <div class="nv-sig" data-nav-element="datum"><i class="nv-dot" aria-hidden="true"></i><span data-nav-datum data-from="40" data-to="96" data-for="#dial">96</span><span class="nv-unit">°C</span></div>
+    <div class="nv-dockbar">
+      <div class="nav__actions">
+        <a class="btn btn--primary nv-buy" href="#buy"><span class="nv-price">$169</span> <span class="nv-label">Buy</span></a>
+      </div>
+      <button class="nav__toggle" type="button" aria-expanded="false" aria-label="Menu">
+        <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M2 5h14M2 13h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero" aria-labelledby="hero-h">
+    <div class="wrap"><div class="hero-text fr-hero">
+      <div class="fr-hero__text">
+        <h1 id="hero-h">A pour-over kettle that holds the degree you set</h1>
+        <p>Ondo heats to any temperature from 40 to 100 °C and holds it within one degree for an hour. Steel body, oak handle, a 1-litre pot.</p>
+        <div class="btn-row"><a class="btn btn--primary" href="#buy">Order the kettle</a><a class="btn btn--secondary" href="#specs">See the specs</a></div>
+      </div>
+      <div class="fr-hero__art"><img src="../layout/img/photo-c96.jpg" alt="Hot water poured from a copper gooseneck kettle into a pour-over dripper"></div>
+    </div></div>
+  </section>
+  <section class="fr-sec" id="dial"><div class="wrap"><h2>Turn the dial, read the degree</h2><p class="fr-big" aria-hidden="true">96 °C</p></div></section>
+  <section class="fr-sec" id="finishes"><div class="wrap"><h2>Three finishes</h2><p>Brushed steel, matt black and a cream enamel, each with an oak handle.</p></div></section>
+  <section class="fr-sec" id="specs"><div class="wrap"><h2>Specs</h2><p>1 litre, 1,200 W, 40 to 100 °C in one-degree steps, a two-year guarantee.</p></div></section>
+  <section class="fr-sec" id="reviews"><div class="wrap"><h2>From the people who pour</h2><p>Cafes in six countries brew on Ondo every morning.</p></div></section>
+</main>
+
+<script type="module" src="../system.js"></script>
+<script src="../motion/scroll.js"></script>
+<script src="navs.js" defer></script>
+<script src="_frame.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,390 @@
+{
+ "version": 1,
+ "about": "rasya-taste-v4.3 hero recipes (references/hero-recipes.md; agent R). A hero template (assets/layout/hero-<id>.html, dealt by deal.mjs) is only the frame; a recipe is the visual that goes in it, rebuilt from 1-3 named reference heroes with our own assets: the technique and the composition are taken, never the reference's words, logo, pictures or colours. scripts/hero.mjs deals one recipe that fits the page's kind and its dealt template, away from recent pages, product-UI at most about one page in five. Each recipe lives in assets/layout/recipes/<id>/: recipe.html (a working demo on the kit's tokens in a hero template), recipe.js and recipe.css (the mountable module), demo-*.svg (drawn stand-ins for the demo only).",
+ "fields": {
+  "refs": "the reference heroes the recipe rebuilds: name, the fold screenshot under references/visual/hero/ (960 wide), the motion strip when the reference moves, and what to take from it",
+  "kinds": "the page kinds it may be dealt to (SKILL.md section 1): software, gaming, tech, product, service, editorial; a place is never dealt a recipe (its hero is printed: the place's own photograph)",
+  "weight": "the base weight per kind (missing: 1)",
+  "heroTemplates": "the hero-<id> frames it fits (heroes.json ids) and, in mount, the slot it fills in each",
+  "technique": "three | webgl | canvas | css | video | image. three and webgl (and canvas) are tech only: software, gaming, tech",
+  "oneEffect": "true: the recipe is the page's one effect (effects-usage.md Tech budget); deal no other effect, scene or WebGL moment beside it",
+  "interaction": "what the visitor does to it and what it does by itself; every self-moving part rests under reduced motion and carries the kit's pause button past 5 s",
+  "still": "what shows before the live layer, under reduced motion, on a phone, without WebGL and on kind other",
+  "perf": "cost (low | medium | high), WebGL contexts, the JavaScript it loads, how it renders",
+  "needs": "what the brief must really have, as heroes.json writes it (a|b: either): ui (the client's screens or kit fragments rewritten to its names), object (cut-outs or renders of the client's own product), photo (photographs: the client's, else stand-ins from photos.mjs search, or generated pictures of the world, never of the client's product or people), film (the client's film), datum (a real figure from the brief), logo (the client's mark as SVG). Empty: nothing beyond the copy",
+  "subjects": "words of the brief that make the recipe fit (hero.mjs reads --brief): required true means it is dealt only when one of them is in the brief or in --subject",
+  "assets": "the pictures the recipe needs, for photos.mjs recipe-assets (agent A2): { slot, kind, style, prompt, count, ratio, transparent, optional }. style is a preset id of assets/ui/image-styles.json (one style a page; illustration-scene's clay variant takes 3d-clay). kind is illustration | photo | cutout | texture | render | video | model3d. The prompt's {product}, {audience}, {world} and {palette} are filled from the brief; no words in any picture. Each asset element in the mount carries data-rr-slot=\"<slot>\" (hero.mjs check counts them)",
+  "mount": "the markup, the slot per template, and the files to link",
+  "variants": "data-rr-variant values",
+  "demo": "the working demo page"
+ },
+ "three": { "version": "0.170.0", "url": "https://cdn.jsdelivr.net/npm/three@0.170.0/+esm", "addons": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/<path>/+esm", "load": "lazily, once a page, inside rtMotion.onReady (recipe-kit.js loadThree)" },
+ "shared": {
+  "css": "assets/layout/recipes/_shared/recipes.css",
+  "js": "assets/layout/recipes/_shared/recipe-kit.js",
+  "head": "<link rel=\"stylesheet\" href=\"assets/layout/recipes/_shared/recipes.css\"> after assets/layout/layout.css, then the recipe's own recipe.css",
+  "body": "<script type=\"module\" src=\"assets/layout/recipes/<id>/recipe.js\"></script> after assets/motion/scroll.js",
+  "glCap": "window.__tpGl / window.__tpGlMax (default 4), the same count fx.js, the scenes and the objects keep"
+ },
+ "weights": { "uiShare": 0.2, "uiHardWindow": 5, "uiHardMax": 1, "recent": 0.4, "recentWindow": 6, "subject": 2.2 },
+ "recipes": [
+  {
+   "id": "wireframe-figure",
+   "name": "Wireframe or point-cloud figure",
+   "idea": "One figure or object drawn as a glowing wireframe (or a point cloud) on a dark ground beside the words: the subject itself as data, turning to look at the visitor.",
+   "refs": [
+    { "name": "Yellow3D", "file": "references/visual/hero/yellow3d-fold.jpg", "motion": "references/visual/hero/yellow3d-motion.jpg", "take": "a bold h1 on the left, one large wireframe bust on the right cut by the hero's foot, one accent colour on black, nothing else in the hero" }
+   ],
+   "kinds": ["software", "gaming", "tech"],
+   "weight": { "software": 2, "gaming": 2, "tech": 1 },
+   "heroTemplates": ["split", "photo", "product", "statement"],
+   "technique": "three",
+   "oneEffect": true,
+   "interaction": "the head turns toward the pointer (yaw 0.55, pitch 0.16, damped about the neck, the shoulders stay); the figure draws itself crown to chest once on load (1.4 s); the gaze lowers as the hero scrolls away; nothing moves at rest (renders on demand)",
+   "still": "an SVG of the same procedural figure, drawn by recipe.js from the same geometry and camera with the back lines left out, in the page's accent: shown first, kept under reduced motion, on a phone, on no WebGL or when the page's four contexts are taken",
+   "perf": { "cost": "medium", "contexts": 1, "js": "three 0.170.0 (+esm, about 160 KB gzip), lazy", "render": "on demand: a frame only while the pose is settling; about 4,600 points rewritten a frame" },
+   "needs": [],
+   "subjects": { "required": true, "words": ["3d", "character", "avatar", "face", "body", "scan", "mesh", "model", "rig", "animation", "game", "figure", "human", "person", "fit", "size", "sizes", "measure", "measurements", "motion capture", "sculpt", "robot", "humanoid", "anatomy", "medical imaging"] },
+   "variants": { "lines": "a wireframe grid (default)", "points": "a point cloud on the same surface" },
+   "mount": {
+    "markup": "<div class=\"rr rr--wireframe-figure\" data-recipe=\"wireframe-figure\" data-rr-variant=\"lines\" role=\"img\" aria-label=\"..\"><div class=\"rr-still\" data-rr-draw></div></div>",
+    "slots": { "split": "in .hero__media (span-6)", "photo": "as the layer: add hero__bg to the mount, data-calm=\"left\" on the section, a dark hero", "product": "in .hero__stage", "statement": "add rr--layer, first child of the section; the figure stands right of centre" },
+    "attrs": "data-rr-shape=\"model\" data-rr-src=\"<a .glb the client owns or a CC0 one>\" data-rr-slot=\"figure\" for the client's own model; data-rr-place auto|centre|right; data-rr-scroll off",
+    "ground": "a dark hero on tech: the page's dark palette or .ground-inverse on the section; the lines are --accent, the ground --bg"
+   },
+   "assets": [
+    { "slot": "figure", "kind": "model3d", "style": "wireframe-render", "prompt": "A low-poly 3D model of the one figure or object {product} works on for {audience} (a head and shoulders, a hand, a device, a vehicle): watertight, under 20,000 triangles, centred at the origin and facing +z, real proportions, no texture, no text. Clean.", "count": 1, "ratio": "1:1", "transparent": true, "optional": true }
+   ],
+   "demo": "assets/layout/recipes/wireframe-figure/recipe.html"
+  },
+  {
+   "id": "massing-model",
+   "name": "3D massing or isometric product model",
+   "idea": "The client's building, site or product as a live isometric model among plain context boxes: the thing being designed, shown as the tool shows it.",
+   "refs": [
+    { "name": "Arcol", "file": "references/visual/hero/arcol-fold.jpg", "motion": "references/visual/hero/arcol-motion.jpg", "take": "a centred h1 over one wide plate of a massing model in a city of grey boxes, the client's block in colour, one readout card laid on the model" },
+    { "name": "Intrepid", "file": "references/visual/hero/intrepid-fold.jpg", "take": "the product as a lit object model standing under the words, the words centred above it" }
+   ],
+   "kinds": ["software", "tech"],
+   "weight": { "software": 2, "tech": 2 },
+   "heroTemplates": ["plate", "product", "split", "masthead"],
+   "technique": "three",
+   "oneEffect": true,
+   "interaction": "the floors rise once on load (1.6 s); a drag turns the model 40 degrees either way; the pointer over a floor lights it and the readout card shows that floor (data-rr-floors); the model pulls back 12% as the hero scrolls away; renders on demand",
+   "still": "an SVG isometric drawing of the same seeded model (faces shaded, painted back to front) with the readout card as written",
+   "perf": { "cost": "medium", "contexts": 1, "js": "three 0.170.0, lazy", "render": "on demand; about 330 boxes with edges" },
+   "needs": ["datum"],
+   "subjects": { "required": true, "words": ["building", "buildings", "architecture", "architect", "construction", "real estate", "property", "housing", "homes", "site", "city", "urban", "floor", "floors", "bim", "cad", "planning", "zoning", "feasibility", "warehouse", "factory", "fit-out", "massing", "3d"] },
+   "variants": { "court": "a block round a courtyard (default)", "bar": "one long bar", "tower": "a tower on a podium" },
+   "mount": {
+    "markup": "<div class=\"rr rr--massing-model\" data-recipe=\"massing-model\" data-rr-seed=\"11\" data-rr-shape=\"court\" data-rr-floors='[{\"label\":\"Ground floor\",\"value\":\"1,260 m²\",\"use\":\"Shops\"}]' role=\"img\" aria-label=\"..\"><div class=\"rr-still\" data-rr-draw></div><div class=\"rr-mm__card\">..the total, at rest..</div></div>",
+    "slots": { "plate": "in .hero__plate (edge to edge)", "product": "in .hero__stage", "split": "in .hero__media", "masthead": "in .hero__media (columns 5-12)" },
+    "card": "the one readout card in the recipe's declared slot (its left on the wrap line, 32 above the foot); its figures are real ones from the brief"
+   },
+   "assets": [],
+   "demo": "assets/layout/recipes/massing-model/recipe.html"
+  },
+  {
+   "id": "object-drift",
+   "name": "Floating cut-out collage that answers the pointer",
+   "idea": "The things the product finds, sells or makes, as cut-outs floating round the centred words in depth: a catalogue you could reach into.",
+   "refs": [
+    { "name": "Cosmos", "file": "references/visual/hero/cosmos-fold.jpg", "motion": "references/visual/hero/cosmos-motion.jpg", "take": "a centred h1 and one action in a calm middle, small object tiles scattered in depth all round it, drifting toward the viewer" },
+    { "name": "Flora", "file": "references/visual/hero/flora-fold.jpg", "motion": "references/visual/hero/flora-motion.jpg", "take": "bigger pictures at the screen's edges round a centred line, at several depths" }
+   ],
+   "kinds": ["software", "product", "editorial"],
+   "weight": { "software": 2, "product": 1, "editorial": 1 },
+   "heroTemplates": ["centred", "statement", "product"],
+   "technique": "css",
+   "oneEffect": false,
+   "interaction": "software: the field drifts toward the visitor in CSS 3D (translate only, nothing turns) and the pointer steers where it comes from, with the kit's pause button; product and editorial (kind other): the pieces rest in their slots and shift a few pixels with the pointer by their depth, nothing moves by itself",
+   "still": "the markup: every piece in its declared slot at its depth (recipe.css), no script needed",
+   "perf": { "cost": "low", "contexts": 0, "js": "none beyond the recipe (about 3 KB)", "render": "transforms only, 50 fps while drifting and on screen" },
+   "needs": ["photo"],
+   "subjects": { "required": true, "words": ["discover", "search", "marketplace", "catalogue", "catalog", "shop", "collection", "curated", "browse", "inspiration", "vintage", "secondhand", "furniture", "objects", "makers", "products", "wishlist", "moodboard", "fashion", "decor"] },
+   "variants": { "cutout": "transparent cut-outs (default)", "tile": "small photographs on rounded tiles (li.rr-od__item--tile)" },
+   "mount": {
+    "markup": "<div class=\"rr rr--object-drift rr--layer\" data-recipe=\"object-drift\" role=\"img\" aria-label=\"..\"><ul class=\"rr-od__field\"><li class=\"rr-od__item\"><img data-rr-slot=\"object\" src=\"..\" alt=\"\"></li> ×12-18</ul></div>",
+    "slots": { "centred": "the hero's layer: first child of the section, no .hero__window", "statement": "the hero's layer", "product": "in .hero__stage (the field across the stage)" }
+   },
+   "assets": [
+    { "slot": "object", "kind": "cutout", "style": "collage-cutout", "prompt": "One object of the kind {product} offers {audience}, from {world}, photographed alone: whole and centred, three-quarter view from a little above, soft daylight from the upper left, true material colour that sits beside {palette}, a crisp edge, no shadow, no props, no text. Calm.", "count": 16, "ratio": "1:1", "transparent": true, "optional": false }
+   ],
+   "demo": "assets/layout/recipes/object-drift/recipe.html"
+  },
+  {
+   "id": "type-mask",
+   "name": "Giant wordmark with the photograph or film inside the letters",
+   "idea": "The client's name set across the whole wrap at the hero's foot, its letters a window onto the client's own picture or film.",
+   "refs": [
+    { "name": "Donprod", "file": "references/visual/hero/donprod-fold.jpg", "motion": "references/visual/hero/donprod-motion.jpg", "take": "the studio's name set huge as the hero's one shape, the work seen through a frame under it" },
+    { "name": "Infinite Machine", "file": "references/visual/hero/infinite-machine-fold.jpg", "take": "the name across the full width as the page's masthead, the product picture under it" },
+    { "name": "Remote", "file": "references/visual/hero/remote-hero.jpg", "take": "one word filling the width, the h1 under it in plain type" }
+   ],
+   "kinds": ["software", "service", "editorial"],
+   "weight": { "software": 1, "service": 2, "editorial": 2 },
+   "heroTemplates": ["statement", "plate"],
+   "technique": "css",
+   "oneEffect": false,
+   "interaction": "the pointer moves the picture inside the letters (6% by 5%); the picture slides up through them as the hero scrolls away; on software a film plays inside the letters on one 2D canvas (muted, in view, with the kit's pause button)",
+   "still": "the word with the photograph through it, drawn by CSS (background-clip: text) before any script; without a picture the word in the ink",
+   "perf": { "cost": "low", "contexts": 0, "js": "about 3 KB; a film variant draws one 2D canvas at 30 fps", "render": "a CSS background; the film on a canvas" },
+   "needs": ["photo"],
+   "subjects": { "required": false, "words": ["studio", "production", "film", "photo", "music", "agency", "brand", "fashion", "magazine", "journal", "launch", "festival", "label", "gallery"] },
+   "variants": { "photo": "a still photograph in the letters (default; every kind)", "film": "the client's film in the letters (software only; video.rr-tm__film)" },
+   "mount": {
+    "markup": "<div class=\"rr rr--type-mask\" data-recipe=\"type-mask\" role=\"img\" aria-label=\"..\"><span class=\"rr-tm__word\" aria-hidden=\"true\">NAME</span><img class=\"rr-tm__src\" data-rr-slot=\"fill\" src=\"..\" alt=\"\"></div>",
+    "slots": { "statement": "the last child of .hero__in, in place of the facts", "plate": "in .hero__plate" },
+    "word": "the client's name (or the one noun the page is about), one word, 4-9 letters; with it the footer is not dealt a giant-name ending (footers.mjs: one giant name a page)"
+   },
+   "assets": [
+    { "slot": "fill", "kind": "photo", "style": "editorial-photo", "prompt": "A wide photograph of {world}, textured from edge to edge (rock and surf, foliage, fabric, a crowd or a city at dusk), no single subject and no plain sky over a third of the frame, natural light, 35mm, tones that sit beside {palette}, no text. Moody.", "count": 1, "ratio": "16:9", "transparent": false, "optional": false },
+    { "slot": "film", "kind": "video", "style": "editorial-photo", "prompt": "A 6 to 10 second loop of {world} for {product}: slow movement across the whole frame (water, smoke, a crowd, traffic at night), no cut, no text, tones that sit beside {palette}. Hypnotic.", "count": 1, "ratio": "16:9", "transparent": false, "optional": true }
+   ],
+   "demo": "assets/layout/recipes/type-mask/recipe.html"
+  },
+  {
+   "id": "bleed-photo",
+   "name": "Full-bleed photograph with the h1 on its calm side",
+   "idea": "One photograph of the product in its world, edge to edge, composed so the words have a calm third to stand on: the picture does the selling.",
+   "refs": [
+    { "name": "Cometeer", "file": "references/visual/hero/cometeer-fold.jpg", "take": "one hand and one product against an even sky, the words on the calm lower half" },
+    { "name": "Jot", "file": "references/visual/hero/jot-fold.jpg", "take": "the product in use on the right, a calm wall on the left for the words" },
+    { "name": "Sauz", "file": "references/visual/hero/sauz-fold.jpg", "take": "the product in its world full bleed, the words on the quiet upper left" },
+    { "name": "Shopify", "file": "references/visual/hero/shopify-fold.jpg", "take": "a deep space (a warehouse aisle) whose vanishing side leaves room for the h1" }
+   ],
+   "kinds": ["software", "gaming", "tech", "product", "service", "editorial"],
+   "weight": { "software": 1, "gaming": 2, "tech": 2, "product": 3, "service": 3, "editorial": 3 },
+   "heroTemplates": ["photo", "film"],
+   "technique": "image",
+   "oneEffect": false,
+   "interaction": "software, gaming, tech: the picture drifts up to 6px with the pointer and eases in 6% as the hero scrolls away; a film plays muted in view with the kit's pause button. Every other kind: the photograph is still (the hero's entrance only) and a film is its poster until clicked",
+   "still": "the photograph itself (the photo hero's layer, layout.css); on a phone its own 4:5 crop",
+   "perf": { "cost": "low", "contexts": 0, "js": "about 2 KB", "render": "one transform on the picture" },
+   "needs": ["photo"],
+   "subjects": { "required": false, "words": [] },
+   "variants": { "side": "the calm side left or right (default)", "flatlay": "a top-down table of the product family, a calm patch for the words (Opal)", "film": "a 6-12 s loop (tech only)" },
+   "mount": {
+    "markup": "<img class=\"hero__bg rr rr--bleed-photo\" data-recipe=\"bleed-photo\" data-rr-slot=\"scene\" src=\"..\" alt=\"..\" style=\"--ly-pos: 70% 50%; --ly-pos-phone: 76% 50%\" fetchpriority=\"high\">",
+    "slots": { "photo": "the photo hero's layer (data-calm=\"left|right|top\" on the section as the picture's calm side)", "film": "the film hero's poster: <img> in .hero__media with the same data-recipe" },
+    "rule": "nothing laid on the photograph to make words readable: the asset prompt asks for the calm side; a product page's photograph is the client's own (or a stand-in of its kind, listed in the report), never a generated picture of its product"
+   },
+   "assets": [
+    { "slot": "scene", "kind": "photo", "style": "lifestyle-photo", "prompt": "A photograph of {audience} with {product} in {world}: the subject on the right third, the left two-fifths calm and even (a wall, sky, sand or shade) as room for the headline, eye level, 35mm, soft natural side light, colours that sit beside {palette}, no text. Warm.", "count": 1, "ratio": "16:9", "transparent": false, "optional": false },
+    { "slot": "scene-phone", "kind": "photo", "style": "lifestyle-photo", "prompt": "The same scene of {product} in {world}, framed upright for a phone: the subject in the upper half, an even lower third, eye level, 35mm, soft side light, colours that sit beside {palette}, no text. Warm.", "count": 1, "ratio": "4:5", "transparent": false, "optional": true },
+    { "slot": "film", "kind": "video", "style": "lifestyle-photo", "prompt": "A 6 to 12 second loop of {product} in use in {world}, the camera still or drifting slowly, the left third calm, no cut, no text, colours that sit beside {palette}. Unhurried.", "count": 1, "ratio": "16:9", "transparent": false, "optional": true }
+   ],
+   "demo": "assets/layout/recipes/bleed-photo/recipe.html"
+  },
+  {
+   "id": "illustration-scene",
+   "name": "Illustration scene with characters and objects",
+   "idea": "Two illustrated clusters of characters and objects of the product's world flank the centred words, a few small pieces below them: friendly, specific, drawn for this client.",
+   "refs": [
+    { "name": "Family", "file": "references/visual/hero/family-fold.jpg", "motion": "references/visual/hero/family-motion.jpg", "take": "a centred h1 between two dense clusters of flat characters and objects in bright colours" },
+    { "name": "Clay", "file": "references/visual/hero/clay-hero.jpg", "take": "one 3D clay scene of the product's world with the words in its calm sky" },
+    { "name": "Twin", "file": "references/visual/hero/twin-hero.jpg", "take": "one character as the hero's single picture on a flat ground" }
+   ],
+   "kinds": ["software", "service", "editorial"],
+   "weight": { "software": 2, "service": 1, "editorial": 1 },
+   "heroTemplates": ["centred", "statement", "plate"],
+   "technique": "image",
+   "oneEffect": false,
+   "interaction": "each piece pops in once on load (the hero's entrance); the pointer shifts the clusters (about 7px) and the pieces (16px) by their depth; a piece under the pointer hops 8px; nothing moves by itself",
+   "still": "the markup: both clusters and the pieces in their declared slots",
+   "perf": { "cost": "low", "contexts": 0, "js": "about 2 KB", "render": "transforms on pointer move only" },
+   "needs": [],
+   "subjects": { "required": false, "words": ["consumer", "friendly", "kids", "children", "family", "teen", "teenagers", "wallet", "savings", "learning", "school", "community", "health", "pets", "games", "play", "onboarding"] },
+   "variants": { "flat": "flat vector characters (Family)", "clay": "soft 3D clay characters (Clay)" },
+   "mount": {
+    "markup": "<div class=\"rr rr--illustration-scene rr--layer\" data-recipe=\"illustration-scene\" role=\"img\" aria-label=\"..\"><img class=\"rr-is__cluster rr-is__cluster--l\" data-rr-slot=\"cluster\" src=\"..\" alt=\"\"><img class=\"rr-is__cluster rr-is__cluster--r\" data-rr-slot=\"cluster\" src=\"..\" alt=\"\"><img class=\"rr-is__piece\" data-rr-slot=\"piece\" src=\"..\" alt=\"\"> ×0-4</div>",
+    "slots": { "centred": "the hero's layer, no .hero__window", "statement": "the hero's layer", "plate": "in .hero__plate: one scene, the clusters at the plate's sides" }
+   },
+   "assets": [
+    { "slot": "cluster", "kind": "illustration", "style": "flat-illustration", "prompt": "A tall cluster of three or four friendly characters and the objects of {world} that {product} helps {audience} with (coins, keys, a phone, plants, stars), tightly grouped, simple faces with dot eyes, bold flat shapes in a set of colours that sit beside {palette}, no outlines, no text. Joyful.", "count": 2, "ratio": "4:5", "transparent": true, "optional": false },
+    { "slot": "piece", "kind": "illustration", "style": "flat-illustration", "prompt": "One small object or character from the same set as the clusters for {product}: a coin, a star, a heart or a tiny creature, centred, the same flat shapes and colours beside {palette}, no outline, no text. Joyful.", "count": 4, "ratio": "1:1", "transparent": true, "optional": true }
+   ],
+   "demo": "assets/layout/recipes/illustration-scene/recipe.html"
+  },
+  {
+   "id": "shader-light",
+   "name": "Abstract shader light or glow",
+   "idea": "A single abstract light (soft bars, a ring, a beam) behind the words on a dark page: the brand's mood when the product has no picture of its own to lead with.",
+   "refs": [
+    { "name": "Raycast", "file": "references/visual/hero/raycast-fold.jpg", "motion": "references/visual/hero/raycast-motion.jpg", "take": "soft diagonal bars of one colour on near-black, the words on the light's calm middle" },
+    { "name": "Reflect", "file": "references/visual/hero/reflect-fold.jpg", "motion": "references/visual/hero/reflect-motion.jpg", "take": "a ring of light rising from the hero's foot under centred words, the product's window coming out of it" },
+    { "name": "Lovable", "file": "references/visual/hero/lovable-hero.jpg", "take": "one wash of colour as the ground under a centred prompt" }
+   ],
+   "kinds": ["software"],
+   "weight": { "software": 1 },
+   "heroTemplates": ["centred", "statement", "word"],
+   "technique": "webgl",
+   "oneEffect": true,
+   "interaction": "the light leans up to 14px toward the pointer; it moves slowly by itself (the effect's own motion) with the kit's pause button; system.js mounts it",
+   "still": "the kit's own: one still frame under reduced motion, baked on a phone, its CSS picture without WebGL (assets/effects fx.js)",
+   "perf": { "cost": "medium", "contexts": 1, "js": "assets/effects/fx.js (the kit's, already loaded by system.js)", "render": "the effect's own budget (effects-usage.md Motion and cost)" },
+   "needs": [],
+   "subjects": { "required": false, "words": ["developer", "launcher", "productivity", "ai", "api", "terminal", "notes", "focus", "mac", "desktop"] },
+   "variants": { "bars": "data-fx=\"soft-light-bars\" (Raycast)", "ring": "data-fx=\"orb-sphere\" (Reflect)", "beam": "data-fx=\"spotlight-cone\"", "curtains": "data-fx=\"aurora-curtains\" (a dark page)", "rays": "data-fx=\"god-rays\" (a dark page)" },
+   "mount": {
+    "markup": "<div class=\"rr rr--shader-light rr--layer\" data-recipe=\"shader-light\" data-rr-variant=\"bars\" role=\"img\" aria-label=\"..\" data-fx=\"soft-light-bars\" data-fx-seed=\"4\" data-fx-params='{\"calmX\":0.5,\"calmY\":0.3}'></div>",
+    "slots": { "centred": "the hero's layer (first child of the section) or, with a window, the .hero__window's data-fx", "statement": "the hero's layer", "word": "the hero's layer" },
+    "rule": "the page's one effect: effects.mjs deals nothing else; never on a page whose product, device or game world can be shown (the subject before the effect)"
+   },
+   "assets": [],
+   "demo": "assets/layout/recipes/shader-light/recipe.html"
+  },
+  {
+   "id": "globe-orbit",
+   "name": "Globe with routes and orbiting objects",
+   "idea": "A globe rising from the hero's foot with the routes the product really runs and the objects that travel them circling in front.",
+   "refs": [
+    { "name": "Wise", "file": "references/visual/hero/wise-fold.jpg", "motion": "references/visual/hero/wise-motion.jpg", "take": "a bold centred h1 over a big globe cut by the fold, a few objects (coins) floating in front of it" }
+   ],
+   "kinds": ["software", "tech"],
+   "weight": { "software": 2, "tech": 1 },
+   "heroTemplates": ["plate", "centred", "statement", "split", "product"],
+   "technique": "three",
+   "oneEffect": true,
+   "interaction": "a drag spins it with a little inertia; the pointer tips it 0.12 rad; it turns slowly by itself on tech with the kit's pause button; a light travels each route; the objects swing on arcs in front of the upper globe",
+   "still": "an SVG of the facing half (the sea in the accent, the land in dots, the routes) with the objects in their declared slots",
+   "perf": { "cost": "medium", "contexts": 1, "js": "three 0.170.0, lazy; the land dots are sampled once (about 42,000 tests, 60 ms)", "render": "50 fps while turning and on screen" },
+   "needs": [],
+   "subjects": { "required": true, "words": ["worldwide", "global", "international", "countries", "abroad", "currencies", "currency", "payments", "transfer", "send money", "remittance", "shipping", "logistics", "freight", "travel", "network", "regions", "cross-border", "suppliers abroad", "export", "import"] },
+   "variants": { "rise": "the top of the globe over the fold (default)", "whole": "the whole globe centred (split)" },
+   "mount": {
+    "markup": "<div class=\"rr rr--globe-orbit\" data-recipe=\"globe-orbit\" data-rr-center=\"12,30\" data-rr-routes='[[-0.1,51.5,72.9,19.1]]' role=\"img\" aria-label=\"..\"><div class=\"rr-still\" data-rr-draw></div><img class=\"rr-go__obj\" data-rr-slot=\"object\" src=\"..\" alt=\"\"> ×0-3</div>",
+    "slots": { "plate": "in .hero__plate", "centred": "in .hero__window", "statement": "add rr--layer: the hero's layer, the globe under the words", "split": "in .hero__media with data-rr-place=\"whole\"", "product": "in .hero__stage" },
+    "routes": "lon, lat to lon, lat: only routes the brief names (its countries, its corridors)"
+   },
+   "assets": [
+    { "slot": "object", "kind": "cutout", "style": "3d-render-glossy", "prompt": "One object that travels with {product} for {audience} (a blank embossed coin, a sealed parcel, an unprinted card or a small plane), alone and whole, three-quarter view, soft studio light from the upper left, glossy material in colours that sit beside {palette}, crisp edges, no shadow, no marks, no text. Bright.", "count": 3, "ratio": "1:1", "transparent": true, "optional": true }
+   ],
+   "demo": "assets/layout/recipes/globe-orbit/recipe.html"
+  },
+  {
+   "id": "output-stack",
+   "name": "A stack of the product's outputs",
+   "idea": "The product's results dealt like a deck: one finished output on top, the next ones waiting behind it, the visitor flicking through.",
+   "refs": [
+    { "name": "Recraft", "file": "references/visual/hero/recraft-fold.jpg", "motion": "references/visual/hero/recraft-motion.jpg", "take": "one generated output large in the hero, the next ones a step away, arrows to flick" },
+    { "name": "Krea", "file": "references/visual/hero/krea-hero.jpg", "take": "the outputs as the hero's picture on a dark ground" },
+    { "name": "Audienceful", "file": "references/visual/hero/audienceful-hero.jpg", "take": "several outputs stacked in depth under the words" }
+   ],
+   "kinds": ["software", "service", "editorial"],
+   "weight": { "software": 2, "service": 2, "editorial": 1 },
+   "heroTemplates": ["split", "masthead", "plate", "triptych", "collage"],
+   "technique": "css",
+   "oneEffect": false,
+   "interaction": "next and previous buttons (44px), a 60px drag on the top card and the arrow keys deal the next one, the count reads 02 / 05; on software the stack deals itself every 3.2 s while on screen (a card loop: it holds on hover and focus, with the kit's pause button); on service and editorial only the visitor deals it",
+   "still": "the markup: the first output on top, three behind it",
+   "perf": { "cost": "low", "contexts": 0, "js": "about 3 KB", "render": "transforms and opacity" },
+   "needs": ["photo"],
+   "subjects": { "required": true, "words": ["image", "images", "photo", "photos", "photograph", "video", "design", "designs", "generate", "generated", "render", "renders", "template", "templates", "create", "poster", "posters", "portfolio", "prints", "covers", "issues", "outputs", "voices", "logos", "illustrations"] },
+   "variants": {},
+   "mount": {
+    "markup": "<div class=\"rr rr--output-stack\" data-recipe=\"output-stack\" role=\"group\" aria-roledescription=\"stack\" aria-label=\"..\"><figure class=\"rr-os__card\"><img data-rr-slot=\"output\" src=\"..\" alt=\"what it shows\"></figure> ×3-6 <div class=\"rr-os__ctl\">..prev, count, next..</div></div>",
+    "slots": { "split": "in .hero__media", "masthead": "in .hero__media (columns 5-12)", "plate": "in .hero__plate", "triptych": "in the centre .ly-tri__panel", "collage": "in .hero__art" },
+    "rule": "every output real or made by the product for this page's world; a studio's stack is its own work, each with an alt that says what it is"
+   },
+   "assets": [
+    { "slot": "output", "kind": "photo", "style": "editorial-photo", "prompt": "One finished output {product} makes for {audience}: a polished picture of {world}, in its own setting and light (the five of the set differ: a studio ground, a room, outdoors, a close-up, a flat lay), upright, colours that sit beside {palette}, no text, no logo. Accomplished.", "count": 5, "ratio": "4:5", "transparent": false, "optional": false }
+   ],
+   "demo": "assets/layout/recipes/output-stack/recipe.html"
+  },
+  {
+   "id": "prompt-demo",
+   "name": "The product's input, working in the hero",
+   "idea": "The product's own prompt box in the hero: the visitor types (or picks an example) and gets the client's real answer under it.",
+   "refs": [
+    { "name": "Lovable", "file": "references/visual/hero/lovable-hero.jpg", "take": "one prompt box as the hero's picture, centred under the words" },
+    { "name": "Perplexity", "file": "references/visual/hero/perplexity-hero.jpg", "take": "the question field as the first thing to use" },
+    { "name": "Fruitful", "file": "references/visual/hero/fruitful-hero.jpg", "take": "a field and example chips under a calm centred h1" }
+   ],
+   "kinds": ["software"],
+   "weight": { "software": 2 },
+   "heroTemplates": ["centred", "plate", "split", "collage"],
+   "technique": "css",
+   "oneEffect": false,
+   "interaction": "the visitor types and presses Enter (or the send button, or an example chip) and the matching answer streams in under the field; while untouched on software the field types the examples in turn and answers them (it holds on hover and focus, with the kit's pause button); nothing is sent anywhere",
+   "still": "the markup at rest: the first example asked and its answer shown",
+   "perf": { "cost": "low", "contexts": 0, "js": "about 4 KB", "render": "text only" },
+   "needs": [],
+   "subjects": { "required": true, "words": ["ai", "assistant", "chat", "agent", "agents", "ask", "question", "questions", "answer", "answers", "search", "prompt", "copilot", "generate", "write", "query", "support"] },
+   "variants": {},
+   "mount": {
+    "markup": "<div class=\"rr rr--prompt-demo\" data-recipe=\"prompt-demo\" role=\"group\" aria-label=\"..\"><div class=\"rr-pd__box\"><label class=\"rr-pd__label\" for=\"pd-q\">..</label><textarea id=\"pd-q\" class=\"rr-pd__q\" rows=\"1\">..</textarea><div class=\"rr-pd__bar\">..chip, send..</div></div><div class=\"rr-pd__ex\"><button type=\"button\" class=\"rr-pd__eg\" data-q=\"..\">..</button> ×3</div><div class=\"rr-pd__out\" aria-live=\"polite\">..</div><template data-rr-answer=\"keywords\">..</template> ×3</div>",
+    "slots": { "centred": "in .hero__window (its fade is taken off)", "plate": "in .hero__plate (a lit plate on tech)", "split": "in .hero__media", "collage": "in .hero__art" },
+    "rule": "the answers are the client's real examples on sample data marked as such in the label; the hero's primary button stays in the h1 block"
+   },
+   "assets": [],
+   "demo": "assets/layout/recipes/prompt-demo/recipe.html"
+  },
+  {
+   "id": "product-ui",
+   "name": "The product's UI, cropped, zoomed or angled",
+   "idea": "The client's own window as live HTML, framed three ways. ONE recipe among many: the dealer keeps it to about one page in five.",
+   "refs": [
+    { "name": "Linear", "file": "references/visual/hero/linear-fold.jpg", "motion": "references/visual/hero/linear-motion.jpg", "take": "the app window under the words, cut by the hero's foot, the work in its top left" },
+    { "name": "Stacks", "file": "references/visual/hero/stacks-fold.jpg", "take": "one window on a soft plate, the workflow in it readable" },
+    { "name": "Attio", "file": "references/visual/hero/attio-hero.jpg", "take": "the window coming into view as a detail first" }
+   ],
+   "kinds": ["software", "tech"],
+   "weight": { "software": 3, "tech": 1 },
+   "heroTemplates": ["collage", "centred", "plate", "split", "masthead", "triptych", "product"],
+   "technique": "css",
+   "oneEffect": false,
+   "interaction": "cropped: the window's own steps only (data-ly-steps, layout.js); zoomed: one region at 1.6x (data-rr-focus), the whole window coming into view as the hero scrolls away; angled: the window lies back 24 degrees and stands up once on load (1.1 s), then rests flat",
+   "still": "the window at rest in its slot (zoomed: on its region)",
+   "perf": { "cost": "low", "contexts": 0, "js": "about 2 KB", "render": "one transform" },
+   "needs": ["ui"],
+   "subjects": { "required": false, "words": [] },
+   "variants": { "cropped": "64px in from the frame's left and top, cut by its right and bottom (default)", "zoomed": "a region at 1.6x, scroll to see the whole", "angled": "stands up from lying back on load; flat at rest (house rule 5)" },
+   "mount": {
+    "markup": "<div class=\"rr rr--product-ui\" data-recipe=\"product-ui\" data-rr-variant=\"cropped\" role=\"img\" aria-label=\"..\"><div class=\"rr-pu__win d-win\" aria-hidden=\"true\">..the window..</div></div>",
+    "slots": { "collage": "in .hero__art", "centred": "in .hero__window", "plate": "in .hero__plate (lit)", "split": "in .hero__media", "masthead": "in .hero__art (columns 5-12)", "triptych": "in the centre .ly-tri__panel", "product": "in .hero__stage" },
+    "rule": "the window shows what the product works on (a code-review tool: its diff), with the client's names and numbers; cards.md and assets/ui fragments"
+   },
+   "assets": [],
+   "demo": "assets/layout/recipes/product-ui/recipe.html"
+  },
+  {
+   "id": "scan-canvas",
+   "name": "Live scan or data reading over the client's scene",
+   "idea": "The product reading the world: the client's scene with its boxes, labels, ruler and readout drawn over it, found one after another.",
+   "refs": [
+    { "name": "Scale", "file": "references/visual/hero/scale-fold.jpg", "motion": "references/visual/hero/scale-motion.jpg", "take": "footage in a frame with a tick ruler on its edge, detection boxes and labels found on it, the words calm above" }
+   ],
+   "kinds": ["software", "tech"],
+   "weight": { "software": 1, "tech": 2 },
+   "heroTemplates": ["plate", "film", "split", "product"],
+   "technique": "canvas",
+   "oneEffect": true,
+   "interaction": "the boxes are found one after another and held (a 6 s cycle with the kit's pause button); a crosshair follows the pointer with its coordinates on the picture; a film plays muted under it on tech",
+   "still": "every box drawn once on the picture (the same canvas, one frame); on kind other the picture alone",
+   "perf": { "cost": "low", "contexts": 0, "js": "about 4 KB", "render": "one 2D canvas at 30 fps while on screen" },
+   "needs": ["photo"],
+   "subjects": { "required": true, "words": ["vision", "detection", "detect", "camera", "cameras", "inspection", "label", "labelling", "annotation", "count", "counts", "traffic", "autonomous", "robot", "robotics", "safety", "security", "quality", "satellite", "imaging", "sports analytics", "retail analytics", "evaluation", "sensor", "lidar"] },
+   "variants": { "photo": "a still photograph under the reading (default)", "film": "the client's film under it (tech)" },
+   "mount": {
+    "markup": "<div class=\"rr rr--scan-canvas\" data-recipe=\"scan-canvas\" data-rr-readout=\"..\" data-rr-boxes='[{\"x\":0.1,\"y\":0.4,\"w\":0.2,\"h\":0.3,\"label\":\"..\",\"p\":0.97}]' role=\"img\" aria-label=\"..\"><img class=\"rr-sc__media\" data-rr-slot=\"scene\" src=\"..\" alt=\"\"></div>",
+    "slots": { "plate": "in .hero__plate", "film": "in .hero__media (the cinema frame), the words box kept", "split": "in .hero__media", "product": "in .hero__stage" },
+    "boxes": "written by the agent after looking at the real picture: fractions of the picture, one box a real object the product reads"
+   },
+   "assets": [
+    { "slot": "scene", "kind": "photo", "style": "editorial-photo", "prompt": "A wide photograph of {world} as a fixed camera of {product} sees it: six to ten separate, countable things it reads (vehicles, people, parcels, plants, parts) with clear gaps between them, eye level or from a pole, even daylight, sharp throughout, colours that sit beside {palette}, no text or signs. Matter-of-fact.", "count": 1, "ratio": "16:9", "transparent": false, "optional": false },
+    { "slot": "film", "kind": "video", "style": "editorial-photo", "prompt": "A 6 to 12 second loop from a fixed camera over {world} for {product}: the things it reads moving through the frame, no cut, no text, even daylight. Matter-of-fact.", "count": 1, "ratio": "16:9", "transparent": false, "optional": true }
+   ],
+   "demo": "assets/layout/recipes/scan-canvas/recipe.html"
+  }
+ ],
+ "next": [
+  { "id": "sculpture", "refs": ["Krea (krea-hero.jpg)", "Perplexity (perplexity-hero.jpg)"], "idea": "a live chrome or clay object (a knot, a blob, or the client's logo extruded from its SVG) turning to the pointer; three.js with RoomEnvironment; a still rendered once to an image on phones" },
+  { "id": "photo-orbit", "refs": ["Flora (flora-fold.jpg)", "ElevenLabs (elevenlabs-hero.jpg)"], "idea": "six large framed photographs in declared slots round centred words, pointer parallax by depth; the studio's or the product's real outputs" },
+  { "id": "object-before-word", "refs": ["Airform (airform-hero.jpg)", "Oura (oura-hero.jpg)", "Infinite Machine (infinite-machine-fold.jpg)"], "idea": "the product cut-out standing in front of its giant name; the word spreads and the product rises as the hero scrolls away" },
+  { "id": "machine-lineup", "refs": ["Intrepid (intrepid-fold.jpg)"], "idea": "three or four of the client's machines in a row on a dark floor with an index (A01-A04); hover or focus an index lights its machine" },
+  { "id": "reel-viewfinder", "refs": ["Donprod (donprod-fold.jpg, donprod-motion.jpg)"], "idea": "a viewfinder of corner brackets over a vertical reel of the client's clips; the scroll runs the reel through the finder, the clip in it plays" },
+  { "id": "ascii-field", "refs": ["Griffin (griffin-hero.jpg)", "Scale (scale-motion.jpg)"], "idea": "a field of mono digits shaped as a horizon at the hero's foot, rippling under the pointer, one row reading a real figure; one 2D canvas" },
+  { "id": "screen-in-photo", "refs": ["Wand (wand-fold.jpg)", "Pliability (pliability-hero.jpg)"], "idea": "a photograph of the device in use with the product's live HTML screen mapped onto its screen (a CSS homography); needs a tilt-check exemption for a rotated quad" }
+ ]
+}

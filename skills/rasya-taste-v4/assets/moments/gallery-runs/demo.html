@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en" data-radius="soft" data-ground="sand">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gallery runs sideways · moment demo</title>
+<script>document.documentElement.classList.add('mo-js');setTimeout(()=>document.documentElement.classList.add('mo-safe'),2500)</script>
+<link rel="modulepreload" href="../moments.js"><link rel="modulepreload" href="../lib.js"><link rel="modulepreload" href="moment.js">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500&family=Hanken+Grotesk:wght@400;500&display=swap">
+<link rel="stylesheet" href="../../system.css">
+<link rel="stylesheet" href="../_demo/demo.css">
+<link rel="stylesheet" href="moment.css">
+<style>
+  :root { --p-bg: #f6f1e7; --p-surface: #ece5d6; --p-ink: #1d1b18; --p-muted: #625c52; --p-accent: #b4532a; --p-accent-ink: #ffffff; --p-action: #1d1b18; --p-action-ink: #f6f1e7;
+          --font-display: "Schibsted Grotesk", system-ui, sans-serif; --font-text: "Hanken Grotesk", system-ui, sans-serif; --display-weight: 400; }
+</style>
+</head>
+<body>
+<header class="demo-nav"><div class="container">
+  <a class="demo-nav__logo" href="#">Atelier Nord</a>
+  <nav class="demo-nav__links"><a href="#">Work</a><a href="#">Studio</a><a href="#">Journal</a><a href="#">Contact</a></nav>
+  <div class="demo-nav__actions"><a class="btn btn--secondary btn--sm" href="#">Sign in</a><a class="btn btn--primary btn--sm" href="#">Start a project</a></div>
+</div></header>
+<main>
+  <section class="section section--hero">
+    <div class="container demo-split">
+      <div class="section-head"><h1>Interiors that age well</h1><p>A studio of six in Rotterdam. We plan, draw and build homes and small hotels.</p><div class="btn-row"><a class="btn btn--primary" href="#">See the work</a></div></div>
+      <img class="demo-photo" src="../_demo/photo-1081.jpg" alt="A quiet street at dusk" width="1800" height="1200">
+    </div>
+  </section>
+  <section class="section" data-moment="gallery-runs">
+    <div class="container mo-gr__stage">
+      <div class="section-head"><h2>Rooms we finished this year</h2></div>
+      <div class="mo-gr__view"><div class="mo-gr__track">
+        <figure class="mo-gr__item"><img src="../_demo/photo-702-tall.jpg" alt="A mountain road above the tree line" width="1000" height="1400"></figure>
+        <figure class="mo-gr__item"><img src="../_demo/photo-1049-tall.jpg" alt="A rock off the coast at low tide" width="1000" height="1400"></figure>
+        <figure class="mo-gr__item"><img src="../_demo/photo-640.jpg" alt="Dunes at the end of the road" width="1800" height="1200"></figure>
+        <figure class="mo-gr__item"><img src="../_demo/photo-855.jpg" alt="A desk by a window" width="1800" height="1200"></figure>
+        <figure class="mo-gr__item"><img src="../_demo/photo-887.jpg" alt="A building facade in even light" width="1800" height="1200"></figure>
+        <figure class="mo-gr__item"><img src="../_demo/photo-1081.jpg" alt="A quiet street at dusk" width="1800" height="1200"></figure>
+      </div></div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container demo-split demo-split--flip">
+      <div class="section-head"><h2>Six people, one desk. <span class="muted">No hand-offs.</span></h2><p>The person who draws your kitchen is on site when it goes in.</p><a class="link" href="#">Read more</a></div>
+      <img class="demo-photo" src="../_demo/photo-887.jpg" alt="A building facade in even light" width="1800" height="1200">
+    </div>
+  </section>
+</main>
+<footer class="container demo-footer"><span>Atelier Nord · demo page for the moment “Gallery runs sideways” (rasya-taste-v4; needs the motion layer, assets/motion/scroll.js)</span><span>Photographs by Rodion Kutsaev, Roman Kraft, Julien Moreau, Dominik Schröder, Rosan Harmens and Sarah Bürvenich on Unsplash</span></footer>
+<!-- the motion layer (window.rtMotion: GSAP 3.13, ScrollTrigger, SplitText, Lenis) and then the moments loader -->
+<script src="../../motion/scroll.js" defer></script>
+<script type="module" src="../moments.js"></script>
+</body>
+</html>

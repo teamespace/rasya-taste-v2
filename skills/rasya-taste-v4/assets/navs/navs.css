@@ -1,0 +1,572 @@
+/*
+  rasya-taste-v4 navs.css - the nav library (references/navs.md), dealt by scripts/nav.mjs. Link it once, in <head>
+  after assets/layout/layout.css, and load navs.js (defer) after assets/motion/scroll.js:
+      <link rel="stylesheet" href="assets/navs/navs.css">
+      <script src="assets/navs/navs.js" defer></script>
+
+  Twelve navs, each the kit's header.nav (its .wrap.nav__bar, .nav__logo, .nav__links > .nav__item > .nav__link,
+  .nav__actions, .nav__toggle and skip link, so system.js's phone sheet, Escape, aria-expanded and Lenis stop keep
+  working) with data-nav="<id>" on the header and its own children (.nv-*):
+    ruled         A1  ruled cells on the page's column lines; the cell of the section on screen takes the accent line
+    split-mark    A2  words left, the wordmark centred (2x), actions right; the word folds to its symbol past the hero
+    over-media    A3  18px bold words over a full-bleed photograph; solid past the hero; hides going down
+    pill          A4  the full .wrap at the top; collapses to a centred capsule once the page moves
+    dock          A5  the wordmark alone at the top; the words in a bottom dock (an accent tile, mono segments)
+    mono-strip    A6  mono caps 12px, a path after the logo that follows the section on screen; hides going down
+    corner-index  A7  three or four items pinned to the 12 columns, transparent at the top; solid when it comes back
+    preview-mega  A8  one word opens a panel on the bar's own ground with real product photographs
+    takeover      A9  logo, one status, the action and Menu; the menu is a full-screen page in the display face
+    rail          A10 numbered tabs in the left gutter; the tab of the section on screen fills with the accent
+    live          A11 one real datum in the bar (tabular mono, a dot), scrubbed by the section it belongs to
+    object        A12 the bar in the brand colour with an edge cut as a brand object (scallop, ticks, wave)
+
+  The shared contract (scripts/nav.mjs check, consistency.mjs nav-generic):
+    header.nav[data-nav="<id>"]      the bar; a kit nav dealt by nav.mjs carries data-nav="nav-mega|nav-cards|nav-centre|nav-split"
+    [data-nav-element]               the one brand-world element in the bar: datum, material or object
+    data-nav-scroll="..."            the scroll behaviours navs.js runs: section, solid, hide, pill
+    data-nav-menu="takeover|sheet|dock"   the designed phone menu (this file styles a library nav by this attribute)
+    is-scrolled                      the page has moved (y > 8)
+    is-solid                         past the hero: the nav's second state (a solid ground, a folded wordmark, the dock's CTA)
+    is-pill                          collapsed to the capsule (pill)
+    is-hidden                        hidden while the page scrolls down; back on the first move up
+    aria-current="location"          the link of the section on screen (navs.js)
+  Colours come only from the palette tokens (--p-* and the grounds system.css derives from them). No gradient, no
+  glass, no blur, no white border. Motion: transform, opacity and colour only, 200 to 450 ms; nothing loops; under
+  reduced motion every state is set with no transition.
+*/
+
+/* ---------------------------------------------------------------- shared */
+header.nav[data-nav-menu] {
+  --nv-dur: 320ms;
+  --nv-fast: 220ms;
+  --nv-ease: cubic-bezier(.2, .7, .2, 1);
+  --nv-hide: 0px;            /* the extra lift when hidden: an edge hanging under the bar */
+  transition: transform var(--nv-dur) var(--nv-ease), background-color var(--nv-dur) var(--nv-ease),
+              color var(--nv-dur) var(--nv-ease), border-color var(--nv-dur) var(--nv-ease);
+}
+/* hidden going down, never while it holds the focus, the pointer or the open menu (navs.js also checks) */
+header.nav[data-nav-menu].is-hidden:not(.is-open, :focus-within) { transform: translateY(calc(-100% - var(--nv-hide))); }
+
+/* the mono label type of the library (rule 3a: mono caps 11 to 13px, set tracking) */
+header.nav[data-nav-menu] .nv-mono { font: 500 12px/1 var(--font-mono); letter-spacing: .06em; text-transform: uppercase; font-variant-numeric: tabular-nums; }
+
+/* a datum: tabular mono with a still dot in the accent (never a pulse: nothing in the bar loops) */
+.nv-datum { display: inline-flex; align-items: center; gap: var(--s-2); white-space: nowrap; color: var(--ink);
+  font: 500 12px/1 var(--font-mono); letter-spacing: .04em; font-variant-numeric: tabular-nums; }
+.nv-datum b, .nv-datum time { font-weight: 500; }
+.nv-dot { flex: none; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+
+/* the section on screen (navs.js sets aria-current="location"): the kit's 2px bar under the word, unless the nav
+   draws its own; a kit nav dealt by nav.mjs (data-nav="nav-mega" ...) takes the same mark */
+header.nav[data-nav] .nav__link[aria-current="location"]::after {
+  content: ""; position: absolute; left: var(--s-3); right: var(--s-3); bottom: -2px; height: 2px; border-radius: 2px; background: currentColor;
+}
+
+/* over a full-bleed photograph (data-nav-over, desktop only: from 1023 down the kit's photograph sits under the bar):
+   no ground and no hairline until past the hero; the words in --nv-on (light by default, ink with data-nav-tone="dark").
+   No scrim, gradient or veil: the photograph's top must be calm (system.md, Colour) */
+header.nav[data-nav-over] { --nv-on: var(--p-inv-ink); }
+header.nav[data-nav-over][data-nav-tone="dark"] { --nv-on: var(--p-ink); }
+@media (min-width: 1024px) {
+  header.nav[data-nav-over]:not(.is-solid, .is-open) {
+    --ink: var(--nv-on); --muted: var(--nv-on);
+    --line: color-mix(in oklab, var(--nv-on) 30%, transparent); --line-strong: color-mix(in oklab, var(--nv-on) 55%, transparent);
+    background-color: transparent; border-bottom-color: transparent; color: var(--nv-on);
+  }
+}
+
+/* the menu button's word (takeover, corner-index): <button class="nav__toggle" data-nv-label="Menu" data-nv-label-open="Close">.
+   system.js swaps the icon inside; the word is drawn here, so it survives the swap. aria-label stays "Menu" */
+header.nav[data-nav-menu] .nav__toggle[data-nv-label]::after { content: attr(data-nv-label); }
+header.nav[data-nav-menu].is-open .nav__toggle[data-nv-label]::after { content: attr(data-nv-label-open); }
+
+/* ---------------------------------------------------------------- A1 ruled: the bar is the grid's first row */
+header.nav[data-nav="ruled"] { border-bottom-color: var(--line-strong); }
+header.nav[data-nav="ruled"] .nav__logo { font-size: 28px; }
+header.nav[data-nav="ruled"] .nav__link { font-size: 14px; font-weight: 400; }
+@media (min-width: 1024px) {
+  /* the page's 12 columns: the logo on 1-2, the ruled cells from the line of column 3, the actions on 9-12 */
+  header.nav[data-nav="ruled"] .nav__bar { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); align-items: stretch; }
+  header.nav[data-nav="ruled"] .nav__logo { grid-column: 1 / 3; align-self: center; justify-self: start; }
+  header.nav[data-nav="ruled"] .nav__links { grid-column: 3 / 9; gap: 0; border-left: 1px solid var(--line-strong); }
+  header.nav[data-nav="ruled"] .nav__item { height: 100%; border-right: 1px solid var(--line-strong); }
+  header.nav[data-nav="ruled"] .nav__link { height: 100%; padding: 0 var(--s-5); border-radius: 0; }
+  header.nav[data-nav="ruled"] .nav__link::before { display: none; }
+  header.nav[data-nav="ruled"] .nav__link:hover { background: color-mix(in oklab, var(--ink) 5%, transparent); }
+  header.nav[data-nav="ruled"] .nav__link[aria-current] { background: color-mix(in oklab, var(--ink) 4%, transparent); }
+  header.nav[data-nav="ruled"] .nav__link[aria-current]::after { left: 0; right: 0; bottom: 0; height: 2px; border-radius: 0; background: var(--accent); }
+  header.nav[data-nav="ruled"] .nav__actions { grid-column: 9 / -1; justify-self: stretch; justify-content: flex-end; align-self: stretch; gap: 0; border-left: 1px solid var(--line-strong); }
+  header.nav[data-nav="ruled"] .nav__actions > .nav__link { height: 100%; padding: 0 var(--s-5); border-left: 1px solid var(--line-strong); border-radius: 0; font-size: 14px; }
+  header.nav[data-nav="ruled"] .nav__actions > .nav__link::before { display: none; }
+  header.nav[data-nav="ruled"] .nav__actions > .nav__link:hover { background: color-mix(in oklab, var(--ink) 5%, transparent); }
+}
+@media (min-width: 1024px) and (max-width: 1279px) {
+  header.nav[data-nav="ruled"] .nav__link, header.nav[data-nav="ruled"] .nav__actions > .nav__link { padding: 0 var(--s-3); }
+}
+/* the action is the end cell: the bar's full height, square, over the bar's rule */
+header.nav[data-nav="ruled"]:not(.is-open) .nav__actions { align-self: stretch; }
+header.nav[data-nav="ruled"]:not(.is-open) .nav__actions .btn { height: calc(100% + 1px); margin-bottom: -1px; border-radius: 0; padding-inline: var(--s-5); font-size: 14px; gap: var(--s-3); }
+@media (max-width: 1023px) {
+  header.nav[data-nav="ruled"] .nav__bar { gap: 0; }
+  header.nav[data-nav="ruled"] .nav__logo { margin-right: auto; }
+  header.nav[data-nav="ruled"]:not(.is-open) .nav__actions .btn { height: calc(100% + 1px); padding-inline: var(--s-4); }
+  header.nav[data-nav="ruled"] .nav__toggle { width: var(--nav); height: var(--nav); margin-left: 0; border: 0; border-left: 1px solid var(--line-strong); border-radius: 0; }
+  header.nav[data-nav="ruled"].is-open .nav__item { border-bottom-color: var(--line-strong); }
+}
+
+/* ---------------------------------------------------------------- A2 split-mark: the masthead */
+/* the header carries the kit's nav--split as well (words left, the name on the centre line, actions right) */
+header.nav[data-nav="split-mark"] { border-bottom-color: transparent; }
+header.nav[data-nav="split-mark"].is-solid { border-bottom-color: var(--line); }
+header.nav[data-nav="split-mark"] .nav__logo { gap: var(--s-3); font: 500 30px/1 var(--font-display); letter-spacing: -0.02em; }
+header.nav[data-nav="split-mark"] .nav__logo .nv-caps { letter-spacing: .16em; text-transform: uppercase; margin-right: -.16em; }
+header.nav[data-nav="split-mark"] .nv-symbol { width: 28px; height: 28px; transition: transform var(--nv-dur) var(--nv-ease); }
+header.nav[data-nav="split-mark"] .nv-word { display: inline-block; transition: opacity var(--nv-fast) var(--nv-ease), transform var(--nv-dur) var(--nv-ease); }
+/* past the hero the word folds away and the symbol moves to the centre line (navs.js measures --nv-fold) */
+header.nav[data-nav="split-mark"].is-solid .nv-word { opacity: 0; transform: translateY(-6px); }
+header.nav[data-nav="split-mark"].is-solid .nv-symbol { transform: translateX(var(--nv-fold, 0px)) scale(1.18); }
+header.nav[data-nav="split-mark"] .nav__link { font-size: 13px; letter-spacing: .01em; }
+@media (max-width: 1023px) {
+  header.nav[data-nav="split-mark"] .nav__logo { font-size: 22px; gap: var(--s-2); }
+  header.nav[data-nav="split-mark"] .nv-symbol { width: 22px; height: 22px; }
+  header.nav[data-nav="split-mark"].is-solid .nv-word { opacity: 1; transform: none; }
+  header.nav[data-nav="split-mark"].is-solid .nv-symbol { transform: none; }
+}
+
+/* ---------------------------------------------------------------- A3 over-media: big words over the photograph */
+header.nav[data-nav="over-media"] .nav__logo { font: 700 32px/1 var(--font-display); letter-spacing: -0.03em; }
+header.nav[data-nav="over-media"] .nav__actions { gap: var(--s-5); }
+@media (min-width: 1024px) {
+  header.nav[data-nav="over-media"] .nav__bar { gap: var(--s-6); }
+  header.nav[data-nav="over-media"] .nav__links { justify-content: flex-end; gap: var(--s-2); }
+  header.nav[data-nav="over-media"] .nav__link { font-size: 18px; font-weight: 600; letter-spacing: -0.01em; }
+}
+@media (max-width: 639px) { header.nav[data-nav="over-media"] .nav__logo { font-size: 24px; } }
+
+/* ---------------------------------------------------------------- A4 pill: the bar collapses to a capsule */
+/* the header carries the kit's nav--centre as well (the words on the page's axis) */
+header.nav[data-nav="pill"] { background-color: transparent; border-bottom-color: transparent; pointer-events: none; }
+header.nav[data-nav="pill"] .nav__bar { position: relative; pointer-events: none; }
+header.nav[data-nav="pill"] .nav__bar > :not(.skip-link) { position: relative; z-index: 1; pointer-events: auto; }
+header.nav[data-nav="pill"] .nav__logo { font: 600 28px/1 var(--font-display); }
+header.nav[data-nav="pill"] .nav__link { font-size: 14px; border-radius: 999px; }
+header.nav[data-nav="pill"] .nav__link::before { display: none; }
+header.nav[data-nav="pill"] .nav__link:hover { background: color-mix(in oklab, var(--ink) 7%, transparent); }
+header.nav[data-nav="pill"] .nav__link[aria-current] { background: color-mix(in oklab, var(--ink) 10%, transparent); }
+header.nav[data-nav="pill"] .nav__link[aria-current]::after { display: none; }
+/* the capsule: one solid shape of the surface, a soft shadow, no border, no blur */
+header.nav[data-nav="pill"] .nav__bar::before {
+  content: ""; position: absolute; z-index: 0; top: var(--s-2); bottom: var(--s-2);
+  left: calc(50% - var(--nv-pill-w, 100%) / 2); width: var(--nv-pill-w, 100%);
+  border-radius: 999px; background: var(--surface);
+  box-shadow: 0 12px 32px -14px color-mix(in oklab, var(--p-ink) 32%, transparent);
+  opacity: 0; transform: scale(1.03); transition: opacity var(--nv-dur) var(--nv-ease), transform 450ms var(--nv-ease);
+}
+header.nav[data-nav="pill"].is-pill .nav__bar::before { opacity: 1; transform: none; }
+header.nav[data-nav="pill"] .nv-count { display: inline-flex; align-items: center; gap: var(--s-2); height: 32px; padding: 0 var(--s-3); border-radius: 999px;
+  background: color-mix(in oklab, var(--accent) 14%, var(--bg)); }
+@media (min-width: 1024px) {
+  header.nav[data-nav="pill"] .nav__logo, header.nav[data-nav="pill"] .nav__actions { transition: transform 450ms var(--nv-ease); }
+  header.nav[data-nav="pill"].is-pill .nav__logo { transform: translateX(var(--nv-shift-l, 0px)); }
+  header.nav[data-nav="pill"].is-pill .nav__actions { transform: translateX(calc(-1 * var(--nv-shift-r, 0px))); }
+}
+/* a tablet and a phone: always the capsule, 12px past the .wrap's lines, so the logo and the button keep them */
+@media (max-width: 1023px) {
+  header.nav[data-nav="pill"] .nav__bar::before { left: calc(-1 * var(--s-3)); width: calc(100% + 2 * var(--s-3)); opacity: 1; transform: none; }
+  header.nav[data-nav="pill"] .nav__toggle { border-radius: 999px; border-color: transparent; background: color-mix(in oklab, var(--ink) 7%, transparent); }
+  header.nav[data-nav="pill"] .nav__logo { font-size: 22px; padding-left: var(--s-1); }
+}
+
+/* ---------------------------------------------------------------- A5 dock: the words where the thumb is */
+header.nav[data-nav="dock"] { background-color: transparent; border-bottom-color: transparent; pointer-events: none; }
+header.nav[data-nav="dock"] .nav__bar { pointer-events: none; }
+header.nav[data-nav="dock"] .nav__bar > :not(.skip-link), header.nav[data-nav="dock"] .nv-dockbar > * { pointer-events: auto; }
+header.nav[data-nav="dock"] .nav__logo { font: 500 28px/1 var(--font-display); }
+header.nav[data-nav="dock"] :is(.nav__logo, .nav__actions) {
+  transition: opacity var(--nv-fast) var(--nv-ease), transform var(--nv-dur) var(--nv-ease), visibility 0s linear 0s;
+}
+header.nav[data-nav="dock"] .nav__actions .btn { font-family: var(--font-mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; }
+/* past the hero the top row folds away (nothing transparent lies over the content) and the dock takes the action */
+@media (min-width: 640px) {
+  header.nav[data-nav="dock"].is-solid:not(.is-open) :is(.nav__logo, .nav__actions) {
+    opacity: 0; transform: translateY(-12px); visibility: hidden;
+    transition: opacity var(--nv-fast) var(--nv-ease), transform var(--nv-dur) var(--nv-ease), visibility 0s linear var(--nv-dur);
+  }
+  header.nav[data-nav="dock"] .nav__links {
+    display: flex; position: fixed; z-index: 2; left: 50%; bottom: calc(var(--s-4) + env(safe-area-inset-bottom)); transform: translateX(-50%);
+    flex: none; align-self: auto; height: 44px; gap: var(--s-1);
+  }
+  header.nav[data-nav="dock"] .nav__actions { display: flex; margin-left: auto; }
+  header.nav[data-nav="dock"] .nav__actions > * { display: inline-flex; }
+  header.nav[data-nav="dock"] .nav__toggle { display: none; }
+  header.nav[data-nav="dock"] .nv-tile { display: grid; place-items: center; width: 52px; height: 44px; border-radius: var(--r-md); background: var(--accent); color: var(--accent-ink); }
+  header.nav[data-nav="dock"] .nv-tile .mark { width: 22px; height: 22px; background: currentColor; }
+  header.nav[data-nav="dock"] .nv-seg { display: flex; align-items: center; gap: 2px; height: 44px; padding: 0 var(--s-1); border-radius: var(--r-md); background: var(--p-inv-bg); }
+  header.nav[data-nav="dock"] .nv-seg .nav__item { height: auto; }
+  header.nav[data-nav="dock"] .nv-seg .nav__link {
+    height: 36px; padding: 0 var(--s-3); border-radius: calc(var(--r-md) - 4px); color: var(--p-inv-ink);
+    font: 500 12px/1 var(--font-mono); letter-spacing: .06em; text-transform: uppercase;
+  }
+  header.nav[data-nav="dock"] .nv-seg .nav__link::before, header.nav[data-nav="dock"] .nv-seg .nav__link::after { display: none; }
+  header.nav[data-nav="dock"] .nv-seg .nav__link:hover { background: color-mix(in oklab, var(--p-inv-ink) 14%, transparent); }
+  header.nav[data-nav="dock"] .nv-seg .nav__link[aria-current] { background: var(--p-inv-ink); color: var(--p-inv-bg); }
+  /* the dock's action: off until the top row folds away, so a screen never shows it twice */
+  header.nav[data-nav="dock"] .nv-dock-cta {
+    position: absolute; left: calc(100% + var(--s-1)); top: 0; height: 44px; padding-inline: var(--s-4);
+    font-family: var(--font-mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase;
+    opacity: 0; transform: translateX(-8px); visibility: hidden;
+    transition: opacity var(--nv-fast) var(--nv-ease), transform var(--nv-dur) var(--nv-ease), visibility 0s linear var(--nv-dur), background-color var(--dur) var(--ease);
+  }
+  header.nav[data-nav="dock"].is-solid .nv-dock-cta { opacity: 1; transform: none; visibility: visible; transition-delay: 0s; }
+}
+@media (max-width: 639px) {
+  header.nav[data-nav="dock"] .nav__logo { font-size: 22px; }
+  header.nav[data-nav="dock"] :is(.nv-tile, .nv-dock-cta) { display: none; }
+  header.nav[data-nav="dock"].is-open .nv-seg { display: contents; }
+}
+
+/* ---------------------------------------------------------------- A6 mono-strip: the label strip */
+header.nav[data-nav="mono-strip"] .nav__bar { gap: var(--s-4); }
+header.nav[data-nav="mono-strip"] .nav__logo { font-size: 22px; }
+header.nav[data-nav="mono-strip"] .nv-path { display: inline-flex; align-items: center; gap: var(--s-3); white-space: nowrap; color: var(--muted);
+  font: 500 12px/1 var(--font-mono); letter-spacing: .06em; text-transform: uppercase; }
+header.nav[data-nav="mono-strip"] .nv-path [data-nav-path] { color: var(--ink); min-width: 10ch; }
+header.nav[data-nav="mono-strip"] :is(.nav__link, .nav__actions .btn) { font: 500 12px/1 var(--font-mono); letter-spacing: .06em; text-transform: uppercase; }
+@media (min-width: 1024px) {
+  header.nav[data-nav="mono-strip"] .nav__links { gap: 2px; margin-left: var(--s-4); }
+  header.nav[data-nav="mono-strip"] .nav__link { height: 32px; padding: 0 var(--s-3); border-radius: var(--r-sm); }
+  header.nav[data-nav="mono-strip"] .nav__link::before, header.nav[data-nav="mono-strip"] .nav__link::after { display: none; }
+  header.nav[data-nav="mono-strip"] .nav__link:hover { background: var(--ink); color: var(--bg); }
+  header.nav[data-nav="mono-strip"] .nav__link[aria-current] { background: color-mix(in oklab, var(--accent) 18%, transparent); color: var(--ink); }
+  header.nav[data-nav="mono-strip"] .nav__actions { gap: var(--s-2); }
+  header.nav[data-nav="mono-strip"] .nav__actions > .nav__link { padding: 0 var(--s-3); background: color-mix(in oklab, var(--accent) 16%, transparent); color: var(--ink); }
+  header.nav[data-nav="mono-strip"] .nav__actions > .nav__link:hover { background: color-mix(in oklab, var(--accent) 28%, transparent); color: var(--ink); }
+}
+@media (min-width: 1024px) and (max-width: 1279px) {
+  header.nav[data-nav="mono-strip"] .nav__link { padding: 0 var(--s-2); }
+  header.nav[data-nav="mono-strip"] .nav__links { margin-left: 0; }
+}
+@media (max-width: 639px) { header.nav[data-nav="mono-strip"] .nv-path { display: none; } }
+
+/* ---------------------------------------------------------------- A7 corner-index: items pinned to the columns */
+header.nav[data-nav="corner-index"] { background-color: transparent; border-bottom-color: transparent; }
+header.nav[data-nav="corner-index"].is-solid { background-color: var(--bg); border-bottom-color: var(--line); }
+header.nav[data-nav="corner-index"] .nav__logo { font-size: 24px; }
+header.nav[data-nav="corner-index"] :is(.nav__link, .nav__actions .btn) { font: 500 13px/1.2 var(--font-mono); letter-spacing: .06em; text-transform: uppercase; }
+header.nav[data-nav="corner-index"] .nav__toggle { font: 500 13px/1 var(--font-mono); letter-spacing: .06em; text-transform: uppercase; }
+@media (min-width: 1024px) {
+  header.nav[data-nav="corner-index"] .nav__bar { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); }
+  header.nav[data-nav="corner-index"] .nav__logo { grid-column: 1 / 4; justify-self: start; }
+  header.nav[data-nav="corner-index"] .nav__links { grid-column: 4 / 10; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); column-gap: var(--gutter); align-items: center; }
+  header.nav[data-nav="corner-index"] .nav__item { grid-column: span 2; height: auto; }
+  header.nav[data-nav="corner-index"] .nav__link { height: 44px; padding: 0; border-radius: 0; }
+  /* hover strikes the word through from the left (the kit's line, moved to the middle) */
+  header.nav[data-nav="corner-index"] .nav__link::before { left: 0; right: 0; bottom: calc(50% - .5px); height: 1px; border-radius: 0; }
+  header.nav[data-nav="corner-index"] .nav__link[aria-current]::after { left: calc(-1 * var(--s-4)); right: auto; bottom: calc(50% - 3px); width: 6px; height: 6px; border-radius: 0; background: var(--accent); }
+  header.nav[data-nav="corner-index"] .nav__actions { grid-column: 10 / -1; justify-self: end; gap: var(--s-5); }
+}
+@media (min-width: 1024px) and (max-width: 1279px) {
+  header.nav[data-nav="corner-index"] .nav__links { grid-column: 4 / 9; display: flex; gap: var(--s-5); }
+  header.nav[data-nav="corner-index"] .nav__item { grid-column: auto; }
+  header.nav[data-nav="corner-index"] .nav__actions { grid-column: 9 / -1; gap: var(--s-4); }
+}
+
+/* ---------------------------------------------------------------- A8 preview-mega: the panel shows the products */
+/* the bar and its panel on one ground, a step off the page (the surface): the panel reads as the bar growing */
+header.nav[data-nav="preview-mega"] { --bg: var(--p-surface); --surface: var(--p-bg); background-color: var(--bg); border-bottom-color: transparent; }
+header.nav[data-nav="preview-mega"].is-scrolled { border-bottom-color: var(--line); }
+header.nav[data-nav="preview-mega"] .nav__logo { font: 600 28px/1 var(--font-display); }
+header.nav[data-nav="preview-mega"] .nav__link { font-size: 14px; }
+header.nav[data-nav="preview-mega"] .nv-new { display: inline-flex; align-items: center; gap: var(--s-2); height: 36px; padding: 0 var(--s-3) 0 4px; border-radius: 999px;
+  background: var(--surface); font-size: 13px; font-weight: 500; white-space: nowrap; transition: background-color var(--dur) var(--ease); }
+header.nav[data-nav="preview-mega"] .nv-new:hover { background: color-mix(in oklab, var(--ink) 9%, var(--surface)); }
+header.nav[data-nav="preview-mega"] .nv-new img { width: 28px; height: 28px; border-radius: 50%; object-fit: cover; }
+header.nav[data-nav="preview-mega"] .nv-card { display: grid; gap: var(--s-2); align-content: start; }
+header.nav[data-nav="preview-mega"] .nv-card__pic { display: block; overflow: hidden; border-radius: var(--r-md); background: var(--surface); }
+header.nav[data-nav="preview-mega"] .nv-card__pic img { width: 100%; aspect-ratio: 1; object-fit: cover; transition: transform 400ms var(--nv-ease); }
+header.nav[data-nav="preview-mega"] .nv-card:hover .nv-card__pic img { transform: scale(1.03); }
+header.nav[data-nav="preview-mega"] .nv-card b { font-weight: 500; font-size: 15px; }
+header.nav[data-nav="preview-mega"] .nv-card span { color: var(--muted); font-size: var(--t-small); }
+@media (min-width: 1024px) {
+  header.nav[data-nav="preview-mega"] .nav__links { gap: var(--s-1); }
+  header.nav[data-nav="preview-mega"] .nav__link .chev { width: 10px; height: 10px; opacity: .8; }
+  header.nav[data-nav="preview-mega"] :is(.nav__item:hover, .nav__item:focus-within, .nav__item.nv-force) > .nav__link .chev { transform: rotate(45deg); }
+  header.nav[data-nav="preview-mega"] .nav__menu { padding: var(--s-6) 0 var(--s-7); border-top-color: var(--line); }
+  header.nav[data-nav="preview-mega"] .nv-mega { align-items: start; }
+  header.nav[data-nav="preview-mega"] .nv-cards { display: contents; }
+  header.nav[data-nav="preview-mega"] .nv-card { grid-column: span 2; }
+  /* the page dims behind the open panel, with the panel's own 150ms of intent */
+  header.nav[data-nav="preview-mega"]::after {
+    content: ""; position: fixed; left: 0; right: 0; top: var(--nav); bottom: 0; z-index: -1; pointer-events: none;
+    background: color-mix(in oklab, var(--p-ink) 36%, transparent); opacity: 0; visibility: hidden;
+    transition: opacity 200ms var(--nv-ease), visibility 0s linear 200ms;
+  }
+  header.nav[data-nav="preview-mega"]:has(:is(.nav__item:hover, .nav__item:focus-within, .nav__item.nv-force) > .nav__menu):not(.nv-shut)::after {
+    opacity: 1; visibility: visible; transition: opacity 200ms var(--nv-ease) 150ms, visibility 0s linear 150ms;
+  }
+  header.nav[data-nav="preview-mega"] .nav__item.nv-force > .nav__menu { opacity: 1; visibility: visible; transform: none; transition: none; }
+  /* a scroll closes it (navs.js adds nv-shut until the pointer moves again) */
+  header.nav[data-nav="preview-mega"].nv-shut .nav__menu { opacity: 0 !important; visibility: hidden !important; transition: none !important; }
+}
+@media (max-width: 1023px) {
+  header.nav[data-nav="preview-mega"].is-open .nv-mega { display: flex; flex-direction: column; gap: var(--s-4); }
+  header.nav[data-nav="preview-mega"].is-open .nv-cards { display: flex; gap: var(--s-3); overflow-x: auto; scrollbar-width: none; padding-bottom: var(--s-2); }
+  header.nav[data-nav="preview-mega"].is-open .nv-card { flex: 0 0 140px; }
+  header.nav[data-nav="preview-mega"].is-open .nv-card b { font-size: 14px; }
+}
+
+/* ---------------------------------------------------------------- A9 takeover: the menu is a second hero */
+header.nav[data-nav="takeover"] { border-bottom-color: transparent; }
+header.nav[data-nav="takeover"].is-scrolled:not(.is-open) { border-bottom-color: var(--line); }
+header.nav[data-nav="takeover"] .nav__bar { gap: var(--s-4); }
+header.nav[data-nav="takeover"] .nav__logo { font: 600 28px/1 var(--font-display); margin-right: auto; }
+header.nav[data-nav="takeover"]:not(.is-open) .nav__links { display: none; }
+header.nav[data-nav="takeover"] .nav__actions { gap: var(--s-5); }
+header.nav[data-nav="takeover"] .nav__toggle {
+  display: inline-flex; align-items: center; gap: var(--s-2); width: auto; height: var(--btn-h); margin-left: 0; padding: 0 var(--s-4) 0 var(--s-3);
+  border: 1px solid var(--line-strong); border-radius: var(--r-btn); background: transparent; color: var(--ink); cursor: pointer;
+  font: 500 15px/1 var(--font-text); transition: background-color var(--dur) var(--ease), border-color var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+header.nav[data-nav="takeover"] .nav__toggle:hover { background: color-mix(in oklab, var(--ink) 6%, transparent); }
+header.nav[data-nav="takeover"] .nv-aside { display: none; }
+@media (min-width: 1024px) {
+  header.nav[data-nav="takeover"].is-open {
+    --bg: var(--p-inv-bg); --surface: var(--p-inv-surface); --ink: var(--p-inv-ink); --muted: var(--p-inv-muted);
+    --accent: var(--p-inv-accent); --accent-ink: var(--p-inv-accent-ink); --action: var(--p-inv-action); --action-ink: var(--p-inv-action-ink);
+    --line: color-mix(in oklab, var(--p-inv-ink) 16%, transparent); --line-strong: color-mix(in oklab, var(--p-inv-ink) 30%, transparent);
+    background-color: var(--bg); color: var(--ink); border-bottom-color: transparent;
+  }
+  header.nav[data-nav="takeover"].is-open .nav__bar > :is(.nav__logo, .nav__actions, .nav__toggle) { position: relative; z-index: 2; }
+  header.nav[data-nav="takeover"].is-open .nav__links {
+    display: grid; position: fixed; inset: 0; z-index: 1; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter);
+    align-content: end; padding: calc(var(--nav) + var(--s-8)) max(var(--gut), (100% - var(--container)) / 2) var(--s-9);
+    background: var(--bg); counter-reset: nv-item; overflow-y: auto; animation: nv-fade 320ms var(--nv-ease) both;
+  }
+  header.nav[data-nav="takeover"].is-open .nav__item {
+    grid-column: 1 / 9; display: grid; grid-template-columns: 64px minmax(0, 1fr); align-items: baseline; height: auto;
+    border-top: 1px solid var(--line); counter-increment: nv-item; animation: nv-rise 420ms var(--nv-ease) both;
+  }
+  header.nav[data-nav="takeover"].is-open .nav__item:last-of-type { border-bottom: 1px solid var(--line); }
+  header.nav[data-nav="takeover"].is-open .nav__item::before { content: counter(nv-item, decimal-leading-zero); font: 500 12px/1 var(--font-mono); letter-spacing: .06em; color: var(--muted); }
+  header.nav[data-nav="takeover"].is-open .nav__link {
+    height: auto; padding: var(--s-3) 0; border-radius: 0; white-space: normal; color: var(--ink);
+    font: var(--display-weight) clamp(40px, 3.6vw + 8px, 64px)/1.05 var(--font-display); letter-spacing: var(--display-tracking);
+  }
+  header.nav[data-nav="takeover"].is-open .nav__link::before { left: 0; right: auto; width: 100%; }
+  header.nav[data-nav="takeover"].is-open .nv-aside { display: grid; gap: var(--s-3); grid-column: 10 / -1; grid-row: 1 / span 6; align-self: end; animation: nv-rise 420ms var(--nv-ease) 160ms both; }
+  header.nav[data-nav="takeover"].is-open .nv-aside img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--r-lg); }
+  header.nav[data-nav="takeover"].is-open .nv-aside p { color: var(--muted); font-size: var(--t-small); }
+  :root:has(> body > header.nav[data-nav="takeover"].is-open) body { overflow: hidden; }
+}
+@media (max-width: 1023px) {
+  header.nav[data-nav="takeover"] .nav__toggle { padding: 0 var(--s-3); }
+  header.nav[data-nav="takeover"]:not(.is-open) .nav__actions { margin-left: 0; }
+}
+
+/* ---------------------------------------------------------------- A10 rail: the index in the left gutter */
+header.nav[data-nav="rail"] { --nv-rail: 56px; }
+header.nav[data-nav="rail"] .nav__logo { font: 500 28px/1 var(--font-display); }
+header.nav[data-nav="rail"] .nav__actions { margin-left: auto; }
+header.nav[data-nav="rail"] .nav__actions .btn { font-family: var(--font-mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; }
+@media (min-width: 1024px) {
+  /* the rail sits in the gutter left of the .wrap (80px at 1024 and up), 12px clear of the content's line */
+  header.nav[data-nav="rail"] .nav__links {
+    position: fixed; z-index: 2; top: calc(var(--nav) + var(--s-3)); bottom: var(--s-3);
+    left: calc(max(var(--gut), (100% - var(--container)) / 2) - var(--nv-rail) - var(--s-3));
+    width: var(--nv-rail); flex: none; flex-direction: column; gap: var(--s-1); align-self: auto; counter-reset: nv-item;
+  }
+  header.nav[data-nav="rail"] .nav__item { flex: 1 1 0; height: auto; min-height: 0; counter-increment: nv-item; }
+  header.nav[data-nav="rail"] .nav__link {
+    width: 100%; height: 100%; flex-direction: column; justify-content: space-between; align-items: center; gap: var(--s-2);
+    padding: var(--s-3) 0; border-radius: var(--r-md); background: color-mix(in oklab, var(--ink) 6%, var(--bg)); color: var(--ink);
+    font: 500 12px/1 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; white-space: nowrap;
+  }
+  /* the tab's number (the kit's hover line becomes the counter) and its word, read bottom to top */
+  header.nav[data-nav="rail"] .nav__link::before {
+    content: counter(nv-item, decimal-leading-zero); position: static; transform: none; height: auto; width: auto; background: none; border-radius: 0;
+    font: 500 11px/1 var(--font-mono); letter-spacing: .04em; color: inherit; opacity: .7;
+  }
+  header.nav[data-nav="rail"] .nav__link > span { writing-mode: vertical-rl; transform: rotate(180deg); }
+  header.nav[data-nav="rail"] .nav__link::after { display: none; }
+  header.nav[data-nav="rail"] .nav__link:hover { background: color-mix(in oklab, var(--ink) 12%, var(--bg)); }
+  header.nav[data-nav="rail"] .nav__link[aria-current] { background: var(--accent); color: var(--accent-ink); }
+}
+
+/* ---------------------------------------------------------------- A11 live: one real datum in the bar */
+header.nav[data-nav="live"] .nav__logo { font: 600 28px/1 var(--font-display); }
+header.nav[data-nav="live"] .nav__link { font-size: 14px; }
+header.nav[data-nav="live"] .nv-sig { display: inline-flex; align-items: center; gap: var(--s-2); height: 36px; padding: 0 var(--s-3); flex: none;
+  border-radius: var(--r-sm); background: color-mix(in oklab, var(--ink) 6%, var(--bg));
+  font: 500 13px/1 var(--font-mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+header.nav[data-nav="live"] .nv-sig [data-nav-datum] { display: inline-block; min-width: 2ch; text-align: right; }
+header.nav[data-nav="live"] .nv-sig .nv-unit { color: var(--muted); }
+/* the action carries the price in its own segment */
+header.nav[data-nav="live"] .nav__actions .nv-buy { gap: 0; padding: 0; overflow: hidden; }
+header.nav[data-nav="live"] .nv-buy .nv-price { align-self: stretch; display: grid; place-items: center; padding: 0 var(--s-3);
+  background: color-mix(in oklab, var(--action-ink) 16%, var(--action)); font-variant-numeric: tabular-nums; }
+header.nav[data-nav="live"] .nv-buy .nv-label { display: inline-flex; align-items: center; gap: var(--s-2); padding: 0 var(--s-4) 0 var(--s-3); }
+@media (min-width: 1024px) { header.nav[data-nav="live"] .nav__links { gap: var(--s-1); } }
+@media (max-width: 1023px) { header.nav[data-nav="live"] .nv-sig { margin-left: auto; } }
+
+/* ---------------------------------------------------------------- A12 object: the bar's edge is a brand object */
+header.nav[data-nav="object"] {
+  --bg: var(--p-accent); --ink: var(--p-accent-ink); --muted: color-mix(in oklab, var(--p-accent-ink) 82%, var(--p-accent));
+  --line: color-mix(in oklab, var(--p-accent-ink) 18%, transparent); --line-strong: color-mix(in oklab, var(--p-accent-ink) 34%, transparent);
+  --accent: var(--p-accent-ink); --accent-ink: var(--p-accent);
+  --action: var(--p-bg); --action-ink: var(--p-ink);   /* the one filled element: the page ground on the brand colour */
+  --nv-edge: 12px; --nv-hide: var(--nv-edge);
+  --nv-edge-shape: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='12'%3E%3Cpath d='M0 0h24a12 12 0 0 1-24 0z'/%3E%3C/svg%3E");
+  --nv-edge-size: 24px 12px;
+  background-color: var(--bg); color: var(--ink); border-bottom: 0;
+}
+header.nav[data-nav="object"][data-edge="ticks"] {
+  --nv-edge: 8px;
+  --nv-edge-shape: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='8'%3E%3Cpath d='M0 0h40v2H0z M3.5 0h1v5h-1z M11.5 0h1v5h-1z M19.5 0h1v8h-1z M27.5 0h1v5h-1z M35.5 0h1v5h-1z'/%3E%3C/svg%3E");
+  --nv-edge-size: 40px 8px;
+}
+header.nav[data-nav="object"][data-edge="wave"] {
+  --nv-edge: 10px;
+  --nv-edge-shape: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='10'%3E%3Cpath d='M0 0h40v4c-5 0-5 6-10 6s-5-6-10-6-5 6-10 6S5 4 0 4z'/%3E%3C/svg%3E");
+  --nv-edge-size: 40px 10px;
+}
+header.nav[data-nav="object"] .nv-edge {
+  position: absolute; left: 0; right: 0; top: 100%; height: var(--nv-edge); pointer-events: none;
+  background: var(--bg); -webkit-mask: var(--nv-edge-shape) 0 0 / var(--nv-edge-size) repeat-x; mask: var(--nv-edge-shape) 0 0 / var(--nv-edge-size) repeat-x;
+  transform-origin: 50% 0; transition: transform var(--nv-dur) var(--nv-ease);
+}
+/* the object answers the scroll in one way: the edge draws in to half its depth */
+header.nav[data-nav="object"].is-scrolled .nv-edge { transform: scaleY(.5); }
+header.nav[data-nav="object"] .nav__logo { font: 600 28px/1 var(--font-display); letter-spacing: -0.02em; }
+header.nav[data-nav="object"] .nav__link { font-size: 14px; }
+@media (min-width: 1024px) { header.nav[data-nav="object"] .nav__links { justify-content: flex-end; } }
+@media (max-width: 1023px) {
+  header.nav[data-nav="object"] .nav__toggle { border-color: var(--line-strong); color: var(--ink); }
+  /* the menu drops from the bar like an awning, on the brand colour, with the same edge at its foot */
+  header.nav[data-nav="object"][data-nav-menu].is-open .nav__links {
+    left: 0; right: 0; top: var(--nav); bottom: auto; max-height: calc(100svh - var(--nav) - 120px); border-radius: 0; box-shadow: none;
+    background: var(--bg); padding: var(--s-3) var(--gut) var(--s-5); overflow: visible;
+  }
+  header.nav[data-nav="object"][data-nav-menu].is-open .nav__links::after {
+    content: ""; position: absolute; left: 0; right: 0; top: 100%; height: var(--nv-edge); background: var(--bg);
+    -webkit-mask: var(--nv-edge-shape) 0 0 / var(--nv-edge-size) repeat-x; mask: var(--nv-edge-shape) 0 0 / var(--nv-edge-size) repeat-x;
+  }
+}
+
+/* ================================================================ the phone menus (designed, never a plain list) */
+@keyframes nv-fade { from { opacity: 0; } }
+@keyframes nv-rise { from { opacity: 0; transform: translateY(16px); } }
+@keyframes nv-sheet { from { opacity: 0; transform: translateY(-8px) scale(.98); } }
+@keyframes nv-sheet-up { from { opacity: 0; transform: translateY(12px) scale(.98); } }
+
+@media (max-width: 1023px) {
+  /* the words: the display face at 32 to 48px, numbered in mono, the sheet's rows 64px and more */
+  header.nav[data-nav-menu].is-open .nav__links { counter-reset: nv-item; }
+  header.nav[data-nav-menu].is-open .nav__item { grid-template-columns: 40px minmax(0, 1fr) auto; align-items: center; counter-increment: nv-item; animation: nv-rise 420ms var(--nv-ease) both; }
+  header.nav[data-nav-menu].is-open .nav__item::before { content: counter(nv-item, decimal-leading-zero); font: 500 12px/1 var(--font-mono); letter-spacing: .06em; color: var(--muted); }
+  header.nav[data-nav-menu].is-open .nav__item:nth-child(2) { animation-delay: 40ms; }
+  header.nav[data-nav-menu].is-open .nav__item:nth-child(3) { animation-delay: 80ms; }
+  header.nav[data-nav-menu].is-open .nav__item:nth-child(4) { animation-delay: 120ms; }
+  header.nav[data-nav-menu].is-open .nav__item:nth-child(5) { animation-delay: 160ms; }
+  header.nav[data-nav-menu].is-open .nav__links .nav__link {
+    height: auto; min-height: 64px; padding: var(--s-2) 0; white-space: normal; text-transform: none; letter-spacing: var(--display-tracking);
+    font: var(--display-weight) clamp(32px, 7vw + 6px, 48px)/1.05 var(--font-display); color: var(--ink); background: none;
+  }
+  header.nav[data-nav-menu].is-open .nav__links .nav__link > span { writing-mode: horizontal-tb; transform: none; }
+
+  /* takeover: the whole screen on the inverse ground, the bar over it */
+  header.nav[data-nav-menu="takeover"].is-open {
+    --bg: var(--p-inv-bg); --surface: var(--p-inv-surface); --ink: var(--p-inv-ink); --muted: var(--p-inv-muted);
+    --accent: var(--p-inv-accent); --accent-ink: var(--p-inv-accent-ink); --action: var(--p-inv-action); --action-ink: var(--p-inv-action-ink);
+    --line: color-mix(in oklab, var(--p-inv-ink) 16%, transparent); --line-strong: color-mix(in oklab, var(--p-inv-ink) 30%, transparent);
+    background-color: var(--bg); color: var(--ink); border-bottom-color: transparent;
+  }
+  header.nav[data-nav-menu="takeover"].is-open .nav__bar > :is(.nav__logo, .nav__toggle, .nv-sig, .nv-path) { position: relative; z-index: 2; }
+  header.nav[data-nav-menu="takeover"].is-open .nav__links {
+    position: fixed; top: 0; z-index: 1; padding: calc(var(--nav) + var(--s-6)) var(--gut) calc(var(--btn-h) * 2 + var(--s-9));
+    background: var(--bg); animation: nv-fade 280ms var(--nv-ease) both;
+  }
+  header.nav[data-nav-menu="takeover"].is-open .nav__actions { border-top-color: var(--line); }
+
+  /* sheet: a rounded panel under the bar on the surface, the page dimmed behind; the actions float at the foot */
+  header.nav[data-nav-menu="sheet"].is-open .nav__links {
+    position: fixed; top: calc(var(--nav) + var(--s-2)); left: calc(var(--gut) - var(--s-3)); right: calc(var(--gut) - var(--s-3)); bottom: auto;
+    max-height: calc(100svh - var(--nav) - var(--s-2) - 112px); padding: var(--s-3) var(--s-5) var(--s-4);
+    border-radius: calc(var(--r-lg) + 4px); background: var(--surface);
+    box-shadow: 0 24px 48px -16px color-mix(in oklab, var(--p-ink) 34%, transparent);
+    transform-origin: 50% 0; animation: nv-sheet 320ms var(--nv-ease) both;
+  }
+  header.nav[data-nav-menu="sheet"].is-open .nav__item:last-of-type { border-bottom: 0; }
+  header.nav[data-nav-menu="sheet"].is-open .nav__actions {
+    position: fixed; left: calc(var(--gut) - var(--s-3)); right: calc(var(--gut) - var(--s-3)); bottom: calc(var(--s-3) + env(safe-area-inset-bottom));
+    padding: var(--s-3); border-top: 0; border-radius: calc(var(--r-lg) + 4px); background: var(--surface);
+    box-shadow: 0 16px 40px -16px color-mix(in oklab, var(--p-ink) 34%, transparent); animation: nv-sheet-up 320ms var(--nv-ease) 60ms both;
+  }
+  :root:has(> body > header.nav:is([data-nav-menu="sheet"], [data-nav-menu="dock"]).is-open) body::after {
+    content: ""; position: fixed; inset: 0; z-index: 49; background: color-mix(in oklab, var(--p-ink) 36%, transparent); animation: nv-fade 240ms var(--nv-ease) both;
+  }
+}
+
+/* dock: the action and the menu button in a bar at the foot, on the inverse ground, 12px clear of the screen's edges;
+   the sheet rises out of it. The wrapper .nv-dockbar is display: contents wherever the dock is off, so the bar's
+   row is the kit's. Under 1024 for rail and live, under 640 for the dock nav (its own dock holds the words above). */
+.nv-dockbar { display: contents; }
+@media (max-width: 1023px) {
+  :root:has(> body > header.nav[data-nav-menu="dock"]:not([data-nav="dock"])) { --bar: calc(56px + var(--s-5) + env(safe-area-inset-bottom)); }
+  header.nav[data-nav-menu="dock"]:not([data-nav="dock"]).is-hidden { transform: none; }
+  header.nav[data-nav-menu="dock"]:not([data-nav="dock"]) .nv-dockbar {
+    position: fixed; z-index: 52; left: var(--gut); right: var(--gut); bottom: calc(var(--s-3) + env(safe-area-inset-bottom));
+    display: flex; align-items: center; gap: var(--s-2); height: 56px;
+    --ink: var(--p-inv-ink); --line-strong: color-mix(in oklab, var(--p-inv-ink) 30%, transparent); color: var(--p-inv-ink);
+  }
+  header.nav[data-nav-menu="dock"]:not([data-nav="dock"]) .nv-dockbar::before {
+    content: ""; position: absolute; z-index: -1; inset: 0 calc(-1 * var(--s-2)); border-radius: calc(var(--r-lg) + 4px); background: var(--p-inv-bg);
+    box-shadow: 0 16px 40px -16px color-mix(in oklab, var(--p-ink) 40%, transparent);
+  }
+  header.nav[data-nav-menu="dock"]:not([data-nav="dock"]) .nv-dockbar .nav__toggle { order: -1; margin: 0; color: var(--p-inv-ink); border-color: color-mix(in oklab, var(--p-inv-ink) 30%, transparent); }
+  header.nav[data-nav-menu="dock"]:not([data-nav="dock"]) .nv-dockbar .nav__actions,
+  header.nav[data-nav-menu="dock"]:not([data-nav="dock"]).is-open .nv-dockbar .nav__actions {
+    position: static; display: flex; margin-left: auto; padding: 0; gap: var(--s-2); background: none; border: 0; box-shadow: none; animation: none;
+  }
+  header.nav[data-nav-menu="dock"]:not([data-nav="dock"]).is-open .nv-dockbar .nav__actions > :not(.btn--primary) { display: none; }
+  header.nav[data-nav-menu="dock"]:not([data-nav="dock"]) .nv-dockbar .btn--primary { --action: var(--p-inv-action); --action-ink: var(--p-inv-action-ink); }
+  header.nav[data-nav-menu="dock"]:not([data-nav="dock"]).is-open .nav__links {
+    position: fixed; top: auto; bottom: calc(56px + var(--s-5) + env(safe-area-inset-bottom)); left: calc(var(--gut) - var(--s-2)); right: calc(var(--gut) - var(--s-2));
+    max-height: calc(100svh - var(--nav) - 112px); padding: var(--s-3) var(--s-5) var(--s-4);
+    border-radius: calc(var(--r-lg) + 4px); background: var(--surface);
+    box-shadow: 0 24px 48px -16px color-mix(in oklab, var(--p-ink) 34%, transparent); transform-origin: 50% 100%; animation: nv-sheet-up 320ms var(--nv-ease) both;
+  }
+  header.nav[data-nav-menu="dock"]:not([data-nav="dock"]).is-open .nav__item:last-of-type { border-bottom: 0; }
+}
+@media (max-width: 639px) {
+  :root:has(> body > header.nav[data-nav="dock"]) { --bar: calc(56px + var(--s-5) + env(safe-area-inset-bottom)); }
+  header.nav[data-nav="dock"] .nv-dockbar {
+    position: fixed; z-index: 52; left: var(--gut); right: var(--gut); bottom: calc(var(--s-3) + env(safe-area-inset-bottom));
+    display: flex; align-items: center; gap: var(--s-2); height: 56px; pointer-events: auto;
+    --ink: var(--p-inv-ink); --line-strong: color-mix(in oklab, var(--p-inv-ink) 30%, transparent); color: var(--p-inv-ink);
+  }
+  header.nav[data-nav="dock"] .nv-dockbar::before {
+    content: ""; position: absolute; z-index: -1; inset: 0 calc(-1 * var(--s-2)); border-radius: calc(var(--r-lg) + 4px); background: var(--p-inv-bg);
+    box-shadow: 0 16px 40px -16px color-mix(in oklab, var(--p-ink) 40%, transparent);
+  }
+  header.nav[data-nav="dock"] .nv-dockbar .nav__toggle { order: -1; margin: 0; color: var(--p-inv-ink); border-color: color-mix(in oklab, var(--p-inv-ink) 30%, transparent); }
+  header.nav[data-nav="dock"] .nv-dockbar .nav__actions,
+  header.nav[data-nav="dock"].is-open .nv-dockbar .nav__actions {
+    position: static; display: flex; margin-left: auto; padding: 0; gap: var(--s-2); background: none; border: 0; box-shadow: none; animation: none;
+  }
+  header.nav[data-nav="dock"] .nv-dockbar .btn--primary { --action: var(--p-inv-action); --action-ink: var(--p-inv-action-ink); }
+  header.nav[data-nav="dock"].is-open .nav__links {
+    position: fixed; top: auto; bottom: calc(56px + var(--s-5) + env(safe-area-inset-bottom)); left: calc(var(--gut) - var(--s-2)); right: calc(var(--gut) - var(--s-2));
+    max-height: calc(100svh - var(--nav) - 112px); padding: var(--s-3) var(--s-5) var(--s-4); transform: none;
+    border-radius: calc(var(--r-lg) + 4px); background: var(--surface);
+    box-shadow: 0 24px 48px -16px color-mix(in oklab, var(--p-ink) 34%, transparent); transform-origin: 50% 100%; animation: nv-sheet-up 320ms var(--nv-ease) both;
+  }
+  header.nav[data-nav="dock"].is-open .nav__item:last-of-type { border-bottom: 0; }
+}
+
+/* ---------------------------------------------------------------- reduced motion: every state, no motion */
+@media (prefers-reduced-motion: reduce) {
+  header.nav[data-nav-menu], header.nav[data-nav-menu] *, header.nav[data-nav-menu]::before, header.nav[data-nav-menu]::after,
+  header.nav[data-nav-menu] *::before, header.nav[data-nav-menu] *::after, :root:has(> body > header.nav[data-nav-menu]) body::after {
+    transition-duration: 0s !important; transition-delay: 0s !important; animation: none !important;
+  }
+}

@@ -1,0 +1,386 @@
+/*
+  rasya-taste-v4 buttons-library.css - twelve crafted button looks, written for this kit after a survey of the
+  21st.dev button category (research/BUTTONS-21ST.md); no code copied. Rules and when to use which:
+  references/buttons.md. The upstream looks (solid, pill, tonal, arrow, block) stay in system.css, untouched.
+
+  A page picks one look on <html data-buttons> (dealt by scripts/buttons.mjs); the markup never changes:
+
+    <a class="btn btn--primary" href="#start">Start free trial<svg class="m-arrow" ...></svg></a>
+    <a class="btn btn--secondary" href="#tour">See the tour</a>
+    <a class="link" href="#docs">Read the docs</a>
+
+    wipe       fill wipe      a deeper tone wipes in from the left; the outline fills with ink, its label flips
+    roll       label roll     the label slides up and its copy rolls in from below (buttons-library.js)
+    swap       arrow swap     the arrow leaves to the right and comes back in from the left
+    kbd        key chip       a key chip after the primary's label (return, or data-kbd); it sinks 1px on hover
+    ring       ring           a hairline ring settles 4px around the button
+    press      press depth    a 2px key edge; the edge grows on hover and flips to the top on press (letterpress)
+    underline  underline      the primary's label underlines; the secondary is a text button whose line draws
+    reveal     icon reveal    a dot after the label grows into a disc holding the arrow
+    shine      shine          one soft band of light crosses the primary once per hover
+    magnetic   magnetic       the button leans up to 4px toward the pointer (buttons-library.js; opt-in only)
+    split      split          a hairline rule and a meta cell (an arrow, or data-meta: "Free", "$169") after the label
+    soft       tonal soft     the secondary is a soft tint of the action colour; an inset ring shows on hover
+
+  Every look:
+  - is one pair, .btn--primary (the one filled button) and .btn--secondary, plus the .link look (the kit's
+    drawn underline and arrow; underline drops the arrow);
+  - keeps the kit's heights (--btn-h 44, --btn-h-sm 36, .btn--xl for the one close button) and the 1px hover step
+    and press of assets/motion/motion.css, never a change of width;
+  - takes colour only from the ground's tokens (--action --action-ink --ink --bg --line --line-strong); the
+    deeper hover tone moves the action's lightness away from the label, so the label keeps its 4.5:1;
+  - follows --r-btn (data-radius), except press (capped at 10px: a key, never a pill) and the kbd chip (6px);
+  - shows its hover state on :focus-visible too, with the kit's focus ring;
+  - moves only by transform and opacity, under (prefers-reduced-motion: no-preference); a hover move only for
+    a fine pointer. Reduced motion, data-motion="off" and touch get the end state as a colour, at once.
+  Pseudo-elements that cover a button rest at scaleX(0) or with a transparent border, so the checker reads one
+  fill or one outline per button (consistency.mjs, button-styles); nothing here skews, rotates or clips a path.
+
+  Link it after assets/motion/motion.css. roll and magnetic also need
+  <script src="assets/buttons/buttons-library.js" defer></script>.
+*/
+
+/* ---------------------------------------------------------------- shared */
+html:is([data-buttons="wipe"], [data-buttons="roll"], [data-buttons="swap"], [data-buttons="kbd"], [data-buttons="ring"], [data-buttons="press"], [data-buttons="underline"], [data-buttons="reveal"], [data-buttons="shine"], [data-buttons="magnetic"], [data-buttons="split"], [data-buttons="soft"]) {
+  --bl-travel: var(--m-slide, 240ms);          /* a part travelling: a wipe, a roll, a ring settling */
+  --bl-in: var(--m-in, 150ms);
+  --bl-out: var(--m-out, 120ms);
+  --bl-ease: var(--m-ease, var(--ease, cubic-bezier(.2, .8, .2, 1)));
+  --bl-ease-io: var(--m-ease-io, cubic-bezier(.65, 0, .35, 1));
+  /* the kit's arrow, drawn so every font shows the same */
+  --bl-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 6h8M6.5 2.5 10 6l-3.5 3.5' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+html:is([data-buttons="wipe"], [data-buttons="roll"], [data-buttons="swap"], [data-buttons="kbd"], [data-buttons="ring"], [data-buttons="press"], [data-buttons="underline"], [data-buttons="reveal"], [data-buttons="shine"], [data-buttons="magnetic"], [data-buttons="split"], [data-buttons="soft"]) .btn {
+  position: relative; isolation: isolate;
+  /* the hover tone: the action a step deeper (fallback: toward the ink) */
+  --bl-deep: color-mix(in oklab, var(--action) 84%, var(--ink));
+  --bl-deeper: color-mix(in oklab, var(--action) 70%, var(--ink));
+}
+/* with relative colour: the lightness moves away from the label, so contrast only grows: a dark action
+   darkens, a light one lightens, a near-white one (the inverted button on a brand band) darkens */
+@supports (color: oklch(from red l c h)) {
+  html:is([data-buttons="wipe"], [data-buttons="roll"], [data-buttons="swap"], [data-buttons="kbd"], [data-buttons="ring"], [data-buttons="press"], [data-buttons="underline"], [data-buttons="reveal"], [data-buttons="shine"], [data-buttons="magnetic"], [data-buttons="split"], [data-buttons="soft"]) .btn {
+    --bl-deep: oklch(from var(--action) calc(l - .07 * clamp(-1, (.6 - l) * 1000, 1) - .14 * clamp(0, (l - .93) * 1000, 1)) c h);
+    --bl-deeper: oklch(from var(--action) calc(l - .12 * clamp(-1, (.6 - l) * 1000, 1) - .24 * clamp(0, (l - .9) * 1000, 1)) c h);
+  }
+}
+html:is([data-buttons="wipe"], [data-buttons="roll"], [data-buttons="swap"], [data-buttons="kbd"], [data-buttons="ring"], [data-buttons="press"], [data-buttons="underline"], [data-buttons="reveal"], [data-buttons="shine"], [data-buttons="magnetic"], [data-buttons="split"], [data-buttons="soft"]) .btn::before,
+html:is([data-buttons="wipe"], [data-buttons="roll"], [data-buttons="swap"], [data-buttons="kbd"], [data-buttons="ring"], [data-buttons="press"], [data-buttons="underline"], [data-buttons="reveal"], [data-buttons="shine"], [data-buttons="magnetic"], [data-buttons="split"], [data-buttons="soft"]) .btn::after {
+  box-sizing: border-box; pointer-events: none;
+}
+
+/* ---------------------------------------------------------------- wipe: fill wipe (21st: flow hover, B7) */
+html[data-buttons="wipe"] .btn { overflow: clip; }
+html[data-buttons="wipe"] .btn::before {
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  background: var(--bl-fill); transform: scaleX(0); transform-origin: 100% 50%;
+}
+html[data-buttons="wipe"] .btn.btn--primary { --bl-fill: var(--bl-deep); }
+html[data-buttons="wipe"] .btn.btn--secondary { --bl-fill: var(--ink); }
+/* the end state, at once (touch, reduced motion, data-motion="off") */
+html[data-buttons="wipe"] .btn.btn--primary:is(:hover, :focus-visible) { background: var(--bl-deep); border-color: var(--bl-deep); }   /* the 1px rim too: the layer stops at the padding edge */
+html[data-buttons="wipe"] .btn.btn--secondary:is(:hover, :focus-visible) { background: var(--ink); border-color: var(--ink); color: var(--bg); }
+html[data-buttons="wipe"] .btn.btn--primary:active { background: var(--bl-deeper); border-color: var(--bl-deeper); --bl-fill: var(--bl-deeper); }
+html[data-buttons="wipe"] .btn.btn--secondary:active { background: color-mix(in oklab, var(--ink) 86%, var(--bg)); --bl-fill: color-mix(in oklab, var(--ink) 86%, var(--bg)); }
+/* travel: the fill wipes in from the left and leaves to the right; the button's own fill holds */
+@media (prefers-reduced-motion: no-preference) {
+  html[data-buttons="wipe"]:not([data-motion="off"]) .btn::before { transition: transform 200ms var(--bl-ease-io); }
+  html[data-buttons="wipe"]:not([data-motion="off"]) .btn:focus-visible::before { transform: scaleX(1); transform-origin: 0 50%; transition: transform var(--bl-travel) var(--bl-ease); }
+  html[data-buttons="wipe"]:not([data-motion="off"]) .btn.btn--primary:focus-visible { background: var(--action); }
+  html[data-buttons="wipe"]:not([data-motion="off"]) .btn.btn--secondary:focus-visible { background: var(--bg); }
+}
+@media (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) {
+  html[data-buttons="wipe"]:not([data-motion="off"]) .btn:hover::before { transform: scaleX(1); transform-origin: 0 50%; transition: transform var(--bl-travel) var(--bl-ease); }
+  html[data-buttons="wipe"]:not([data-motion="off"]) .btn.btn--primary:hover { background: var(--action); }
+  html[data-buttons="wipe"]:not([data-motion="off"]) .btn.btn--secondary:hover { background: var(--bg); }
+}
+
+/* ---------------------------------------------------------------- roll: label roll (21st: hover button, B1)
+   buttons-library.js wraps the label's words in <span class="bl-l">; its copy is a text-shadow one roll below
+   (read by no screen reader), clipped by the button. Without the script the look is the colour change alone. */
+html[data-buttons="roll"] .btn { overflow: clip; --bl-roll: 2.1em; }
+html[data-buttons="roll"] .btn .bl-l { display: inline-block; text-shadow: 0 var(--bl-roll) 0 currentColor; }
+html[data-buttons="roll"] .btn.btn--primary:is(:hover, :focus-visible) { background: var(--bl-deep); }
+html[data-buttons="roll"] .btn.btn--primary:active { background: var(--bl-deeper); }
+html[data-buttons="roll"] .btn.btn--secondary { background: color-mix(in oklab, var(--ink) 7%, var(--bg)); border-color: transparent; }
+html[data-buttons="roll"] .btn.btn--secondary:is(:hover, :focus-visible) { background: color-mix(in oklab, var(--ink) 12%, var(--bg)); border-color: transparent; }
+html[data-buttons="roll"] .btn.btn--secondary:active { background: color-mix(in oklab, var(--ink) 16%, var(--bg)); }
+@media (prefers-reduced-motion: no-preference) {
+  html[data-buttons="roll"]:not([data-motion="off"]) .btn .bl-l { transition: transform var(--bl-travel) var(--bl-ease-io); }
+  html[data-buttons="roll"]:not([data-motion="off"]) .btn:focus-visible .bl-l { transform: translateY(calc(-1 * var(--bl-roll))); }
+}
+@media (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) {
+  html[data-buttons="roll"]:not([data-motion="off"]) .btn:hover .bl-l { transform: translateY(calc(-1 * var(--bl-roll))); }
+}
+
+/* ---------------------------------------------------------------- swap: arrow swap (21st: morphing arrow, B2)
+   One drawn arrow after the label on both buttons (it replaces svg.m-arrow); on hover it leaves to the right
+   and comes back in from the left, once */
+html[data-buttons="swap"] .btn > .m-arrow { display: none; }
+html[data-buttons="swap"] .btn::after {
+  content: ""; display: block; flex: none; width: var(--bl-a, 12px); height: var(--bl-a, 12px); margin-right: -2px;
+  background: currentColor;
+  -webkit-mask: var(--bl-arrow) center / contain no-repeat; mask: var(--bl-arrow) center / contain no-repeat;
+}
+html[data-buttons="swap"] .btn--xl { --bl-a: .6em; }
+html[data-buttons="swap"] .btn.btn--primary:is(:hover, :focus-visible) { background: var(--bl-deep); }
+html[data-buttons="swap"] .btn.btn--primary:active { background: var(--bl-deeper); }
+html[data-buttons="swap"] .btn.btn--secondary { background: var(--bg); border-color: var(--line-strong); }
+html[data-buttons="swap"] .btn.btn--secondary:is(:hover, :focus-visible) { background: color-mix(in oklab, var(--bg) 93%, var(--ink)); border-color: color-mix(in oklab, var(--ink) 45%, transparent); }
+html[data-buttons="swap"] .btn.btn--secondary:active { background: color-mix(in oklab, var(--bg) 87%, var(--ink)); }
+@keyframes bl-swap {
+  0%   { transform: none; opacity: 1; animation-timing-function: cubic-bezier(.4, 0, 1, 1); }
+  45%  { transform: translateX(.7em); opacity: 0; }
+  46%  { transform: translateX(-.7em); opacity: 0; animation-timing-function: cubic-bezier(.2, .8, .2, 1); }
+  100% { transform: none; opacity: 1; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  html[data-buttons="swap"]:not([data-motion="off"]) .btn:focus-visible::after { animation: bl-swap 320ms both; }
+}
+@media (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) {
+  html[data-buttons="swap"]:not([data-motion="off"]) .btn:hover::after { animation: bl-swap 320ms both; }
+}
+
+/* ---------------------------------------------------------------- kbd: key chip (21st: kbd button, hotkey button, B3)
+   The primary carries a key chip after its label: the return key by default (Enter does press a focused
+   button), or data-kbd="⌘K" only for a shortcut the page really wires. The chip is decoration: its text is
+   hidden from screen readers. The secondary is an outline with a key's lower edge. */
+html[data-buttons="kbd"] .btn.btn--primary > .m-arrow { display: none; }
+html[data-buttons="kbd"] .btn.btn--primary::after {
+  content: "\21B5"; content: "\21B5" / "";
+  --bl-key: color-mix(in oklab, currentColor 42%, transparent);
+  display: inline-grid; place-items: center; flex: none;
+  min-width: 22px; height: 22px; padding: 0 5px; margin-right: -4px;
+  border: 1px solid var(--bl-key); border-bottom-width: 2px; border-radius: min(6px, var(--r-btn));
+  font: 500 13px/1 var(--font-mono); letter-spacing: 0;
+}
+html[data-buttons="kbd"] .btn.btn--primary[data-kbd]::after { content: attr(data-kbd); content: attr(data-kbd) / ""; }
+html[data-buttons="kbd"] .btn.btn--primary.btn--sm::after { min-width: 20px; height: 20px; }
+html[data-buttons="kbd"] .btn.btn--primary.btn--xl::after { min-width: 1.5em; height: 1.5em; padding: 0 .35em; font-size: max(13px, .55em); }
+html[data-buttons="kbd"] .btn.btn--primary:is(:hover, :focus-visible) { background: var(--bl-deep); }
+html[data-buttons="kbd"] .btn.btn--primary:is(:hover, :focus-visible)::after { --bl-key: color-mix(in oklab, currentColor 80%, transparent); }
+html[data-buttons="kbd"] .btn.btn--primary:active { background: var(--bl-deeper); }
+html[data-buttons="kbd"] .btn.btn--secondary { background: var(--bg); border-color: var(--line-strong); box-shadow: inset 0 -2px 0 var(--line); }
+html[data-buttons="kbd"] .btn.btn--secondary:is(:hover, :focus-visible) { background: color-mix(in oklab, var(--bg) 95%, var(--ink)); border-color: color-mix(in oklab, var(--ink) 40%, transparent); box-shadow: inset 0 -2px 0 var(--line-strong); }
+html[data-buttons="kbd"] .btn.btn--secondary:active { background: color-mix(in oklab, var(--bg) 90%, var(--ink)); box-shadow: inset 0 2px 0 var(--line); }
+@media (prefers-reduced-motion: no-preference) {
+  html[data-buttons="kbd"]:not([data-motion="off"]) .btn.btn--primary::after { transition: transform var(--bl-out) var(--bl-ease), border-color var(--bl-out) var(--bl-ease); }
+  html[data-buttons="kbd"]:not([data-motion="off"]) .btn.btn--primary:focus-visible::after { transform: translateY(1px); transition-duration: var(--bl-in); }
+}
+@media (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) {
+  /* the button steps up 1px (motion.css) while its key sinks 1px: the key stays where it was, pressed in */
+  html[data-buttons="kbd"]:not([data-motion="off"]) .btn.btn--primary:hover::after { transform: translateY(1px); transition-duration: var(--bl-in); }
+}
+
+/* ---------------------------------------------------------------- ring: ring (21st: entry ring button)
+   A hairline ring 4px outside the button, transparent at rest; on hover it settles in. Keyboard focus shows
+   the kit's own ring instead (the two never stack). */
+html[data-buttons="ring"] .btn::after {
+  content: ""; position: absolute; inset: -4px; border: 1px solid transparent; border-radius: calc(var(--r-btn) + 4px);
+}
+html[data-buttons="ring"] .btn.btn--primary { --bl-ring: color-mix(in oklab, var(--action) 60%, transparent); }
+html[data-buttons="ring"] .btn.btn--secondary { --bl-ring: color-mix(in oklab, var(--ink) 34%, transparent); }
+html[data-buttons="ring"] .btn:hover::after { border-color: var(--bl-ring); }
+html[data-buttons="ring"] .btn:focus-visible::after { border-color: transparent; }
+html[data-buttons="ring"] .btn.btn--primary:hover { background: var(--action); }
+html[data-buttons="ring"] .btn.btn--primary:focus-visible { background: var(--bl-deep); }
+html[data-buttons="ring"] .btn.btn--primary:active { background: var(--bl-deep); }
+html[data-buttons="ring"] .btn.btn--secondary { background: var(--bg); border-color: var(--line-strong); }
+html[data-buttons="ring"] .btn.btn--secondary:is(:hover, :focus-visible) { background: var(--bg); border-color: color-mix(in oklab, var(--ink) 42%, transparent); }
+html[data-buttons="ring"] .btn.btn--secondary:active { background: color-mix(in oklab, var(--bg) 92%, var(--ink)); }
+/* travel: the ring starts 3% small and settles out to its place as it shows (a fine pointer; reduced motion,
+   data-motion="off" and touch show it at its place) */
+@media (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) {
+  html[data-buttons="ring"]:not([data-motion="off"]) .btn::after { transform: scale(.97); transition: border-color var(--bl-out) var(--bl-ease), transform var(--bl-out) var(--bl-ease); }
+  html[data-buttons="ring"]:not([data-motion="off"]) .btn:hover::after { transform: none; transition-duration: var(--bl-travel); }
+}
+
+/* ---------------------------------------------------------------- press: press depth (21st: button retro, tactile 3D, texture)
+   A key: a 2px lower edge inside the button and a 1px top light. Hover raises the edge to 3px (the button
+   steps up 1px, motion.css); a press flips the edge to the top, so the face reads pressed in. Inset edges
+   only: no drop shadow. Radius: the page's, capped at 10px. */
+html[data-buttons="press"] .btn { border-radius: min(var(--r-btn), 10px); }
+html[data-buttons="press"] .btn.btn--primary {
+  background: var(--action);
+  box-shadow: inset 0 -2px 0 var(--bl-deeper), inset 0 1px 0 color-mix(in oklab, var(--action-ink) 16%, transparent);
+  text-shadow: 0 -1px 0 color-mix(in oklab, var(--bl-deeper) 45%, transparent);
+}
+html[data-buttons="press"] .btn.btn--primary:is(:hover, :focus-visible) {
+  background: var(--action);
+  box-shadow: inset 0 -3px 0 var(--bl-deeper), inset 0 1px 0 color-mix(in oklab, var(--action-ink) 24%, transparent);
+}
+html[data-buttons="press"] .btn.btn--primary:active { background: var(--bl-deep); box-shadow: inset 0 2px 0 var(--bl-deeper); }
+html[data-buttons="press"] .btn.btn--secondary { background: var(--bg); border-color: var(--line-strong); box-shadow: inset 0 -2px 0 var(--line-strong); }
+html[data-buttons="press"] .btn.btn--secondary:is(:hover, :focus-visible) {
+  background: var(--bg); border-color: color-mix(in oklab, var(--ink) 34%, transparent);
+  box-shadow: inset 0 -3px 0 color-mix(in oklab, var(--ink) 24%, transparent);
+}
+html[data-buttons="press"] .btn.btn--secondary:active { background: color-mix(in oklab, var(--bg) 94%, var(--ink)); box-shadow: inset 0 2px 0 var(--line-strong); }
+
+/* ---------------------------------------------------------------- underline: underline draw (21st: bottom border button, B5)
+   The quiet editorial pair. The primary is the filled one; on hover a 1px line in its label colour draws under
+   the words. The secondary is a text button at the button's height (no box, so no second look): a hairline
+   under the words, the ink line draws in from the left and leaves to the right. .link drops its arrow. */
+html[data-buttons="underline"] .btn.btn--primary {
+  --bl-line: color-mix(in oklab, var(--action-ink) 72%, transparent);
+  background: linear-gradient(var(--bl-line), var(--bl-line)) 100% calc(50% + .72em) / 0% 1px no-repeat content-box border-box var(--action);
+}
+html[data-buttons="underline"] .btn.btn--primary:is(:hover, :focus-visible) {
+  background: linear-gradient(var(--bl-line), var(--bl-line)) 0 calc(50% + .72em) / var(--bl-w, 100%) 1px no-repeat content-box border-box var(--action);
+}
+html[data-buttons="underline"] .btn.btn--primary:has(> .m-arrow) { --bl-w: calc(100% - 12px - var(--s-2)); }
+html[data-buttons="underline"] .btn.btn--primary.btn--xl.btn--wide { --bl-w: 0%; }
+html[data-buttons="underline"] .btn.btn--primary:active {
+  background: linear-gradient(var(--bl-line), var(--bl-line)) 0 calc(50% + .72em) / var(--bl-w, 100%) 1px no-repeat content-box border-box var(--bl-deep);
+}
+html[data-buttons="underline"] .btn.btn--secondary {
+  padding-inline: var(--s-2); border-color: transparent; color: var(--ink);
+  background: linear-gradient(currentColor, currentColor) 100% calc(50% + .72em) / 0% 1px no-repeat content-box border-box,
+              linear-gradient(var(--line-strong), var(--line-strong)) 0 calc(50% + .72em) / 100% 1px no-repeat content-box border-box,
+              transparent;
+}
+html[data-buttons="underline"] .btn.btn--secondary:is(:hover, :focus-visible, :active) {
+  border-color: transparent; color: var(--ink);
+  background: linear-gradient(currentColor, currentColor) 0 calc(50% + .72em) / 100% 1px no-repeat content-box border-box,
+              linear-gradient(var(--line-strong), var(--line-strong)) 0 calc(50% + .72em) / 100% 1px no-repeat content-box border-box,
+              transparent;
+}
+/* the words on a dark photograph (a photo hero without a box, layout.css), as the arrow and block looks do */
+@media (min-width: 1024px) {
+  html[data-buttons="underline"] .hero--photo[data-box="none"][data-tone="dark"] .btn.btn--secondary { color: var(--p-inv-ink); --line-strong: color-mix(in oklab, var(--p-inv-ink) 60%, transparent); }
+}
+html[data-buttons="underline"] .link::after { content: none; }
+html[data-buttons="underline"]:not([data-motion="off"]) .link { background-size: 0% 1px, 100% 1px; }
+html[data-buttons="underline"]:not([data-motion="off"]) .link:is(:hover, :focus-visible) { background-size: 100% 1px, 100% 1px; }
+@media (prefers-reduced-motion: no-preference) {
+  html[data-buttons="underline"]:not([data-motion="off"]) .btn.btn--primary,
+  html[data-buttons="underline"]:not([data-motion="off"]) .btn.btn--secondary {
+    transition: background-color var(--bl-out) var(--bl-ease), background-size var(--bl-out) var(--bl-ease), color var(--bl-out) var(--bl-ease),
+                border-color var(--bl-out) var(--bl-ease), transform var(--m-press, 90ms) var(--bl-ease);
+  }
+  html[data-buttons="underline"]:not([data-motion="off"]) .btn:is(.btn--primary, .btn--secondary):is(:hover, :focus-visible) { transition-duration: var(--bl-in), var(--bl-travel), var(--bl-in), var(--bl-in), var(--m-press, 90ms); }
+}
+@media (hover: hover) and (pointer: fine) {
+  /* the text button does not step (as the arrow and block looks' text secondaries); its press scales only */
+  html[data-buttons="underline"]:not([data-motion="off"]) .btn.btn--secondary:hover { transform: none; }
+  html[data-buttons="underline"]:not([data-motion="off"]) .btn.btn--secondary:active { transform: scale(.985); }
+}
+
+/* ---------------------------------------------------------------- reveal: icon reveal (21st: interactive hover button)
+   A dot after the label (it replaces svg.m-arrow); on hover it grows into a disc in the label's colour with the
+   arrow cut out of it, so the arrow shows in the button's own fill. Touch, reduced motion and
+   data-motion="off" show the disc at rest, and hover changes the colour only. */
+html[data-buttons="reveal"] .btn > .m-arrow { display: none; }
+html[data-buttons="reveal"] .btn::after {
+  content: ""; display: block; flex: none; width: 1.25em; height: 1.25em; margin-right: -.375em;
+  border-radius: 50%; background: currentColor;
+  -webkit-mask: var(--bl-arrow) center / .62em .62em no-repeat, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: var(--bl-arrow) center / .62em .62em no-repeat exclude, linear-gradient(#000 0 0);
+  transform: scale(.3); opacity: .85;
+}
+html[data-buttons="reveal"] .btn.btn--primary:is(:hover, :focus-visible) { background: var(--bl-deep); }
+html[data-buttons="reveal"] .btn.btn--primary:active { background: var(--bl-deeper); }
+html[data-buttons="reveal"] .btn.btn--secondary { background: var(--bg); border-color: var(--line-strong); }
+html[data-buttons="reveal"] .btn.btn--secondary:is(:hover, :focus-visible) { background: color-mix(in oklab, var(--bg) 94%, var(--ink)); border-color: color-mix(in oklab, var(--ink) 40%, transparent); }
+html[data-buttons="reveal"] .btn.btn--secondary:active { background: color-mix(in oklab, var(--bg) 88%, var(--ink)); }
+@media (prefers-reduced-motion: reduce), (hover: none), (pointer: coarse) {
+  html[data-buttons="reveal"] .btn::after { transform: none; opacity: 1; }
+}
+html[data-buttons="reveal"][data-motion="off"] .btn::after { transform: none; opacity: 1; }
+@media (prefers-reduced-motion: no-preference) {
+  html[data-buttons="reveal"]:not([data-motion="off"]) .btn::after { transition: transform var(--bl-out) var(--bl-ease), opacity var(--bl-out) var(--bl-ease); }
+  html[data-buttons="reveal"]:not([data-motion="off"]) .btn:focus-visible::after { transform: none; opacity: 1; transition-duration: var(--bl-travel); }
+}
+@media (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) {
+  html[data-buttons="reveal"]:not([data-motion="off"]) .btn:hover::after { transform: none; opacity: 1; transition-duration: var(--bl-travel); }
+}
+
+/* ---------------------------------------------------------------- shine: one sweep (21st: shine hover, shiny button)
+   One soft band of the label's colour at 20% crosses the primary once as the pointer arrives, under the
+   label, and is gone when it leaves; never looping, never on focus, never on the secondary (a tonal fill) */
+html[data-buttons="shine"] .btn.btn--primary { overflow: clip; }
+html[data-buttons="shine"] .btn.btn--primary::before {
+  content: ""; position: absolute; top: 0; bottom: 0; left: 0; width: 42%; z-index: -1;
+  background: linear-gradient(100deg, transparent 15%, color-mix(in oklab, var(--action-ink) 20%, transparent) 50%, transparent 85%);
+  transform: translateX(-105%);
+}
+html[data-buttons="shine"] .btn.btn--primary:is(:hover, :focus-visible) { background: var(--bl-deep); }
+html[data-buttons="shine"] .btn.btn--primary:active { background: var(--bl-deeper); }
+html[data-buttons="shine"] .btn.btn--secondary { background: color-mix(in oklab, var(--ink) 7%, var(--bg)); border-color: transparent; }
+html[data-buttons="shine"] .btn.btn--secondary:is(:hover, :focus-visible) { background: color-mix(in oklab, var(--ink) 12%, var(--bg)); border-color: transparent; }
+html[data-buttons="shine"] .btn.btn--secondary:active { background: color-mix(in oklab, var(--ink) 16%, var(--bg)); }
+@media (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) {
+  html[data-buttons="shine"]:not([data-motion="off"]) .btn.btn--primary:hover::before { transform: translateX(260%); transition: transform 700ms var(--bl-ease); }
+}
+
+/* ---------------------------------------------------------------- magnetic: lean to the pointer (B4; opt-in only)
+   buttons-library.js leans the button up to 4px across and 3px down toward a fine pointer (the CSS translate
+   property, beside the motion layer's step), and back when it leaves; never on touch, under reduced motion or
+   on a button wider than 480px. The colours are the kit pair's. */
+html[data-buttons="magnetic"] .btn.btn--primary:is(:hover, :focus-visible) { background: var(--bl-deep); }
+html[data-buttons="magnetic"] .btn.btn--primary:active { background: var(--bl-deeper); }
+html[data-buttons="magnetic"] .btn.btn--secondary { background: var(--bg); border-color: var(--line-strong); }
+html[data-buttons="magnetic"] .btn.btn--secondary:is(:hover, :focus-visible) { background: color-mix(in oklab, var(--bg) 93%, var(--ink)); border-color: color-mix(in oklab, var(--ink) 40%, transparent); }
+html[data-buttons="magnetic"] .btn.btn--secondary:active { background: color-mix(in oklab, var(--bg) 87%, var(--ink)); }
+
+/* ---------------------------------------------------------------- split: label | meta (21st: count badge, split button, B8)
+   After the label: a hairline rule and a meta cell, both flex items placed by order (they replace svg.m-arrow).
+   The cell shows an arrow, or data-meta ("Free", "$169", "4.2k"): decoration, hidden from screen readers, so a
+   price or count the visitor needs is in the page's text too. Hover draws the rule to full height and nudges
+   the cell 3px. */
+html[data-buttons="split"] .btn > .m-arrow { display: none; }
+html[data-buttons="split"] .btn::before {
+  content: ""; order: 1; flex: none; align-self: center; width: 1px; height: 1.25em; margin-inline: var(--s-1);
+  background: color-mix(in oklab, currentColor 34%, transparent); transform: scaleY(.8);
+}
+html[data-buttons="split"] .btn::after {
+  content: "\2192"; content: "\2192" / ""; order: 2; display: block; flex: none;
+  font-weight: 400; font-variant-numeric: tabular-nums; letter-spacing: 0;
+}
+html[data-buttons="split"] .btn[data-meta]::after { content: attr(data-meta); content: attr(data-meta) / ""; }
+html[data-buttons="split"] .btn.btn--xl.btn--wide::before { margin-left: auto; }
+html[data-buttons="split"] .btn:is(:hover, :focus-visible)::before { background: color-mix(in oklab, currentColor 64%, transparent); }
+html[data-buttons="split"] .btn.btn--primary:is(:hover, :focus-visible) { background: var(--bl-deep); }
+html[data-buttons="split"] .btn.btn--primary:active { background: var(--bl-deeper); }
+html[data-buttons="split"] .btn.btn--secondary { background: var(--bg); border-color: var(--line-strong); }
+html[data-buttons="split"] .btn.btn--secondary:is(:hover, :focus-visible) { background: color-mix(in oklab, var(--bg) 94%, var(--ink)); border-color: color-mix(in oklab, var(--ink) 40%, transparent); }
+html[data-buttons="split"] .btn.btn--secondary:active { background: color-mix(in oklab, var(--bg) 88%, var(--ink)); }
+@media (prefers-reduced-motion: no-preference) {
+  html[data-buttons="split"]:not([data-motion="off"]) .btn::before,
+  html[data-buttons="split"]:not([data-motion="off"]) .btn::after { transition: transform var(--bl-out) var(--bl-ease), background-color var(--bl-out) var(--bl-ease); }
+  html[data-buttons="split"]:not([data-motion="off"]) .btn:focus-visible::before { transform: scaleY(1.6); transition-duration: var(--bl-in); }
+  html[data-buttons="split"]:not([data-motion="off"]) .btn:focus-visible::after { transform: translateX(3px); transition-duration: var(--bl-in); }
+}
+@media (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) {
+  html[data-buttons="split"]:not([data-motion="off"]) .btn:hover::before { transform: scaleY(1.6); transition-duration: var(--bl-in); }
+  html[data-buttons="split"]:not([data-motion="off"]) .btn:hover::after { transform: translateX(3px); transition-duration: var(--bl-in); }
+}
+
+/* ---------------------------------------------------------------- soft: tonal soft (21st: shadcn-style tonal pairs)
+   The primary has a 1px light along its top edge; the secondary is a soft tint of the action colour with the
+   label in ink (7:1 kept); on hover the tint deepens and an inset ring in the action colour shows. */
+html[data-buttons="soft"] .btn.btn--primary { box-shadow: inset 0 1px 0 color-mix(in oklab, var(--action-ink) 16%, transparent); }
+html[data-buttons="soft"] .btn.btn--primary:is(:hover, :focus-visible) { background: var(--bl-deep); box-shadow: inset 0 1px 0 color-mix(in oklab, var(--action-ink) 26%, transparent); }
+html[data-buttons="soft"] .btn.btn--primary:active { background: var(--bl-deeper); box-shadow: none; }
+html[data-buttons="soft"] .btn.btn--secondary { background: color-mix(in oklab, var(--action) 14%, transparent); border-color: transparent; box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--action) 30%, transparent); color: var(--ink); } /* v4.1: tinted over the local ground with a ring at rest (test 18: 1.04:1 on cards read as disabled) */
+html[data-buttons="soft"] .btn.btn--secondary:is(:hover, :focus-visible) {
+  background: color-mix(in oklab, var(--action) 20%, transparent); border-color: transparent;
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--action) 46%, transparent);
+}
+html[data-buttons="soft"] .btn.btn--secondary:active { background: color-mix(in oklab, var(--action) 26%, transparent); }
+
+/* ---------------------------------------------------------------- the phone row (system.css, under 640)
+   Full width, the second action is a text link under the filled one, as system.css draws it for every look:
+   the same here, in every state, without the boxes and layers of the looks above */
+@media (max-width: 639px) {
+  html:is([data-buttons="wipe"], [data-buttons="roll"], [data-buttons="swap"], [data-buttons="kbd"], [data-buttons="ring"], [data-buttons="press"], [data-buttons="underline"], [data-buttons="reveal"], [data-buttons="shine"], [data-buttons="magnetic"], [data-buttons="split"], [data-buttons="soft"]) .btn-row > .btn.btn--secondary,
+  html:is([data-buttons="wipe"], [data-buttons="roll"], [data-buttons="swap"], [data-buttons="kbd"], [data-buttons="ring"], [data-buttons="press"], [data-buttons="underline"], [data-buttons="reveal"], [data-buttons="shine"], [data-buttons="magnetic"], [data-buttons="split"], [data-buttons="soft"]) .btn-row > .btn.btn--secondary:is(:hover, :focus-visible, :active) {
+    background: none; border-color: transparent; box-shadow: none; color: var(--ink);
+    text-decoration: underline; text-underline-offset: 4px; text-decoration-color: var(--line-strong);
+  }
+  html:is([data-buttons="wipe"], [data-buttons="ring"], [data-buttons="split"]) .btn-row > .btn.btn--secondary::before,
+  html:is([data-buttons="wipe"], [data-buttons="ring"], [data-buttons="split"]) .btn-row > .btn.btn--secondary::after { content: none; }
+  /* an underline does not reach into an inline-block: the rolled label carries its own */
+  html[data-buttons="roll"] .btn-row > .btn.btn--secondary .bl-l { text-shadow: none; text-decoration: underline; text-underline-offset: 4px; text-decoration-color: var(--line-strong); }
+}

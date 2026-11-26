@@ -1,0 +1,166 @@
+{
+  "about": "rasya-taste-v4 footer library: the page's ending (footer.closing: row 1 the close, row 2 the links), dealt as one pick by scripts/footers.mjs from the library's endings (assets/footers/<id>.html, footers.css, footers.js) and the kit's own footer and close types (system.css, starter.html). It replaces the footer and close fields of the one-liner. Rules: references/footers.md. kinds: software, gaming, product (hardware too), service, place, editorial. mood: calm, crisp, playful, editorial (the button moods). nav: the dealt nav types an ending sits well with; buttons: the button looks (buttons.mjs) it sits well with. closeAs: the close type to pass to buttons.mjs --close. attr: the value of data-footer on the footer (the id without footer-, as the kit writes footer-dark as footer--dark). wordmark: the ending sets the brand's name huge (one a page, never two endings in a row). display: the display faces it suits (serif, sans; a pairing's class from library/type.json).",
+  "version": "4.1",
+  "files": {
+    "css": "assets/footers/footers.css",
+    "js": "assets/footers/footers.js",
+    "demo": "assets/footers/demo.html"
+  },
+  "weights": {
+    "library": 1.4,
+    "kit": 1,
+    "wordmark": 0.45,
+    "recent": 0.45,
+    "offNav": 0.3,
+    "offButtons": 0.5,
+    "offFace": 0.6,
+    "longName": 0.2
+  },
+  "library": [
+    {
+      "id": "footer-emboss",
+      "attr": "emboss",
+      "name": "letterpress wordmark",
+      "template": "assets/footers/footer-emboss.html",
+      "wordmark": true,
+      "js": "fit",
+      "kinds": ["software", "product", "service", "editorial"],
+      "ground": "ground-surface",
+      "groundNote": "the surface grey (the page ground when the last section already sits on the surface); light or dark",
+      "close": "a hairline, then the closing line (the h2) on span-7, a note and the main button on span-4 from column 9",
+      "footer": "one row: the name and one line, the nav's words with Privacy and Terms, the socials; under it the name pressed into the ground, cropped by the page's foot",
+      "closeAs": "close-type",
+      "mood": ["calm", "editorial"],
+      "display": ["serif"],
+      "nav": ["nav-split", "nav-centre", "nav-mega", "nav-cards"],
+      "buttons": ["block", "press", "solid", "split", "kbd", "underline", "swap", "wipe", "ring"],
+      "show": 0.52,
+      "weight": 1,
+      "from": ["Trove (a footer.design entry): the rule, the serif closing line, the letterpress name"]
+    },
+    {
+      "id": "footer-fade-word",
+      "attr": "fade-word",
+      "name": "fading wordmark",
+      "template": "assets/footers/footer-fade-word.html",
+      "wordmark": true,
+      "js": "fit",
+      "kinds": ["software", "gaming", "product", "service", "editorial"],
+      "ground": "",
+      "groundNote": "the page ground (an off-white or a dark page)",
+      "close": "a centred closing line, one line under it, the main button",
+      "footer": "a centred row of underlined links (the client's accounts, else the nav's words), the legal line; under them the name huge and pale, fading toward the page's foot, an optional ornament on one letter",
+      "closeAs": "close-word",
+      "mood": ["calm", "playful"],
+      "display": ["sans"],
+      "nav": ["nav-centre", "nav-split", "nav-mega"],
+      "buttons": ["pill", "solid", "soft", "roll", "reveal", "ring", "wipe", "tonal"],
+      "show": 0.56,
+      "weight": 1,
+      "from": ["Cronicle (a footer.design entry): the centred grotesk close, the pill, the underlined links, the pale name with a flower"]
+    },
+    {
+      "id": "footer-split-close",
+      "attr": "split-close",
+      "name": "split close",
+      "template": "assets/footers/footer-split-close.html",
+      "wordmark": false,
+      "js": null,
+      "kinds": ["software", "gaming", "product", "service", "editorial"],
+      "ground": "",
+      "groundNote": "the page ground, or the inverse ground (add footer--dark ground-inverse) on a page whose rhythm has no dark band",
+      "close": "a hairline, then the closing line large on span-7, a note and the main button on span-4 from column 9",
+      "footer": "the kit's columns (the name and one line, two to four link columns) and the legal row",
+      "closeAs": "close-type",
+      "mood": ["crisp", "editorial", "calm"],
+      "display": ["serif", "sans"],
+      "nav": ["nav-mega", "nav-cards", "nav-centre", "nav-split"],
+      "buttons": ["solid", "pill", "tonal", "arrow", "block", "wipe", "roll", "swap", "kbd", "ring", "press", "underline", "reveal", "shine", "split", "soft"],
+      "show": null,
+      "weight": 1,
+      "from": ["Trove's upper half without the wordmark"]
+    },
+    {
+      "id": "footer-outline-fill",
+      "attr": "outline-fill",
+      "name": "outline wordmark that fills",
+      "template": "assets/footers/footer-outline-fill.html",
+      "wordmark": true,
+      "js": "fill",
+      "kinds": ["software", "gaming", "product", "service"],
+      "ground": "ground-inverse",
+      "groundNote": "the inverse ground (dark on a light page, a step off the page on a dark one); data-fill=\"accent\" fills it in a tint of the accent",
+      "close": "the kit's head row: the closing line and one line left, the main button right",
+      "footer": "the kit's columns and legal row; under them the name drawn as an outline that fills from the page's foot as the footer comes up (scrubbed on window.rtMotion; filled under reduced motion)",
+      "closeAs": "close-word",
+      "mood": ["crisp", "playful"],
+      "display": ["sans"],
+      "nav": ["nav-mega", "nav-cards", "nav-centre"],
+      "buttons": ["solid", "arrow", "swap", "kbd", "wipe", "roll", "shine", "reveal", "split", "block"],
+      "show": 0.55,
+      "scrollMoment": true,
+      "weight": 1,
+      "from": ["the outlined giant wordmark of SaaS footers (benchmark-saas), given a reason to be there: the fill marks the page's end"]
+    },
+    {
+      "id": "footer-index",
+      "attr": "index",
+      "name": "index",
+      "template": "assets/footers/footer-index.html",
+      "wordmark": false,
+      "js": null,
+      "kinds": ["editorial", "service", "software", "product"],
+      "ground": "",
+      "groundNote": "the page ground",
+      "close": "the kit's head row: the closing line and one line left, the main button right",
+      "footer": "the page's sections as a numbered index in the display face (two columns from 1024, two-up on a phone), each row a link to its section; the legal row",
+      "closeAs": "close-type",
+      "mood": ["editorial", "calm"],
+      "display": ["serif", "sans"],
+      "nav": ["nav-split", "nav-mega", "nav-centre"],
+      "buttons": ["underline", "swap", "arrow", "solid", "ring", "wipe", "soft", "block"],
+      "needs": "five to eight sections worth a row; a shorter page deals again with --exclude footer-index",
+      "show": null,
+      "weight": 0.8,
+      "from": ["the index footer (A4 in research/drafts/footer-patterns.md)"]
+    }
+  ],
+  "kit": {
+    "footers": {
+      "footer-columns": {
+        "class": "footer closing",
+        "row2": "the starter's .closing__links as written: the name and one line, the link columns, the legal row",
+        "mood": ["calm", "editorial", "crisp"]
+      },
+      "footer-dark": {
+        "class": "footer closing footer--dark ground-inverse",
+        "row2": "the starter's .closing__links: the name large top left (.footer__mark), the columns right",
+        "mood": ["crisp"]
+      },
+      "footer-statement": {
+        "class": "footer closing footer--statement",
+        "row2": "the starter's .closing__links on the lit ground (tech only: <html data-ground>)",
+        "mood": ["crisp", "playful"]
+      },
+      "footer-visit": {
+        "class": "footer closing footer--visit",
+        "row2": "<template data-part=\"links-visit\">: the address set large with the way there, the hours beside it",
+        "mood": ["calm"]
+      }
+    },
+    "closes": {
+      "close-type": { "row1": "the starter's .closing__cta.close--type as written (the h2, a line, the big button across the .wrap)", "wordmark": false, "photo": false },
+      "close-photo": { "row1": "<template data-part=\"close-photo\">: the head row, then a photograph never used above", "wordmark": false, "photo": true },
+      "close-word": { "row1": "<template data-part=\"close-word\">: the head row, then the name set across the .wrap", "wordmark": true, "photo": false },
+      "close-head": { "row1": "<template data-part=\"close-word\"> without its .close__word: the head row alone (close-photo re-dealt with no photograph left)", "wordmark": false, "photo": false }
+    },
+    "lists": {
+      "software": { "footers": ["footer-dark", "footer-statement", "footer-columns"], "closes": ["close-type", "close-word"] },
+      "gaming": { "footers": ["footer-dark", "footer-statement"], "closes": ["close-word", "close-type"] },
+      "product": { "footers": ["footer-columns", "footer-dark"], "closes": ["close-photo", "close-type", "close-word"] },
+      "service": { "footers": ["footer-visit", "footer-dark", "footer-columns"], "closes": ["close-type", "close-photo"] },
+      "place": { "footers": ["footer-visit", "footer-columns"], "closes": ["close-photo"], "noPhoto": "close-head" },
+      "editorial": { "footers": ["footer-columns", "footer-dark"], "closes": ["close-type", "close-photo", "close-word"] }
+    }
+  }
+}

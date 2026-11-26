@@ -1,0 +1,29 @@
+/* stacked-panels: at rest (under 900px, reduced motion, no script, a failed module) the panels stand one under
+   another in the section, each a surface panel with its words left and its picture right (stacked on a phone).
+   Live (.is-live, from 900px on a screen 600px tall) the section is (hold + 1) screens, the stage sticks for the
+   hold with the h2 on it, and the panels share one deck under the h2. */
+[data-moment="stacked-panels"] { --mo-hold: 1; --mo-n: 3; }
+[data-moment="stacked-panels"] .mo-sp__deck { display: grid; gap: var(--s-4); }
+[data-moment="stacked-panels"] .mo-sp__panel { position: relative; overflow: hidden; display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+  gap: var(--s-6); align-items: stretch; padding: var(--s-6); border-radius: var(--r-lg); background: var(--surface); border: 1px solid var(--line); }
+[data-moment="stacked-panels"] .mo-sp__panel > div { display: grid; gap: var(--s-3); align-content: start; }
+[data-moment="stacked-panels"] .mo-sp__panel h3 { font-family: var(--font-display); font-weight: var(--display-weight); font-size: var(--t-h3); letter-spacing: var(--display-tracking); line-height: 1.15; color: var(--ink); }
+[data-moment="stacked-panels"] .mo-sp__panel p { color: var(--muted); max-width: 40ch; }
+[data-moment="stacked-panels"] .mo-sp__panel img { width: 100%; height: 100%; min-height: 0; max-height: 34svh; object-fit: cover; border-radius: var(--r-md); }
+[data-moment="stacked-panels"] .mo-sp__shade { position: absolute; inset: 0; background: var(--bg); opacity: 0; pointer-events: none; z-index: 2; }
+@media (max-width: 899px) {
+  [data-moment="stacked-panels"] .mo-sp__panel { grid-template-columns: minmax(0, 1fr); padding: var(--s-5); }
+  [data-moment="stacked-panels"] .mo-sp__panel img { aspect-ratio: 16 / 9; height: auto; max-height: 28svh; }
+}
+/* at rest the section is as tall as its panels, never over the next one */
+main > [data-moment="stacked-panels"][data-moment]:not(.is-live) { height: auto; min-height: calc(var(--h, 1) * 100svh); }
+
+/* live */
+main > [data-moment="stacked-panels"][data-moment].is-live { height: calc((var(--mo-hold) + 1) * 100svh); min-height: 0; padding: 0; }
+main > [data-moment="stacked-panels"][data-moment].is-live > .mo-sp__stage { position: sticky; top: 0; height: 100svh; box-sizing: border-box;
+  padding: var(--padt) 0 var(--padb); display: flex; flex-direction: column; }
+[data-moment="stacked-panels"].is-live .section-head { flex: none; }
+[data-moment="stacked-panels"].is-live .mo-sp__deck { position: relative; display: block; flex: 1 1 0; min-height: 0; overflow: clip; }
+[data-moment="stacked-panels"].is-live .mo-sp__panel { position: absolute; left: 0; right: 0; top: 0; height: calc(100% - (var(--mo-n) - 1) * 14px); box-sizing: border-box; will-change: transform; }
+[data-moment="stacked-panels"].is-live .mo-sp__panel img { max-height: none; }
+@media print { main > [data-moment="stacked-panels"][data-moment].is-live { height: auto; } [data-moment="stacked-panels"].is-live .mo-sp__panel { position: static; transform: none !important; } }

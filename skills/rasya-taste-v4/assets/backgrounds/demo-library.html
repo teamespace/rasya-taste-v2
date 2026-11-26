@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Background library</title>
+<!--
+  The gallery of bg-library.css: every background on a light and a dark palette, words in their text zone.
+  ?light=<palette>&dark=<palette>   swap the palettes (ids below)
+  ?only=<id>&mode=light|dark&fade=..&i=quiet|medium|bold   one background as a full 1440x900 hero
+-->
+<link rel="stylesheet" href="bg-library.css">
+<style>
+  :root { --font: "Helvetica Neue", Helvetica, Arial, system-ui, sans-serif; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: var(--font); background: #f4f4f2; color: #111; }
+  .head { padding: 28px 32px 8px; font-size: 13px; color: #555; display: flex; gap: 24px; }
+  .head b { color: #111; font-weight: 600; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; padding: 16px 32px 48px; }
+  .tile { min-height: 360px; border-radius: 10px; overflow: hidden; background: var(--bg); color: var(--ink);
+          display: grid; align-content: center; justify-items: center; text-align: center; padding: 48px; }
+  .tile.left { justify-items: start; text-align: left; align-content: end; }
+  .tile .wrap { display: grid; gap: 12px; justify-items: inherit; max-width: 440px; }
+  .tile h2 { margin: 0; font-size: 34px; line-height: 1.05; letter-spacing: -0.03em; font-weight: 500; }
+  .tile p { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.45; }
+  .tile .btn { margin-top: 6px; display: inline-block; padding: 10px 16px; border-radius: 8px; background: var(--ink); color: var(--bg); font-size: 14px; }
+  .tag { position: absolute; top: 12px; left: 12px; font: 500 11px/1 ui-monospace, Menlo, monospace; padding: 5px 7px; border-radius: 5px;
+         background: color-mix(in oklab, var(--ink) 8%, transparent); color: var(--muted); z-index: 2; }
+  .tile { position: relative; }
+  body.only .head, body.only .grid { display: none; }
+  .hero { min-height: 100svh; display: grid; place-items: center; text-align: center; background: var(--bg); color: var(--ink); padding: 64px; }
+  .hero h1 { margin: 0 0 16px; font-size: 72px; line-height: 1; letter-spacing: -0.04em; font-weight: 500; max-width: 900px; }
+  .hero p { margin: 0 auto; color: var(--muted); font-size: 19px; max-width: 520px; line-height: 1.45; }
+  @media (max-width: 760px) { .grid { grid-template-columns: 1fr; padding: 16px; } }
+</style>
+</head>
+<body>
+<div class="head"><b>bg-library</b><span id="pal"></span><span>left: light palette · right: dark palette · medium intensity</span></div>
+<main class="grid" id="grid"></main>
+<script>
+  const PALETTES = {
+    'cool-white-slate': { bg: '#f7f9fa', surface: '#ecf0f2', ink: '#1f3038', muted: '#5d6b72', accent: '#0d7480' },
+    'white-link-blue': { bg: '#ffffff', surface: '#f4f4f4', ink: '#111111', muted: '#6b6b6b', accent: '#1a4be0' },
+    'paper-grey-brass': { bg: '#e8e8e3', surface: '#dcdcd6', ink: '#181715', muted: '#5c5b56', accent: '#bfb21a' },
+    'moss-sand': { bg: '#ddd6c6', surface: '#d2cab8', ink: '#2a2a26', muted: '#55534b', accent: '#4f6238' },
+    'blue-black-cornflower': { bg: '#0a0d14', surface: '#131824', ink: '#e9edf3', muted: '#8891a1', accent: '#5ab9fc' },
+    'graphite-safety-orange': { bg: '#18191b', surface: '#222427', ink: '#eff0f1', muted: '#9c9ea3', accent: '#ff4a1f' },
+    'green-black-bone': { bg: '#161c1a', surface: '#1f2725', ink: '#e3e2da', muted: '#8e948d', accent: '#9fc7b8' },
+    'lunar-grey-bronze': { bg: '#111111', surface: '#1c1c1c', ink: '#f2f2f2', muted: '#8f8f8f', accent: '#a08672' }
+  };
+  const BGS = [
+    ['grid', 'center'], ['dots', 'center'], ['blueprint', 'center'], ['topo', 'left'],
+    ['paper', 'center'], ['glow', 'center'], ['mesh', 'left'], ['aurora', 'center'],
+    ['blur-grid', 'left'], ['beams', 'center'], ['grid-pulse', 'center'], ['flowing-lines', 'left']
+  ];
+  const q = new URLSearchParams(location.search);
+  const light = PALETTES[q.get('light')] ? q.get('light') : 'cool-white-slate';
+  const dark = PALETTES[q.get('dark')] ? q.get('dark') : 'blue-black-cornflower';
+  const tokens = p => Object.entries(PALETTES[p]).map(([k, v]) => `--${k}:${v}`).join(';');
+  const layer = (id, fade, i) => `<div class="rbg" data-bg="${id}"${i ? ` data-bg-intensity="${i}"` : ''}${fade ? ` data-bg-fade="${fade}"` : ''} aria-hidden="true"></div>`;
+  if (q.get('only')) {
+    document.body.classList.add('only');
+    const p = q.get('mode') === 'dark' ? dark : light;
+    const def = (BGS.find(b => b[0] === q.get('only')) || [])[1];
+    document.body.insertAdjacentHTML('beforeend', `<section class="hero" id="h" style="${tokens(p)}">${layer(q.get('only'), q.get('fade') || def, q.get('i'))}
+      <div class="wrap"><h1>Ship reviews in minutes, not days</h1><p>One queue for every pull request, with the diff, the owner and the deadline on one line.</p></div></section>`);
+  } else {
+    document.getElementById('pal').textContent = light + ' / ' + dark;
+    document.getElementById('grid').innerHTML = BGS.map(([id, fade]) => [light, dark].map(p =>
+      `<section class="tile${fade === 'left' ? ' left' : ''}" id="t-${id}-${p}" style="${tokens(p)}">${layer(id, fade)}<span class="tag">${id}</span>
+        <div class="wrap"><h2>Plan the release in one place</h2><p>Every change, its owner and its date, on one line you can read at a glance.</p><span class="btn">Start a project</span></div></section>`).join('')).join('');
+  }
+</script>
+<script src="bg-library.js" defer></script>
+</body>
+</html>

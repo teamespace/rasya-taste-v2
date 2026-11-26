@@ -1,0 +1,5 @@
+/* ui-assembles: the window keeps its own look (the page's app-frame, or the demo's drawn window); the moment only
+   moves its parts with transforms, opacity and one clip, once. At rest it stands as written. */
+[data-moment="ui-assembles"].is-live [data-ua="window"], [data-moment="ui-assembles"].is-live .dw { will-change: transform, opacity; }
+[data-moment="ui-assembles"] [data-ua="bar"] { transform-origin: 50% 100%; }
+@media (prefers-reduced-motion: reduce) { [data-moment="ui-assembles"] [data-ua] { transform: none !important; opacity: 1 !important; visibility: visible !important; clip-path: none !important; } }

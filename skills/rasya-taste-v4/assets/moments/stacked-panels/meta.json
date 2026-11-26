@@ -1,0 +1,23 @@
+{
+  "id": "stacked-panels",
+  "name": "Stacked panels",
+  "kind": "scroll",
+  "fits": ["section"],
+  "trigger": "scroll",
+  "drive": "scroll",
+  "intensity": 3,
+  "pin": true,
+  "gsap": true,
+  "source": "rasya-taste-v2 R09 (sticky stacking cards)",
+  "cost": "low",
+  "webgl": 0,
+  "pages": ["tech", "software", "product", "service", "editorial"],
+  "look": "The section holds for one screen of scroll (two with four or five panels) under its h2, which stays on screen; each next panel slides up over the last, and the ones under it step back 4% each and fade toward the ground, their top edges a 14px stack.",
+  "reduced": "Nothing is held: the panels stand one under another, each with its words and its picture.",
+  "phone": "Nothing is held under 900px: the panels stand one under another, the picture under the words.",
+  "maxPerPage": 1,
+  "weight": 1,
+  "needs": { "words": "2 to 5 panels (plans, principles, cases), a title and two lines each", "pictures": "one picture or screen per panel, or none" },
+  "avoidWith": ["pinned-chapters", "photo-chapters"],
+  "states": { "start": { "p": 0.04, "wait": 500 }, "middle": { "p": 0.55, "wait": 500 }, "end": { "p": 0.97, "wait": 500 } }
+}

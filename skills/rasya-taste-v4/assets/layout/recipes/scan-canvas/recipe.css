@@ -1,0 +1,6 @@
+/* hero recipe: scan-canvas (Scale). The scene fills the hero's frame (the film hero's cinema frame, the plate, the
+   split's picture); the overlay canvas covers it. The words never stand on the scene: they keep the hero's ground. */
+.rr--scan-canvas { background: var(--p-inv-bg, var(--ink)); }
+.rr--scan-canvas > .rr-sc__media { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; object-fit: cover; object-position: var(--rr-pos, 50% 50%); }
+.rr--scan-canvas > .rr-sc__over { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.rr--scan-canvas { cursor: crosshair; }

@@ -1,0 +1,21 @@
+/* hero recipe: type-mask (Donprod, Infinite Machine, Remote). The word stands at the hero's foot across the wrap, under
+   the words and the button: in the statement hero it takes the facts' place, in the plate hero the plate's.
+   The photograph shows through the letters (background-clip: text). No gradient, filter, mask or blend: the
+   letters are the frame. */
+.rr--type-mask { flex: 1 1 auto; min-height: clamp(140px, 24svh, 320px); margin-top: var(--s-7); display: flex; align-items: flex-end; overflow: visible; }
+.rr-tm__word {
+  display: block; width: 100%; white-space: nowrap; line-height: .8; padding-top: .06em;
+  font: var(--display-weight, 500) 100px/.8 var(--font-display); letter-spacing: var(--display-tracking-xl, -0.04em);
+  color: var(--ink);
+  background: var(--rr-fill, none) var(--rr-pos, 50% 50%) / cover no-repeat var(--surface);
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  margin-bottom: -.035em;
+}
+/* without a picture the word is set in the ink: the recipe never shows an empty word */
+.rr-tm__word:not([style*="--rr-fill"]) { -webkit-text-fill-color: currentColor; background: none; }
+.rr--type-mask > .rr-tm__src, .rr--type-mask > video.rr-tm__film { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+.rr--type-mask[data-rr-state="live"] > .rr-tm__word, .rr--type-mask[data-rr-state="paused"] > .rr-tm__word { visibility: hidden; }
+/* in the statement hero the word replaces the facts row; in the plate the plate's ground goes */
+.hero--statement .hero__in > .rr--type-mask { margin-top: auto; }
+.hero__plate:has(> .rr--type-mask) { background: none; }
+@media (max-width: 639px) { .rr--type-mask { min-height: 96px; margin-top: var(--s-6); } }

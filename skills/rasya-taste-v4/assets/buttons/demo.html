@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en" data-radius="soft" data-buttons="solid" data-motion>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Button library</title>
+<!--
+  rasya-taste-v4 button library gallery: every look of buttons-library.css (and the five upstream looks of
+  system.css, for comparison) on a light and a dark ground. Each look sits in its own frame because a page holds
+  one look, set on <html data-buttons>. Serve it over http (any static server at the skill folder) or open the
+  file: the frames are srcdoc documents and load ../system.css, ../motion/motion.css and this folder's files.
+  The list below mirrors index.json; keep the two in step. Hover with a mouse, Tab with the keyboard, and turn on
+  reduced motion in the OS to see the still states.
+-->
+<link rel="stylesheet" href="../system.css">
+<style>
+  :root { --p-bg: #f6f5f1; --p-surface: #ecebe5; --p-ink: #1b1a17; --p-muted: #625f57; --p-accent: #0d6b5e; --p-accent-ink: #ffffff;
+          --p-action: #0d6b5e; --p-action-ink: #ffffff; }
+  body { background: var(--bg); color: var(--ink); font-family: var(--font-text); }
+  .demo-head { padding: var(--s-7) 0 var(--s-5); display: flex; flex-wrap: wrap; gap: var(--s-4); align-items: end; justify-content: space-between; }
+  .demo-head h1 { font: 500 var(--t-h2)/1.1 var(--font-display); letter-spacing: var(--display-tracking); margin: 0; }
+  .demo-head p { margin: var(--s-2) 0 0; color: var(--muted); max-width: 62ch; }
+  .demo-controls { display: flex; gap: var(--s-3); align-items: center; font-size: var(--t-small); }
+  .demo-controls select { height: 36px; border: 1px solid var(--line-strong); border-radius: var(--r-sm); background: var(--bg); color: var(--ink); padding: 0 var(--s-2); font: inherit; }
+  .demo-group { margin: var(--s-6) 0 var(--s-3); font: 500 var(--t-label)/1.4 var(--font-text); color: var(--muted); }
+  .demo-item { border-top: 1px solid var(--line); padding: var(--s-4) 0 var(--s-5); }
+  .demo-item h2 { font: 500 var(--t-card)/1.3 var(--font-text); margin: 0; display: flex; gap: var(--s-3); align-items: baseline; flex-wrap: wrap; }
+  .demo-item h2 code { font: 500 var(--t-small)/1 var(--font-mono); color: var(--muted); }
+  .demo-item p { margin: var(--s-1) 0 var(--s-3); color: var(--muted); font-size: var(--t-small); max-width: 80ch; }
+  .demo-item iframe { display: block; width: 100%; height: 220px; border: 1px solid var(--line); border-radius: var(--r-md); background: var(--p-surface); }
+</style>
+</head>
+<body>
+<main class="wrap" id="top">
+  <div class="demo-head">
+    <div>
+      <h1>Button library</h1>
+      <p>Twelve looks for <code>&lt;html data-buttons&gt;</code>, each one pair and its link, on a light and a dark ground. The markup is the same in every frame.</p>
+    </div>
+    <label class="demo-controls">Radius
+      <select id="radius"><option value="sharp">sharp</option><option value="soft" selected>soft</option><option value="round">round</option></select>
+    </label>
+  </div>
+  <div id="list"></div>
+</main>
+<script>
+(() => {
+  // mirrors index.json (library, then upstream)
+  const LOOKS = [
+    ['wipe', 'fill wipe', 'A deeper tone wipes in from the left; the outline fills with ink and its label flips.'],
+    ['roll', 'label roll', 'The label slides up and its copy rolls in from below (buttons-library.js).'],
+    ['swap', 'arrow swap', 'The arrow leaves to the right and comes back in from the left.'],
+    ['kbd', 'key chip', 'A return-key chip after the primary\'s label sinks 1px; the second primary shows data-kbd.'],
+    ['ring', 'ring', 'A hairline ring settles 4px around the button; Tab shows the kit\'s focus ring instead.'],
+    ['press', 'press depth', 'A key edge that grows on hover and flips to the top on press. Radius capped at 10px.'],
+    ['underline', 'underline draw', 'The primary\'s words underline; the secondary is a text button whose line draws. The link loses its arrow.'],
+    ['reveal', 'icon reveal', 'A dot after the label grows into a disc with the arrow cut out of it.'],
+    ['shine', 'shine', 'One soft band of light crosses the primary once per hover.'],
+    ['magnetic', 'magnetic (opt-in)', 'The button leans up to 4px toward the pointer (buttons-library.js).'],
+    ['split', 'split', 'A hairline rule and a meta cell after the label: an arrow, or data-meta.'],
+    ['soft', 'tonal soft', 'The secondary is a soft tint of the action colour; hover deepens it and shows an inset ring.']
+  ];
+  const UPSTREAM = [['solid', 'solid'], ['pill', 'pill'], ['tonal', 'tonal'], ['arrow', 'arrow'], ['block', 'block']];
+  const ARROW = '<svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"/></svg>';
+
+  const panel = (id, ground, label) => `
+    <section class="ground-${ground} demo-panel" aria-label="${label}">
+      <div class="btn-row">
+        <a class="btn btn--primary" href="#start"${id === 'split' ? ' data-meta="Free"' : ''}>Start free trial${ARROW}</a>
+        <a class="btn btn--secondary" href="#tour">See the tour</a>
+      </div>
+      <div class="btn-row">
+        <a class="btn btn--primary btn--sm" href="#book"${id === 'kbd' ? ' data-kbd="⌘K"' : ''}>Book a demo</a>
+        <a class="btn btn--secondary btn--sm" href="#price">Compare plans</a>
+        <a class="link" href="#docs">Read the docs</a>
+      </div>
+    </section>`;
+
+  const doc = (id, radius) => `<!doctype html>
+<html lang="en" data-type="software" data-radius="${radius}" data-buttons="${id}" data-motion>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../system.css">
+<link rel="stylesheet" href="../motion/motion.css">
+<link rel="stylesheet" href="buttons-library.css">
+<style>
+  :root { --p-bg: #f6f5f1; --p-surface: #ecebe5; --p-ink: #1b1a17; --p-muted: #625f57; --p-accent: #0d6b5e; --p-accent-ink: #ffffff;
+          --p-action: #0d6b5e; --p-action-ink: #ffffff; --p-inv-bg: #151513; --p-inv-surface: #22221f; --p-inv-ink: #f2f0ea;
+          --p-inv-muted: #a8a59c; --p-inv-accent: #7fd3c3; --p-inv-accent-ink: #0d1f1b; --p-inv-action: #7fd3c3; --p-inv-action-ink: #0d1f1b; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font-text); }
+  .demo-grid { display: grid; grid-template-columns: 1fr 1fr; }
+  .demo-panel { display: grid; gap: var(--s-4); align-content: center; padding: var(--s-6) var(--s-5); min-height: 218px; }
+  @media (max-width: 760px) { .demo-grid { grid-template-columns: 1fr; } }
+</style></head>
+<body><div class="demo-grid">${panel(id, 'base', 'Light ground')}${panel(id, 'inverse', 'Dark ground')}</div>
+<script>document.addEventListener('click', (e) => { if (e.target.closest('a[href^="#"]')) e.preventDefault(); });<\/script>
+<script src="buttons-library.js" defer><\/script>
+</body></html>`;
+
+  const list = document.getElementById('list');
+  const radius = document.getElementById('radius');
+  const frames = [];
+  const fit = (f) => { try { f.style.height = f.contentDocument.documentElement.scrollHeight + 'px'; } catch {} };
+  const add = (title, rows) => {
+    const g = document.createElement('p'); g.className = 'demo-group'; g.textContent = title; list.append(g);
+    for (const [id, name, text] of rows) {
+      const item = document.createElement('article'); item.className = 'demo-item';
+      item.innerHTML = `<h2>${name} <code>data-buttons="${id}"</code></h2>${text ? `<p>${text}</p>` : ''}`;
+      const f = document.createElement('iframe');
+      f.title = `${name} buttons on a light and a dark ground`; f.loading = 'lazy'; f.dataset.look = id;
+      f.srcdoc = doc(id, radius.value);
+      f.addEventListener('load', () => fit(f));
+      item.append(f); list.append(item); frames.push(f);
+    }
+  };
+  add('The library (buttons-library.css)', LOOKS);
+  add('Upstream looks (system.css), for comparison', UPSTREAM.map(([id, n]) => [id, n, '']));
+  radius.addEventListener('change', () => { for (const f of frames) f.srcdoc = doc(f.dataset.look, radius.value); });
+  addEventListener('resize', () => frames.forEach(fit));
+})();
+</script>
+</body>
+</html>

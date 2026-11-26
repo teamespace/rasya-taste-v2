@@ -1,0 +1,77 @@
+<!doctype html>
+<!-- rasya-taste-v4 footer template: footer-outline-fill, the outlined wordmark that fills (references/footers.md).
+     Copy ONLY the <footer>..</footer> below into the page, in place of the starter's footer.closing, and delete the
+     starter's close and links templates (close-photo, close-word, links-visit). This head, the demo palette and type,
+     the tone switch (?tone=dark), the one screen above the footer and the script paths are the demo's own: the page
+     takes its palette and type from start.mjs, already loads assets/motion/scroll.js, and links
+     assets/footers/footers.css and assets/footers/footers.js (defer, after scroll.js). Every word becomes the
+     client's; the name in the wordmark is the name in the columns above it. -->
+<html lang="en" data-type="software" data-radius="sharp" data-buttons="swap" data-motion>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Footer template: footer-outline-fill</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400..700&display=swap">
+<link rel="stylesheet" href="../system.css">
+<link rel="stylesheet" href="../motion/motion.css">
+<link rel="stylesheet" href="../buttons/buttons-library.css">
+<link rel="stylesheet" href="footers.css">
+<style>
+  /* the demo's palette and type (a page prints its own with start.mjs) */
+  :root { --p-bg: #f4f5f6; --p-surface: #e8eaec; --p-ink: #15181b; --p-muted: #575d63; --p-accent: #1f6feb; --p-accent-ink: #ffffff;
+          --p-action: #15181b; --p-action-ink: #f4f5f6; --p-inv-bg: #0f1113; --p-inv-surface: #1a1d20; --p-inv-ink: #e9ecef;
+          --p-inv-muted: #9ba3ab; --p-inv-accent: #7fb0ff; --p-inv-accent-ink: #0f1113; --p-inv-action: #e9ecef; --p-inv-action-ink: #0f1113;
+          --font-display: "Archivo", system-ui, sans-serif; --font-text: "Archivo", system-ui, sans-serif; --display-weight: 500; --display-tracking: -0.03em; }
+  html[data-tone="dark"] { --p-bg: #0f1113; --p-surface: #181b1e; --p-ink: #e9ecef; --p-muted: #9ba3ab; --p-accent: #7fb0ff; --p-accent-ink: #0f1113;
+          --p-action: #e9ecef; --p-action-ink: #0f1113; --p-inv-bg: #191c1f; --p-inv-surface: #22262a; --p-inv-ink: #e9ecef; --p-inv-muted: #9ba3ab;
+          --p-inv-accent: #7fb0ff; --p-inv-accent-ink: #0f1113; --p-inv-action: #e9ecef; --p-inv-action-ink: #0f1113; color-scheme: dark; }
+  /* the demo's one screen above the footer, so the fill can be scrolled */
+  .demo-lead .wrap { justify-content: end; gap: var(--s-4); }
+  .demo-lead p { color: var(--muted); }
+</style>
+<script>if (/[?&]tone=dark\b/.test(location.search)) document.documentElement.setAttribute('data-tone', 'dark');</script>
+</head>
+<body>
+<main>
+  <section class="demo-lead" style="--h: 1"><div class="wrap"><h2>Paraline</h2><p>Scroll down: the name at the foot fills as the footer comes up, and empties as it leaves.</p></div></section>
+</main>
+
+<!-- OUTLINE-FILL: on the inverse ground (data-fill="accent" fills it in a tint of the accent). Row 1: the kit's head
+     row, the closing line (the h2, eight words at most) and one line left, the main action right. Row 2: the kit's
+     columns and legal row. Then the wordmark: the name as an outline at the page's foot, filling from the foot up
+     as the footer comes up (footers.js on window.rtMotion; scrubbed, it is one of the page's 2-3 scroll moments).
+     The HTML as written, reduced motion and a page whose scroll stack failed show it filled. -->
+<footer class="footer closing ground-inverse" data-footer="outline-fill" id="contact" aria-labelledby="close-h" style="--ft-fit: 29.1">
+  <div class="wrap">
+    <div class="closing__cta">
+      <div class="section-head--split">
+        <div><h2 id="close-h">Run your first pipeline today.</h2><p class="t-lead">Free for public repositories, €12 a seat a month for a team.</p></div>
+        <a class="btn btn--primary" href="#start">Start building<svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"/></svg></a>
+      </div>
+    </div>
+    <div class="closing__links">
+      <div class="grid">
+        <div class="span-4 stack-4">
+          <a class="nav__logo" href="#top">Paraline</a>
+          <p class="footer__lede">Continuous integration that reuses what it already built.</p>
+        </div>
+        <div class="span-2 footer__col"><h3>Product</h3><ul><li><a href="#pipelines">Pipelines</a></li><li><a href="#caching">Caching</a></li><li><a href="#pricing">Pricing</a></li></ul></div>
+        <div class="span-2 footer__col"><h3>Developers</h3><ul><li><a href="docs.html">Docs</a></li><li><a href="#changelog">Changelog</a></li><li><a href="#status">Status</a></li></ul></div>
+        <div class="span-2 footer__col"><h3>Company</h3><ul><li><a href="#about">About</a></li><li><a href="#careers">Careers</a></li><li><a href="#contact">Contact</a></li></ul></div>
+      </div>
+      <div class="footer__legal">
+        <span>&copy; 2026 Paraline &nbsp; <a href="privacy.html">Privacy</a> &nbsp; <a href="terms.html">Terms</a></span>
+        <div class="socials"></div>
+      </div>
+    </div>
+  </div>
+  <div class="ft-mark" aria-hidden="true" data-footer-wordmark><span class="ft-mark__word">Paraline</span></div>
+</footer>
+
+<script src="../motion/scroll.js"></script>
+<script src="footers.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!doctype html>
+<!-- rasya-taste-v4 nav template: nav-corner-index (A7 corner index; references/navs.md).
+     Copy ONLY the <header>..</header> below into the page, in place of the starter's header.nav; link
+     assets/navs/navs.css and load assets/navs/navs.js (defer, after scroll.js). This head, the demo palette and type,
+     the hero and sections and _frame.* are the demo's own. Every word becomes the client's. -->
+<html lang="en" data-type="service" data-radius="sharp" data-buttons="solid" data-motion>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nav template: nav-corner-index</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400..700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../system.css">
+<link rel="stylesheet" href="../motion/motion.css">
+<link rel="stylesheet" href="../buttons/buttons-library.css">
+<link rel="stylesheet" href="../layout/layout.css">
+<link rel="stylesheet" href="navs.css">
+<link rel="stylesheet" href="_frame.css">
+<style>
+  :root { --p-bg: #f2f1ec; --p-surface: #e6e4dd; --p-ink: #121212; --p-muted: #5b5a55; --p-accent: #e2431f; --p-accent-ink: #ffffff;
+          --p-action: #121212; --p-action-ink: #f2f1ec; --p-inv-bg: #121212; --p-inv-surface: #1d1d1c; --p-inv-ink: #f2f1ec; --p-inv-muted: #a3a29c;
+          --p-inv-accent: #ff7a59; --p-inv-accent-ink: #121212; --p-inv-action: #f2f1ec; --p-inv-action-ink: #121212;
+          --font-display: "Schibsted Grotesk", system-ui, sans-serif; --font-text: "Schibsted Grotesk", system-ui, sans-serif; --font-mono: "JetBrains Mono", ui-monospace, monospace;
+          --display-weight: 500; --display-tracking: -0.04em; }
+</style>
+</head>
+<body>
+
+<!-- CORNER-INDEX (A7): no cluster of links. The name on columns 1-3, two or three words each pinned to a column line
+     (4, 6, 8), the datum and the action on 10-12; mono caps 13px, the same size for all; hover strikes a word through.
+     On no ground at the top; past the hero it hides going down and comes back going up on the page ground. Brand
+     element: a datum, the studio's local time (data-nav-clock with its time zone; navs.js keeps it live); the
+     alternative is a real count of the work (a number in a <sup>, never in square brackets: system.js outlines a
+     [bracket] as a placeholder). Phone: a full-screen takeover, the words at 32 to 48px. -->
+<header class="nav" data-nav="corner-index" data-nav-scroll="solid hide section" data-nav-menu="takeover">
+  <div class="wrap nav__bar">
+    <a class="skip-link" href="#top">Skip to content</a>
+    <a class="nav__logo" href="#top">Fenn&amp;Ode</a>
+    <nav class="nav__links" aria-label="Main">
+      <div class="nav__item"><a class="nav__link" href="#work">Selected work</a></div>
+      <div class="nav__item"><a class="nav__link" href="#studio">Studio</a></div>
+      <div class="nav__item"><a class="nav__link" href="#journal">Journal</a></div>
+    </nav>
+    <div class="nav__actions">
+      <span class="nv-datum" data-nav-element="datum" data-nav-clock="Europe/Berlin">Leipzig <time>14:32</time></span>
+      <a class="btn btn--primary" href="#contact">Start a project<svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"/></svg></a>
+    </div>
+    <button class="nav__toggle" type="button" aria-expanded="false" aria-label="Menu">
+      <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M2 5h14M2 13h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero" aria-labelledby="hero-h">
+    <div class="wrap"><div class="hero-text fr-hero fr-hero--wide">
+      <div class="fr-hero__text">
+        <h1 id="hero-h">Type and identity with a long memory</h1>
+        <p>A studio of four in Leipzig drawing typefaces and identities for publishers, museums and theatres. Sixty identities, eleven typefaces.</p>
+        <div class="btn-row"><a class="btn btn--primary" href="#work">See the identities</a><a class="btn btn--secondary" href="#studio">The studio</a></div>
+      </div>
+    </div></div>
+  </section>
+  <section class="fr-sec" id="work"><div class="wrap"><h2>Sixty identities, eleven typefaces</h2><div class="fr-fill"><img src="../layout/img/photo-887.jpg" alt="White apartment block facade with repeating balconies"></div></div></section>
+  <section class="fr-sec" id="studio"><div class="wrap"><h2>Four people and a letterpress</h2><p>We draw by hand first, then on screen, and proof every face on paper.</p></div></section>
+  <section class="fr-sec" id="journal"><div class="wrap"><h2>Notes on letters</h2><p>How a theatre's poster face took two years and four hundred proofs.</p></div></section>
+  <section class="fr-sec" id="contact"><div class="wrap"><h2>Start a project</h2><p>Tell us what the name has to carry and by when.</p></div></section>
+</main>
+
+<script type="module" src="../system.js"></script>
+<script src="../motion/scroll.js"></script>
+<script src="navs.js" defer></script>
+<script src="_frame.js" defer></script>
+</body>
+</html>

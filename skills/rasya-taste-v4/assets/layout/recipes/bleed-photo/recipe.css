@@ -1,0 +1,8 @@
+/* hero recipe: bleed-photo (Cometeer, Jot, Sauz, Shopify, Opal). The photo hero's layer is the picture: layout.css
+   draws it (hero--photo > .hero__bg). The recipe only keeps the drift inside the frame and puts the film's pause
+   button above the hero's foot. Nothing is laid over the photograph to make words readable: the picture has the calm
+   side (the asset prompt asks for it). */
+.hero--photo { overflow: hidden; }
+.hero--photo > .rr--bleed-photo { will-change: transform; transform-origin: 50% 50%; }
+.hero--photo > .rr-bp__pause { right: max(12px, calc((100% - var(--container, 1280px)) / 2)); bottom: 24px; }
+@media (max-width: 1023px) { .hero--photo > .rr--bleed-photo { transform: none !important; } }

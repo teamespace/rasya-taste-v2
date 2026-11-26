@@ -1,0 +1,11 @@
+/* paragraph-reveal: the statement paragraph in the display face at --t-statement (48 at 1440, 28 at 390), about 42
+   characters a line, in ink at rest. Live (.is-live, set by the script once the motion layer runs) each word carries
+   --p from 0 to 1: at 0 it is --muted at --mo-pr-dim (30%), at 1 full ink. No pin, no transform, no layout change. */
+.mo-pr__text, [data-moment="paragraph-reveal"] .mo-pr__text { font-family: var(--font-display); font-weight: var(--display-weight); font-size: var(--t-statement, clamp(28px, 1.905vw + 20.57px, 48px));
+  line-height: 1.16; letter-spacing: var(--display-tracking); max-width: var(--statement-measure, 22em); text-wrap: pretty; color: var(--ink); margin: 0; }
+[data-moment="paragraph-reveal"] .mo-pr__more { margin-top: var(--s-6); font-size: var(--t-lead); line-height: 1.5; color: var(--muted); max-width: 56ch; }
+[data-moment="paragraph-reveal"] > :is(.wrap, .container) > .t-label { color: var(--muted); }
+.mo-pr.is-live .mo-w { --p: 0; opacity: calc(var(--mo-pr-dim, 0.3) + (1 - var(--mo-pr-dim, 0.3)) * var(--p));
+  color: color-mix(in oklab, var(--ink) calc(var(--p) * 100%), var(--muted)); }
+.mo-pr strong { font-weight: inherit; }
+@media (prefers-reduced-motion: reduce) { .mo-pr .mo-w { opacity: 1 !important; color: var(--ink) !important; } }

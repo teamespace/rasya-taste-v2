@@ -1,0 +1,40 @@
+/*
+  rasya-taste-v4 hero recipes, the shared mount (references/hero-recipes.md). Link once, after assets/layout/layout.css:
+    <link rel="stylesheet" href="assets/layout/recipes/_shared/recipes.css">
+  then the recipe's own recipe.css. Nothing here colours a page: every colour is a palette token.
+
+  Where a mount stands (the hero template keeps its slots; the recipe fills one):
+    - in a template's picture slot (.hero__media, .hero__art, .hero__stage, .hero__window, .hero__plate,
+      .ly-tri__panel, .frame): the mount fills the slot (the slot keeps its size, radius and edges);
+    - as the hero's layer: <div class="rr rr--layer .." ..> as the section's first child, before the .wrap
+      (statement, centred, word); in the photo hero the mount carries hero__bg instead (it then takes the photo
+      hero's layer and its phone crop from layout.css);
+    - the mount draws its own ground and carries role="img" with an aria-label: it is one picture, one part of
+      the hero (layout-v4.md section 3), whatever it holds.
+*/
+.rr { position: relative; overflow: hidden; isolation: isolate; min-width: 0; min-height: 0; }
+:is(.hero__media, .hero__art, .hero__stage, .hero__window, .hero__plate, .ly-tri__panel, .ly-tri__state, .frame) > .rr {
+  position: absolute !important; inset: 0 !important; width: auto; height: auto; margin: 0; transform: none;
+}
+.hero > .rr--layer, .section--hero > .rr--layer { position: absolute; inset: 0; z-index: 0; }
+.hero > .rr.hero__bg { position: absolute; z-index: 0; }
+
+/* the still and the live layer, stacked; the live one takes over once it has drawn (data-rr-state="live") */
+.rr > :is(.rr-still, .rr-live) { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; display: block; }
+.rr > img.rr-still, .rr > picture.rr-still > img { object-fit: cover; object-position: var(--rr-pos, 50% 50%); width: 100%; height: 100%; }
+.rr > .rr-live { opacity: 0; transition: opacity .6s var(--ease, ease); pointer-events: none; }
+.rr[data-rr-state="live"] > .rr-live, .rr[data-rr-state="paused"] > .rr-live { opacity: 1; }
+.rr[data-rr-state="live"] > .rr-still, .rr[data-rr-state="paused"] > .rr-still { opacity: 0; transition: opacity .5s .15s var(--ease, ease); }
+.rr > canvas.rr-live[data-rr-input] { pointer-events: auto; touch-action: pan-y; cursor: grab; }
+.rr > canvas.rr-live[data-rr-input]:active { cursor: grabbing; }
+.rr > .rr-pause { z-index: 6; }
+/* a hero layer keeps the corner under the words clear: its pause button sits above the hero's foot padding */
+.hero > .rr--layer > .rr-pause { bottom: calc(var(--hpadb, 64px) - 44px); right: max(12px, calc((100% - var(--container, 1280px)) / 2)); }
+
+/* text that rides on a recipe (a readout, an index): mono, small, the page's ink */
+.rr-mono { font: 500 12px/1.3 var(--font-mono, ui-monospace, "SF Mono", Menlo, monospace); letter-spacing: .02em; font-variant-numeric: tabular-nums; }
+.rr-sr { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+@media (prefers-reduced-motion: reduce) {
+  .rr > :is(.rr-still, .rr-live), .rr * { transition: none !important; animation: none !important; }
+}

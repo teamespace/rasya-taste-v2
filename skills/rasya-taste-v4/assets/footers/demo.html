@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en" data-radius="soft" data-motion>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Footer library</title>
+<!--
+  rasya-taste-v4 footer library gallery: every ending of assets/footers (index.json "library") in its own template,
+  framed at 1440x900 and at 390x844, on a light or a dark palette. Each frame is the template itself
+  (footer-<id>.html?tone=..), so what you see is what a builder copies. Serve the skill folder over http (any static
+  server) or open this file; the frames load ../system.css, ../motion/motion.css, ../buttons/buttons-library.css and
+  this folder's footers.css and footers.js, and Google Fonts for the demo type. outline-fill also loads
+  ../motion/scroll.js (GSAP and Lenis from jsDelivr): scroll inside its frame to see the fill. The list below
+  mirrors index.json; keep the two in step. The kit's own endings (footer-columns, footer-dark, footer-statement,
+  footer-visit with close-type, close-photo, close-word) are the starter's and are not shown here.
+-->
+<link rel="stylesheet" href="../system.css">
+<style>
+  :root { --p-bg: #f6f5f1; --p-surface: #ecebe5; --p-ink: #1b1a17; --p-muted: #625f57; --p-accent: #0d6b5e; --p-accent-ink: #ffffff;
+          --p-action: #1b1a17; --p-action-ink: #ffffff; }
+  body { background: var(--bg); color: var(--ink); font-family: var(--font-text); }
+  .demo-head { padding: var(--s-7) 0 var(--s-5); display: flex; flex-wrap: wrap; gap: var(--s-4); align-items: end; justify-content: space-between; }
+  .demo-head h1 { font: 500 var(--t-h2)/1.1 var(--font-display); letter-spacing: var(--display-tracking); margin: 0; }
+  .demo-head p { margin: var(--s-2) 0 0; color: var(--muted); max-width: 66ch; }
+  .demo-controls { display: flex; gap: var(--s-3); align-items: center; font-size: var(--t-small); }
+  .demo-controls select { height: 36px; border: 1px solid var(--line-strong); border-radius: var(--r-sm); background: var(--bg); color: var(--ink); padding: 0 var(--s-2); font: inherit; }
+  .demo-item { border-top: 1px solid var(--line); padding: var(--s-5) 0 var(--s-7); }
+  .demo-item h2 { font: 500 var(--t-card)/1.3 var(--font-text); margin: 0; display: flex; gap: var(--s-3); align-items: baseline; flex-wrap: wrap; }
+  .demo-item h2 code { font: 500 var(--t-small)/1 var(--font-mono); color: var(--muted); }
+  .demo-item p { margin: var(--s-1) 0 var(--s-4); color: var(--muted); font-size: var(--t-small); max-width: 90ch; }
+  .demo-frames { display: grid; grid-template-columns: minmax(0, 1fr) 240px; gap: var(--s-4); align-items: start; }
+  @media (max-width: 860px) { .demo-frames { grid-template-columns: minmax(0, 1fr); } .demo-phone { max-width: 240px; } }
+  .demo-box { position: relative; overflow: hidden; border: 1px solid var(--line); border-radius: var(--r-md); background: var(--p-surface); }
+  .demo-box iframe { position: absolute; left: 0; top: 0; border: 0; transform-origin: 0 0; transform: scale(var(--k, 0.5)); display: block; }
+  .demo-desk { aspect-ratio: 1440 / 900; }
+  .demo-desk iframe { width: 1440px; height: 900px; }
+  .demo-phone { aspect-ratio: 390 / 844; }
+  .demo-phone iframe { width: 390px; height: 844px; }
+  .demo-tag { display: inline-block; font: 500 var(--t-label)/1 var(--font-text); color: var(--muted); border: 1px solid var(--line-strong); border-radius: 999px; padding: 4px 8px; }
+</style>
+</head>
+<body>
+<main class="wrap" id="top">
+  <div class="demo-head">
+    <div>
+      <h1>Footer library</h1>
+      <p>Five endings for <code>footer.closing</code>, each a close and its links in one screen, dealt with the kit's own types by <code>scripts/footers.mjs</code>. Three set the name huge as a dealt option: pressed in, fading out, or filling with the scroll.</p>
+    </div>
+    <label class="demo-controls">Palette
+      <select id="tone"><option value="light" selected>light</option><option value="dark">dark</option></select>
+    </label>
+  </div>
+  <div id="list"></div>
+</main>
+<script>
+(() => {
+  // mirrors index.json "library"
+  const ENDINGS = [
+    ['footer-emboss', 'letterpress wordmark', true, 'A hairline, the closing line left, a note and the button right; one row of links; the name pressed into the surface grey, cropped by the page\'s foot. The tones are the ground\'s own lightness moved, so it holds on a dark page too.'],
+    ['footer-fade-word', 'fading wordmark', true, 'A centred close and a pill, a row of underlined links, then the name huge and pale, fading to the ground toward the foot, with a flower on one letter (the ornament slot).'],
+    ['footer-split-close', 'split close', false, 'The closing line set large left, a note and the button right, a hairline above; the kit\'s columns and legal row. No wordmark.'],
+    ['footer-outline-fill', 'outline wordmark that fills', true, 'The kit\'s head row and columns on the inverse ground; the name as an outline at the foot that fills from the foot up as the footer comes up (scrubbed on window.rtMotion; filled under reduced motion). Scroll inside the frame.'],
+    ['footer-index', 'index', false, 'The head row, then the page\'s sections as a numbered index in the display face, each row a link with an arrow that comes in on hover. No wordmark.']
+  ];
+  const list = document.getElementById('list');
+  const tone = document.getElementById('tone');
+  const src = (id) => `${id}.html?tone=${tone.value}${id === 'footer-outline-fill' ? '#contact' : ''}`;
+  list.innerHTML = ENDINGS.map(([id, name, mark, text]) => `
+    <section class="demo-item" aria-labelledby="h-${id}">
+      <h2 id="h-${id}">${name} <code>${id}</code>${mark ? ' <span class="demo-tag">wordmark</span>' : ''}</h2>
+      <p>${text}</p>
+      <div class="demo-frames">
+        <div class="demo-box demo-desk"><iframe data-id="${id}" data-w="1440" title="${name} at 1440 by 900" loading="lazy"></iframe></div>
+        <div class="demo-box demo-phone"><iframe data-id="${id}" data-w="390" title="${name} at 390 by 844" loading="lazy"></iframe></div>
+      </div>
+    </section>`).join('');
+  const frames = [...list.querySelectorAll('iframe')];
+  const load = () => frames.forEach((f) => { f.src = src(f.dataset.id); });
+  const scale = () => frames.forEach((f) => { const box = f.parentElement; box.style.setProperty('--k', String(box.clientWidth / +f.dataset.w)); });
+  load(); scale();
+  tone.addEventListener('change', load);
+  if (typeof ResizeObserver === 'function') new ResizeObserver(scale).observe(list); else addEventListener('resize', scale);
+})();
+</script>
+</body>
+</html>

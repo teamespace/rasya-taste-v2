@@ -1,0 +1,23 @@
+{
+  "id": "scroll-stage",
+  "name": "Product on a scroll stage",
+  "kind": "scroll",
+  "fits": ["section"],
+  "trigger": "scroll",
+  "drive": "scroll",
+  "intensity": 3,
+  "pin": true,
+  "gsap": true,
+  "source": "rasya-taste-v2 R05 (scroll-stage hero), moved out of the hero",
+  "cost": "low",
+  "webgl": 0,
+  "pages": ["tech", "software", "product"],
+  "look": "The section holds for two screens beside its h2: one product photograph moves between three framings (it shifts, turns up to 6 degrees, scales 0.82 to 1.12) while three short notes take turns under the h2, each next one in before the last has gone; the h2 never moves.",
+  "reduced": "Nothing is held: the h2, the three notes as a list and the photograph side by side.",
+  "phone": "Nothing is held under 900px: the h2, the notes as a list and the photograph under them.",
+  "maxPerPage": 1,
+  "weight": 1,
+  "needs": { "photo": true, "picture": "one product photograph, a cut-out or a clean framed shot, 4:5", "words": "an h2 and 3 notes of 4 to 10 words, each with a real figure where the brief gives one" },
+  "avoidWith": ["pinned-chapters", "photo-chapters"],
+  "states": { "start": { "p": 0.03, "wait": 500 }, "middle": { "p": 0.5, "wait": 500 }, "end": { "p": 0.97, "wait": 500 } }
+}
